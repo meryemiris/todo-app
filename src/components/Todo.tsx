@@ -18,10 +18,11 @@ export default function Todo() {
           {DUMMY_TODOS.map((item) => (
             <li className={styles.item} key={item}>
               <input className={styles.checkbox} type="checkbox"></input>
-
               {item}
-              <button className={styles.itemButton}>edit</button>
-              <button className={styles.itemButton}>delete</button>
+              <div className={styles.itemButtons}>
+                <button className={styles.itemButton}>edit</button>
+                <button className={styles.itemButton}>delete</button>
+              </div>
               <hr />
             </li>
           ))}
