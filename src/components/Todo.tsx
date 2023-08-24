@@ -11,16 +11,22 @@ export default function Todo() {
   return (
     <>
       <NewTodo />
-      <header>TODO LIST</header>
-      <main className={styles.list}>
-        <ul>
+
+      <div className={styles.container}>
+        <header>TODO LIST</header>
+        <ul className={styles.list}>
           {DUMMY_TODOS.map((item) => (
             <li className={styles.item} key={item}>
+              <input className={styles.checkbox} type="checkbox"></input>
+
               {item}
+              <button className={styles.itemButton}>edit</button>
+              <button className={styles.itemButton}>delete</button>
+              <hr />
             </li>
           ))}
         </ul>
-      </main>
+      </div>
     </>
   );
 }
