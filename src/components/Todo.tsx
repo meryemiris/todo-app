@@ -1,5 +1,5 @@
 import styles from "./Todo.module.css";
-import NewTodoItem from "./NewTodoItem";
+import NewTodo from "./NewTodo";
 
 const DUMMY_TODOS = [
   "Learn React",
@@ -10,7 +10,7 @@ const DUMMY_TODOS = [
 export default function Todo() {
   return (
     <>
-      <NewTodoItem />
+      <NewTodo />
       <header>TODO LIST</header>
       <main className={styles.list}>
         <ul>
