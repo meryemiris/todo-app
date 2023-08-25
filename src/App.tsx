@@ -6,6 +6,14 @@ import { useState } from "react";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [isAdd, setIsAdd] = useState(false);
+
+  function showFormHandler() {
+    setIsAdd(true);
+  }
+  function hideFormHandler() {
+    setIsAdd(false);
+  }
 
   const addTodoHandler = (text: string, status: string) => {
     const newTodo = new Todo(text, status);
@@ -15,8 +23,8 @@ function App() {
   };
   return (
     <>
-      <NewTodo onAdd={addTodoHandler} />
-      <Todos items={todos} />
+      {isAdd && <NewTodo onAdd={addTodoHandler} onHide={hideFormHandler} />}
+      <Todos items={todos} onShow={showFormHandler} />
     </>
   );
 }

@@ -2,6 +2,7 @@ import styles from "./NewTodo.module.css";
 
 interface NewTodoProps {
   onAdd: (status: string, text: string) => void;
+  onHide: () => void;
 }
 
 export default function NewTodo(props: NewTodoProps) {
@@ -13,7 +14,8 @@ export default function NewTodo(props: NewTodoProps) {
 
     console.log(todoText, todoStatus);
     props.onAdd(todoStatus, todoText);
-    event.currentTarget.reset();
+
+    // event.currentTarget.reset();
   }
 
   return (
@@ -28,12 +30,16 @@ export default function NewTodo(props: NewTodoProps) {
         name="text"
       ></input>
 
-      <select name="status">
-        <option value="inprocess">In process</option>
-        <option value="done">Done</option>
+      <select name="status" id="status">
+        <option value="In process">In process</option>
+        <option value="Done">Done</option>
       </select>
 
-      <button className={styles.formButton} type="submit">
+      <button
+        // onClick={props.onHide} // not rendering todo here!
+        className={styles.formButton}
+        type="submit"
+      >
         Add
       </button>
     </form>
