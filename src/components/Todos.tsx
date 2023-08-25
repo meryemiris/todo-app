@@ -1,11 +1,7 @@
 import styles from "./Todos.module.css";
 import NewTodo from "./NewTodo";
 
-const DUMMY_TODOS = [
-  "Learn React",
-  "Practice, Practice, Practice",
-  "Find a Job",
-];
+const DUMMY_TODOS = ["Learn React", "Practice", "Find a Job"];
 
 export default function Todo() {
   return (
@@ -22,6 +18,7 @@ export default function Todo() {
                 {item}
               </div>
               <div>
+                {"status"}
                 <button className={styles.itemButton}>edit</button>
                 <button className={styles.itemButton}>delete</button>
               </div>

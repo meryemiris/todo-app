@@ -51,6 +51,6 @@ select {
     transition: border-color 0.25s;
 }
 
-.formButton:hover {
+.formbutton:hover {
     background-color: #5f6be1;
 }

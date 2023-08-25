@@ -28,6 +28,7 @@ export default function NewTodo() {
         <option value="inprocess">In process</option>
         <option value="done">Done</option>
       </select>
+
       <button className={styles.formButton} type="submit">
         Add
       </button>

@@ -17,17 +17,18 @@ header {
 }
 
 .list {
-    max-width: auto;
-    font-size: 1.5rem;
-    margin: 0;
+    /* max-width: auto; */
+    font-size: 1rem;
+
     padding: 0;
 }
 
 .item {
-    list-style: none;
+    /* list-style: none; */
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
 }
 
 .itemButton {
@@ -44,8 +45,6 @@ header {
     transition: border-color 0.25s;
 }
 
-
-
 .itemButton:hover {
     background-color: #5f6be1;
 }
@@ -53,11 +52,12 @@ header {
 
 .checkbox {
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 0.5rem;
+    height: 0.5rem;
     border: 2px solid #ccc;
     border-radius: 3px;
-    margin-right: 5px;
+    /* margin-top: 10px; */
+    align-items: center;
     cursor: pointer;
     transition: border-color 0.25s;
 }
