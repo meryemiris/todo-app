@@ -21,6 +21,7 @@ function App() {
       return prevTodos.concat(newTodo);
     });
   };
+
   return (
     <>
       {isAdd && <NewTodo onAdd={addTodoHandler} onHide={hideFormHandler} />}

@@ -6,6 +6,7 @@ import EditTodo from "./EditTodo";
 interface TodosProps {
   items: Todo[];
   onShow: () => void;
+  // onRemove: (itemID: string) => void;
 }
 
 // const DUMMY_TODOS = ["Learn React", "Practice", "Find a Job"];
@@ -16,6 +17,18 @@ const Todos: React.FC<TodosProps> = (props: TodosProps) => {
   function editTodoHandler() {
     setIsEdit(true);
   }
+
+  const deleteHandler =
+    (itemId: string) => (event: React.MouseEvent<Element, MouseEvent>) => {
+      event.preventDefault();
+      const listItem = event.currentTarget.parentElement?.parentElement;
+      if (listItem) {
+        listItem.remove();
+      }
+
+      console.log(itemId, event.currentTarget.parentElement);
+    };
+
   return (
     <>
       {isEdit && <EditTodo />}
@@ -39,7 +52,14 @@ const Todos: React.FC<TodosProps> = (props: TodosProps) => {
                 <button onClick={editTodoHandler} className={styles.itemButton}>
                   edit
                 </button>
-                <button className={styles.itemButton}>delete</button>
+                <button
+                  className={styles.itemButton}
+                  onClick={(event: React.MouseEvent<Element, MouseEvent>) =>
+                    deleteHandler(item.id)(event)
+                  }
+                >
+                  delete
+                </button>
               </div>
             </li>
           ))}
