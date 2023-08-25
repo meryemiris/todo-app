@@ -1,13 +1,24 @@
 import styles from "./Todos.module.css";
 import NewTodo from "./NewTodo";
+import { useState } from "react";
 
 const DUMMY_TODOS = ["Learn React", "Practice", "Find a Job"];
 
 export default function Todo() {
+  const [formOpen, setFormOpen] = useState(false);
+
+  function showFormHandler() {
+    setFormOpen(true);
+  }
+
   return (
     <>
-      <NewTodo />
-
+      {formOpen && <NewTodo />}
+      <div>
+        <button onClick={showFormHandler} className={styles.itemButton}>
+          Add New Todo
+        </button>
+      </div>
       <div className={styles.container}>
         <header>TODO LIST</header>
         <ul className={styles.list}>
