@@ -6,32 +6,52 @@ import EditTodo from "./EditTodo";
 interface TodosProps {
   items: Todo[];
   onShow: () => void;
-  // onRemove: (itemID: string) => void;
 }
-
-// const DUMMY_TODOS = ["Learn React", "Practice", "Find a Job"];
 
 const Todos: React.FC<TodosProps> = (props: TodosProps) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [editedTodo, setEditedTodo] = useState<Todo | null>(null);
+  const [todos, setTodos] = useState<Todo[]>(props.items);
 
-  function editTodoHandler() {
+  function showEditHandler() {
     setIsEdit(true);
   }
 
+  const editTodoHandler = (editedText: string, editedStatus: string) => {
+    if (editedTodo) {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === editedTodo.id
+            ? { ...todo, text: editedText, status: editedStatus }
+            : todo
+        )
+      );
+      setEditedTodo(null);
+    }
+  };
+  console.log(todos); /// noo
+
   const deleteHandler =
-    (itemId: string) => (event: React.MouseEvent<Element, MouseEvent>) => {
+    (itemID: string) => (event: React.MouseEvent<Element, MouseEvent>) => {
       event.preventDefault();
+
       const listItem = event.currentTarget.parentElement?.parentElement;
       if (listItem) {
         listItem.remove();
       }
 
-      console.log(itemId, event.currentTarget.parentElement);
+      console.log(itemID);
     };
 
   return (
     <>
-      {isEdit && <EditTodo />}
+      {isEdit && editedTodo && (
+        <EditTodo
+          initialText={editedTodo.text}
+          initialStatus={editedTodo.status}
+          onEdit={editTodoHandler}
+        />
+      )}
       <div>
         <button onClick={props.onShow} className={styles.itemButton}>
           Add New Todo
@@ -47,9 +67,9 @@ const Todos: React.FC<TodosProps> = (props: TodosProps) => {
                 <input className={styles.checkbox} type="checkbox"></input>
                 {item.text}
               </div>
-              <div> {item.status}</div>
+              <div>{item.status}</div>
               <div>
-                <button onClick={editTodoHandler} className={styles.itemButton}>
+                <button onClick={showEditHandler} className={styles.itemButton}>
                   edit
                 </button>
                 <button

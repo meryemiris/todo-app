@@ -1,21 +1,23 @@
 import styles from "./NewTodo.module.css";
+import { useState } from "react";
 
-// interface EditProps {
-//   onAdd: (status: string, text: string) => void;
-// }
+interface EditProps {
+  initialText: string;
+  initialStatus: string;
+  onEdit: (status: string, text: string) => void;
+}
 
-export default function EditTodo() {
-  function editHandler(event: React.FormEvent<HTMLFormElement>) {
+const EditTodo: React.FC<EditProps> = (props: EditProps) => {
+  const [editedText, setEditedText] = useState(props.initialText);
+  const [editedStatus, setEditedStatus] = useState(props.initialStatus);
+
+  const editTodoHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // const todoText = data.get("text") as string;
-    // const todoStatus = data.get("status") as string;
-
-    // props.onEdit(todoStatus, todoText);
-  }
+    props.onEdit(editedText, editedStatus);
+  };
 
   return (
-    <form className={styles.container} onSubmit={editHandler}>
+    <form className={styles.container} onSubmit={editTodoHandler}>
       <label className={styles.formLabel} htmlFor="text">
         Edit Todo
       </label>
@@ -24,9 +26,15 @@ export default function EditTodo() {
         type="text"
         id="text"
         name="text"
+        value={editedText}
+        onChange={(event) => setEditedText(event.target.value)}
       ></input>
 
-      <select name="status">
+      <select
+        name="status"
+        value={editedStatus}
+        onChange={(event) => setEditedStatus(event.target.value)}
+      >
         <option value="inprocess">In process</option>
         <option value="done">Done</option>
       </select>
@@ -36,4 +44,6 @@ export default function EditTodo() {
       </button>
     </form>
   );
-}
+};
+
+export default EditTodo;
