@@ -1,4 +1,4 @@
-import styles from "./Todo.module.css";
+import styles from "./Todos.module.css";
 import NewTodo from "./NewTodo";
 
 const DUMMY_TODOS = [
