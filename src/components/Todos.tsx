@@ -1,36 +1,40 @@
 import styles from "./Todos.module.css";
-import NewTodo from "./NewTodo";
 import { useState } from "react";
+import Todo from "../models/todo";
+import EditTodo from "./EditTodo";
 
-const DUMMY_TODOS = ["Learn React", "Practice", "Find a Job"];
+interface TodosProps {
+  items: Todo[];
+}
 
-export default function Todo() {
-  const [formOpen, setFormOpen] = useState(false);
+// const DUMMY_TODOS = ["Learn React", "Practice", "Find a Job"];
 
-  function showFormHandler() {
-    setFormOpen(true);
+const Todos: React.FC<TodosProps> = (props: TodosProps) => {
+  const [isEdit, setIsEdit] = useState(false);
+
+  function editTodoHandler() {
+    setIsEdit(true);
   }
-
   return (
     <>
-      {formOpen && <NewTodo />}
+      {isEdit && <EditTodo />}
       <div>
-        <button onClick={showFormHandler} className={styles.itemButton}>
-          Add New Todo
-        </button>
+        <button className={styles.itemButton}>Add New Todo</button>
       </div>
       <div className={styles.container}>
         <header>TODO LIST</header>
         <ul className={styles.list}>
-          {DUMMY_TODOS.map((item) => (
-            <li className={styles.item} key={item}>
+          {props.items.map((todo) => (
+            <li className={styles.item} key={todo.id}>
               <div>
                 <input className={styles.checkbox} type="checkbox"></input>
-                {item}
+                {todo.text}
               </div>
               <div>
-                {"status"}
-                <button className={styles.itemButton}>edit</button>
+                {todo.status}
+                <button onClick={editTodoHandler} className={styles.itemButton}>
+                  edit
+                </button>
                 <button className={styles.itemButton}>delete</button>
               </div>
             </li>
@@ -39,4 +43,6 @@ export default function Todo() {
       </div>
     </>
   );
-}
+};
+
+export default Todos;

@@ -1,6 +1,10 @@
 import styles from "./NewTodo.module.css";
 
-export default function NewTodo() {
+interface NewTodoProps {
+  onAdd: (status: string, text: string) => void;
+}
+
+export default function NewTodo(props: NewTodoProps) {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -8,7 +12,7 @@ export default function NewTodo() {
     const todoStatus = data.get("status") as string;
 
     console.log(todoText, todoStatus);
-
+    props.onAdd(todoStatus, todoText);
     event.currentTarget.reset();
   }
 
@@ -24,7 +28,7 @@ export default function NewTodo() {
         name="text"
       ></input>
 
-      <select name="status" defaultValue="status">
+      <select name="status">
         <option value="inprocess">In process</option>
         <option value="done">Done</option>
       </select>
