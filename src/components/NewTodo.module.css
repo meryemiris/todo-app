@@ -1,7 +1,7 @@
 .container {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    /* align-items: center; */
+    gap: 0.5rem;
 }
 
 input {
@@ -12,7 +12,7 @@ input {
     font-size: 1rem;
 }
 
-addButton {
+.addButton {
     padding: 0.5rem 1rem;
     background-color: #747bff;
     color: white;
