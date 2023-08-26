@@ -1,0 +1,30 @@
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 2rem;
+    font-weight: 300;
+    font-family: inherit;
+    border: 2px solid;
+    background-color: #747bff;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    align-items: center;
+}
+
+.button:hover {
+    background-color: #5f6be1;
+    border-color: #5f6be1;
+}

@@ -1,18 +1,26 @@
 import Todos from "./components/Todos";
 import Todo from "./models/todo";
 import NewTodo from "./components/NewTodo";
+import Header from "./components/Header";
 
 import { useState } from "react";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isAdd, setIsAdd] = useState(false);
+  const [showList, setShowList] = useState(false);
 
   function showFormHandler() {
     setIsAdd(true);
   }
   function hideFormHandler() {
     setIsAdd(false);
+  }
+
+  function showListHandler() {
+    if (todos) {
+      setShowList(true);
+    }
   }
 
   const addTodoHandler = (text: string, status: string) => {
@@ -24,8 +32,9 @@ function App() {
 
   return (
     <>
+      <Header onShow={showFormHandler} />
       {isAdd && <NewTodo onAdd={addTodoHandler} onHide={hideFormHandler} />}
-      <Todos items={todos} onShow={showFormHandler} />
+      {showList && <Todos items={todos} onShow={showListHandler} />}
     </>
   );
 }

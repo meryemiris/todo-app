@@ -8,11 +8,11 @@ interface NewTodoProps {
 export default function NewTodo(props: NewTodoProps) {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
     const todoText = data.get("text") as string;
     const todoStatus = data.get("status") as string;
 
-    console.log(todoText, todoStatus);
     props.onAdd(todoStatus, todoText);
 
     event.currentTarget.reset();
@@ -31,8 +31,7 @@ export default function NewTodo(props: NewTodoProps) {
         name="text"
       ></input>
 
-      <select name="status" id="status">
-        {/* make required */}
+      <select name="status" id="status" defaultValue="none">
         <option value="none" selected disabled hidden>
           Select a Option
         </option>
@@ -41,7 +40,7 @@ export default function NewTodo(props: NewTodoProps) {
       </select>
 
       <button
-        // onClick={props.onHide} // not rendering todo here!
+        // onClick={props.onHide}
         className={styles.formButton}
         type="submit"
       >
