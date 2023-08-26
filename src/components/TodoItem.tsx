@@ -5,7 +5,6 @@ import EditTodo from "./EditTodo";
 
 interface TodoItemProps {
   items: Todo[];
-  // onShow: () => void;
 }
 
 const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {

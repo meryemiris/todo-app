@@ -8,12 +8,19 @@ import { useState } from "react";
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isAdd, setIsAdd] = useState(false);
-
   const [showHeader, setShowHeader] = useState(true);
+  const [showList, setShowList] = useState(false);
+  // const [hideForm, setHideForm] = useState(false);
 
   function showFormHandler() {
     setIsAdd(true);
     setShowHeader(false);
+    setShowList(false);
+  }
+
+  function hideFormHandler() {
+    setIsAdd(false);
+    setShowList(true);
   }
 
   const addTodoHandler = (text: string, status: string) => {
@@ -21,13 +28,14 @@ function App() {
     setTodos((prevTodos) => {
       return prevTodos.concat(newTodo);
     });
+    setShowList(true);
   };
 
   return (
     <>
       {showHeader && <Header onShow={showFormHandler} />}
-      {isAdd && <NewTodo onAdd={addTodoHandler} />}
-      {todos.length > 0 && <Todos items={todos} />}
+      {isAdd && <NewTodo onAdd={addTodoHandler} onHide={hideFormHandler} />}
+      {showList && <Todos items={todos} />}
     </>
   );
 }
