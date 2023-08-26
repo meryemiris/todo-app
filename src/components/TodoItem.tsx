@@ -57,9 +57,11 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
           <li className={styles.item} key={item.id}>
             <div>
               <input className={styles.checkbox} type="checkbox"></input>
+              {item.status}
+
               {item.text}
             </div>
-            <div>{item.status}</div>
+
             <div>
               <button onClick={showEditHandler} className={styles.itemButton}>
                 edit
