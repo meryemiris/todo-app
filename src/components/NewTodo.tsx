@@ -2,7 +2,7 @@ import styles from "./NewTodo.module.css";
 
 interface NewTodoProps {
   onAdd: (status: string, text: string) => void;
-  onHide: () => void;
+  // onHideForm: () => void;
 }
 
 export default function NewTodo(props: NewTodoProps) {
@@ -40,7 +40,7 @@ export default function NewTodo(props: NewTodoProps) {
       </select>
 
       <button
-        // onClick={props.onHide}
+        // onClick={props.onHideForm}
         className={styles.formButton}
         type="submit"
       >
