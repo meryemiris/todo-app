@@ -1,7 +1,8 @@
 import styles from "./Todos.module.css";
-import { useState } from "react";
+// import { useState } from "react";
 import Todo from "../models/todo";
-import EditTodo from "./EditTodo";
+// import EditTodo from "./EditTodo";
+import TodoItem from "./TodoItem";
 
 interface TodosProps {
   items: Todo[];
@@ -9,49 +10,49 @@ interface TodosProps {
 }
 
 const Todos: React.FC<TodosProps> = (props: TodosProps) => {
-  const [isEdit, setIsEdit] = useState(false);
-  const [editedTodo, setEditedTodo] = useState<Todo | null>(null);
-  const [todos, setTodos] = useState<Todo[]>(props.items);
+  // const [isEdit, setIsEdit] = useState(false);
+  // const [editedTodo, setEditedTodo] = useState<Todo | null>(null);
+  // const [todos, setTodos] = useState<Todo[]>(props.items);
 
-  function showEditHandler() {
-    setIsEdit(true);
-  }
+  // function showEditHandler() {
+  //   setIsEdit(true);
+  // }
 
-  const editTodoHandler = (editedText: string, editedStatus: string) => {
-    if (editedTodo) {
-      setTodos((prevTodos) =>
-        prevTodos.map((todo) =>
-          todo.id === editedTodo.id
-            ? { ...todo, text: editedText, status: editedStatus }
-            : todo
-        )
-      );
-      setEditedTodo(null);
-    }
-  };
-  console.log(todos); /// noo
+  // const editTodoHandler = (editedText: string, editedStatus: string) => {
+  //   if (editedTodo) {
+  //     setTodos((prevTodos) =>
+  //       prevTodos.map((todo) =>
+  //         todo.id === editedTodo.id
+  //           ? { ...todo, text: editedText, status: editedStatus }
+  //           : todo
+  //       )
+  //     );
+  //     // setEditedTodo(null);
+  //   }
+  // };
+  // console.log(todos); /// noo
 
-  const deleteHandler =
-    (itemID: string) => (event: React.MouseEvent<Element, MouseEvent>) => {
-      event.preventDefault();
+  // const deleteHandler =
+  //   (itemID: string) => (event: React.MouseEvent<Element, MouseEvent>) => {
+  //     event.preventDefault();
 
-      const listItem = event.currentTarget.parentElement?.parentElement;
-      if (listItem) {
-        listItem.remove();
-      }
+  //     const listItem = event.currentTarget.parentElement?.parentElement;
+  //     if (listItem) {
+  //       listItem.remove();
+  //     }
 
-      console.log(itemID);
-    };
+  //     console.log(itemID);
+  //   };
 
   return (
     <>
-      {isEdit && editedTodo && (
+      {/* {isEdit && editedTodo && (
         <EditTodo
           initialText={editedTodo.text}
           initialStatus={editedTodo.status}
           onEdit={editTodoHandler}
         />
-      )}
+      )} */}
       <div>
         <button onClick={props.onShow} className={styles.itemButton}>
           Add New Todo
@@ -60,7 +61,10 @@ const Todos: React.FC<TodosProps> = (props: TodosProps) => {
 
       <div className={styles.container}>
         <header>TODO LIST</header>
-        <ul className={styles.list}>
+
+        <TodoItem items={props.items} onShow={props.onShow} />
+
+        {/* <ul className={styles.list}>
           {props.items.map((item) => (
             <li className={styles.item} key={item.id}>
               <div>
@@ -83,7 +87,7 @@ const Todos: React.FC<TodosProps> = (props: TodosProps) => {
               </div>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     </>
   );
