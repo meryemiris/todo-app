@@ -15,7 +15,7 @@ export default function NewTodo(props: NewTodoProps) {
     console.log(todoText, todoStatus);
     props.onAdd(todoStatus, todoText);
 
-    // event.currentTarget.reset();
+    event.currentTarget.reset();
   }
 
   return (
@@ -24,6 +24,7 @@ export default function NewTodo(props: NewTodoProps) {
         New Todo
       </label>
       <input
+        required
         className={styles.formInput}
         type="text"
         id="text"
@@ -31,6 +32,10 @@ export default function NewTodo(props: NewTodoProps) {
       ></input>
 
       <select name="status" id="status">
+        {/* make required */}
+        <option value="none" selected disabled hidden>
+          Select a Option
+        </option>
         <option value="In process">In process</option>
         <option value="Done">Done</option>
       </select>
