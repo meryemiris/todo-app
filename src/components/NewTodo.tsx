@@ -17,7 +17,13 @@ export default function NewTodo(props: NewTodoProps) {
 
   return (
     <form className={styles.container} onSubmit={submitHandler}>
-      <input required type="text" id="text" name="text"></input>
+      <input
+        required
+        type="text"
+        id="text"
+        name="text"
+        placeholder="Enter your todo here..."
+      ></input>
 
       <button type="submit" className={styles.addButton}>
         Add
