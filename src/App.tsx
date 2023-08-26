@@ -9,9 +9,11 @@ function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isAdd, setIsAdd] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [showHeader, setHideHeader] = useState(true);
 
   function showFormHandler() {
     setIsAdd(true);
+    setHideHeader(false);
   }
   function hideFormHandler() {
     setIsAdd(false);
@@ -32,7 +34,7 @@ function App() {
 
   return (
     <>
-      <Header onShow={showFormHandler} />
+      {showHeader && <Header onShow={showFormHandler} />}
       {isAdd && <NewTodo onAdd={addTodoHandler} onHide={hideFormHandler} />}
       {showList && <Todos items={todos} onShow={showListHandler} />}
     </>
