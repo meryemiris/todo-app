@@ -12,7 +12,6 @@ function App() {
 
   function showFormHandler() {
     setIsAdd(true);
-
     setShowList(false);
   }
 

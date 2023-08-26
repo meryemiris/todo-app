@@ -7,15 +7,12 @@ interface Headerprops {
 export default function Header(props: Headerprops) {
   return (
     <>
-      {
-        <div>
-          <h1>Welcome</h1>
-          <p>Start adding Todo!</p>
-        </div>
-      }
-      <div>
-        <button onClick={props.onShow} className={styles.button}>
-          Add New Todo
+      <div className={styles.start}>
+        <h1 className={styles.catchPhrase}>
+          Empower Your Productivity, One Task at a Time!
+        </h1>
+        <button className={styles.startButton} onClick={props.onShow}>
+          Start
         </button>
       </div>
     </>
