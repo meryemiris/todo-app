@@ -1,11 +1,9 @@
 class Todo {
   id: string;
   text: string;
-  status: string;
 
-  constructor(todoText: string, todoStatus: string) {
+  constructor(todoText: string) {
     this.text = todoText;
-    this.status = todoStatus;
     this.id = new Date().toISOString();
   }
 }

@@ -1,4 +1,4 @@
-import styles from "./Header.module.css";
+import styles from "./Start.module.css";
 
 interface Headerprops {
   onShow: () => void;

@@ -33,9 +33,9 @@
 
 
 .checkbox {
-    appearance: none;
-    width: 0.5rem;
-    height: 0.5rem;
+    /* appearance: none; */
+    width: 1rem;
+    height: 1rem;
     border: 2px solid #ccc;
     border-radius: 3px;
     /* margin-top: 10px; */
