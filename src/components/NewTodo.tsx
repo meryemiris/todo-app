@@ -14,7 +14,7 @@ export default function NewTodo(props: NewTodoProps) {
     const todoStatus = data.get("status") as string;
 
     props.onAdd(todoStatus, todoText);
-
+    console.log(todoStatus, todoText);
     event.currentTarget.reset();
   }
 
@@ -31,10 +31,7 @@ export default function NewTodo(props: NewTodoProps) {
         name="text"
       ></input>
 
-      <select name="status" id="status" defaultValue="none">
-        <option value="none" selected disabled hidden>
-          Select a Option
-        </option>
+      <select name="status" id="status" defaultValue="In Progress ">
         <option value="In process">In process</option>
         <option value="Done">Done</option>
       </select>
