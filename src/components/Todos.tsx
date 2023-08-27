@@ -41,6 +41,7 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
     <>
       <div className={styles.container}>
         <header>TODO LIST</header>
+
         <ul className={styles.todos}>
           {items.map((item) => (
             <li key={item.id} className={styles.todo}>
@@ -55,6 +56,10 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
               </div>
 
               <div>
+                <p className={textStyle(item.id)}>{item.text}</p>
+              </div>
+
+              <div className={styles.delete}>
                 <button
                   className={styles.deleteButton}
                   onClick={(event: React.MouseEvent) =>
@@ -66,10 +71,6 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
                     className={styles.deleteIcon}
                   />
                 </button>
-              </div>
-
-              <div>
-                <p className={textStyle(item.id)}>{item.text}</p>
               </div>
             </li>
           ))}
