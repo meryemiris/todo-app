@@ -4,7 +4,7 @@ import Todo from "../models/todo";
 
 import styles from "./Todos.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface TodosProps {
   items: Todo[];
@@ -32,6 +32,9 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
     console.log(itemID);
   };
 
+  const checkStyle = (itemId: string) =>
+    checkedItems.includes(itemId) ? styles.checkedIcon : styles.checkIcon;
+
   const textStyle = (itemId: string) =>
     checkedItems.includes(itemId) ? styles.checkedItem : styles.text;
 
@@ -39,17 +42,14 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
     <>
       <div className={styles.container}>
         <header>TODO LIST</header>
-
         <ul className={styles.todos}>
           {items.map((item) => (
             <li key={item.id} className={styles.todo}>
-              <div>
-                <input
-                  className={styles.checkbox}
-                  type="checkbox"
-                  checked={checkedItems.includes(item.id)}
-                  onChange={() => toggleCheckbox(item.id)}
-                />
+              <div
+                className={checkStyle(item.id)}
+                onClick={() => toggleCheckbox(item.id)}
+              >
+                <FontAwesomeIcon icon={faCheck} className={styles.checkIcon} />
               </div>
 
               <div>
@@ -78,3 +78,13 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
 };
 
 export default Todos;
+
+{
+  /* <input
+                  className={styles.checkbox}
+                  type="checkbox"
+                  checked={checkedItems.includes(item.id)}
+                  onChange={() => toggleCheckbox(item.id)}
+                />
+              </div> */
+}
