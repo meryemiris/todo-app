@@ -8,19 +8,24 @@ import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface TodosProps {
   items: Todo[];
+  setItems: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
+const Todos: React.FC<TodosProps> = ({ items, setItems }: TodosProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   const deleteHandler = (itemID: string) => (event: React.MouseEvent) => {
     event.preventDefault();
 
+    // const updatedItems = items.filter((item) => item.id !== itemID);
+    // setItems(updatedItems);
+    // localStorage.setItem("todos", JSON.stringify(updatedItems));
+
     const todo = event.currentTarget.parentElement?.parentElement;
     if (todo) {
       todo.remove();
     }
-    console.log("delete todo with id:", itemID);
+    console.log("removed from local id:", itemID);
   };
 
   const toggleCheckbox = (itemId: string) => {
