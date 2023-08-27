@@ -4,14 +4,14 @@ interface NewTodoProps {
   onAdd: (text: string) => void;
 }
 
-export default function NewTodo(props: NewTodoProps) {
+const NewTodo = ({ onAdd }: NewTodoProps) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
     const todoText = data.get("text") as string;
 
-    props.onAdd(todoText);
+    onAdd(todoText);
     event.currentTarget.reset();
   }
 
@@ -30,4 +30,6 @@ export default function NewTodo(props: NewTodoProps) {
       </button>
     </form>
   );
-}
+};
+
+export default NewTodo;

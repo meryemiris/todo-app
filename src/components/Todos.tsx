@@ -10,7 +10,7 @@ interface TodosProps {
   items: Todo[];
 }
 
-const Todos: React.FC<TodosProps> = (props: TodosProps) => {
+const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   const toggleCheckbox = (itemId: string) => {
@@ -35,7 +35,7 @@ const Todos: React.FC<TodosProps> = (props: TodosProps) => {
     <div className={styles.container}>
       <header>TODO LIST</header>
       <ul className={styles.list}>
-        {props.items.map((item) => (
+        {items.map((item) => (
           <li className={styles.item} key={item.id}>
             <div>
               <input
