@@ -13,6 +13,17 @@ interface TodosProps {
 const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
+  const deleteHandler = (itemID: string) => (event: React.MouseEvent) => {
+    event.preventDefault();
+
+    const todo = event.currentTarget.parentElement?.parentElement;
+    if (todo) {
+      todo.remove();
+    }
+
+    console.log("delete todo with id:", itemID);
+  };
+
   const toggleCheckbox = (itemId: string) => {
     setCheckedItems((prevChecked) =>
       prevChecked.includes(itemId)
@@ -21,19 +32,8 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
     );
   };
 
-  const deleteHandler = (itemID: string) => (event: React.MouseEvent) => {
-    event.preventDefault();
-
-    const listItem = event.currentTarget.parentElement?.parentElement;
-    if (listItem) {
-      listItem.remove();
-    }
-
-    console.log(itemID);
-  };
-
   const checkStyle = (itemId: string) =>
-    checkedItems.includes(itemId) ? styles.checkedIcon : styles.checkIcon;
+    checkedItems.includes(itemId) ? styles.checked : styles.check;
 
   const textStyle = (itemId: string) =>
     checkedItems.includes(itemId) ? styles.checkedItem : styles.text;
@@ -49,7 +49,10 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
                 className={checkStyle(item.id)}
                 onClick={() => toggleCheckbox(item.id)}
               >
-                <FontAwesomeIcon icon={faCheck} className={styles.checkIcon} />
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  className={checkStyle(item.id)}
+                />
               </div>
 
               <div>
@@ -78,13 +81,3 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
 };
 
 export default Todos;
-
-{
-  /* <input
-                  className={styles.checkbox}
-                  type="checkbox"
-                  checked={checkedItems.includes(item.id)}
-                  onChange={() => toggleCheckbox(item.id)}
-                />
-              </div> */
-}

@@ -28,18 +28,17 @@ header {
     margin-left: 10px;
 }
 
-.checkIcon {
-    cursor: pointer;
+.check {
     color: #ccc;
 }
 
-.checkIcon:hover {
+.checked {
     color: #5f6be1;
 }
 
-
-.checkedIcon {
-    color: #5f6be1;
+.checked:hover,
+.check:hover {
+    cursor: pointer;
 }
 
 
