@@ -20,7 +20,6 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
     if (todo) {
       todo.remove();
     }
-
     console.log("delete todo with id:", itemID);
   };
 

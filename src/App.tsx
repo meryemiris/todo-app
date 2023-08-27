@@ -13,7 +13,6 @@ function App() {
 
   function showFormHandler() {
     setIsAdd(true);
-    // setShowList(false);
   }
 
   const addTodoHandler = (text: string) => {
@@ -26,8 +25,11 @@ function App() {
 
   return (
     <>
-      {!isAdd && <Start onShow={showFormHandler} />}
-      {isAdd && <NewTodo onAdd={addTodoHandler} />}
+      {isAdd ? (
+        <NewTodo onAdd={addTodoHandler} />
+      ) : (
+        <Start onShow={showFormHandler} />
+      )}
       {showList && <Todos items={todos} />}
     </>
   );
