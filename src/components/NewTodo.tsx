@@ -16,19 +16,21 @@ const NewTodo = ({ onAdd }: NewTodoProps) => {
   }
 
   return (
-    <form className={styles.container} onSubmit={submitHandler}>
-      <input
-        required
-        type="text"
-        id="text"
-        name="text"
-        placeholder="Enter your todo here..."
-      ></input>
+    <>
+      <form className={styles.container} onSubmit={submitHandler}>
+        <input
+          required
+          type="text"
+          id="text"
+          name="text"
+          placeholder="Enter your todo here..."
+        ></input>
 
-      <button type="submit" className={styles.addButton}>
-        Add
-      </button>
-    </form>
+        <button type="submit" className={styles.addButton}>
+          Add
+        </button>
+      </form>
+    </>
   );
 };
 

@@ -4,14 +4,14 @@ interface Headerprops {
   onShow: () => void;
 }
 
-export default function Header(props: Headerprops) {
+export default function Header({ onShow }: Headerprops) {
   return (
     <>
       <div className={styles.start}>
         <h1 className={styles.catchPhrase}>
           Empower Your Productivity, One Task at a Time!
         </h1>
-        <button className={styles.startButton} onClick={props.onShow}>
+        <button className={styles.startButton} onClick={onShow}>
           Start
         </button>
       </div>

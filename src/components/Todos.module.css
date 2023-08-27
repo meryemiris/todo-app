@@ -2,11 +2,6 @@
     display: flex;
     flex-direction: column;
     max-width: auto;
-    margin: 0 auto;
-    /* padding: 20px 40px; */
-    /* border: 2px solid #747bff; */
-    /* border-radius: 8px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 
 }
 
@@ -16,39 +11,47 @@ header {
     font-size: 1.5rem;
     margin-top: 1.5rem;
     margin-bottom: 0;
-
 }
 
-.list {
+.todos {
     padding: 0;
     grid-row: 1;
     max-width: auto;
-    /* margin-right: 1rem; */
-
-
 }
 
-.item {
+.todo {
     display: flex;
-    /* justify-content: space-between; */
     align-items: center;
-    /* margin-bottom: 1rem; */
+}
+
+.text {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.checkedItem {
+    text-decoration: line-through;
+    opacity: 0.6;
 }
 
 .checkbox {
     display: inline-flex;
-    /* align-items: center; */
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1rem;
+    height: 1rem;
     cursor: pointer;
     transition: border-color 0.25s;
     margin-top: 10px;
+}
 
+
+.checkbox:checked {
+    border-color: #747bff;
+    background-color: #747bff;
 }
 
 
 .deleteButton {
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid transparent;
     font-weight: 300;
     font-family: inherit;
@@ -56,7 +59,6 @@ header {
     transition: border-color 0.25s;
     margin-left: 10px;
     margin-right: 10px;
-
 
 }
 
@@ -67,35 +69,4 @@ header {
 
 .deleteButton:hover {
     background-color: #5f6be1;
-}
-
-
-
-.deleteButton:hover {
-    background-color: #5f6be1;
-}
-
-
-
-
-.checkbox {
-    /* appearance: none; */
-
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 3px;
-    align-items: center;
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
-
-.checkbox:checked {
-    border-color: #747bff;
-    background-color: #747bff;
-}
-
-
-.checkbox input:checked+.checkbox::before {
-    visibility: visible;
 }

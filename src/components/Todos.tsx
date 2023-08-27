@@ -31,48 +31,49 @@ const Todos: React.FC<TodosProps> = ({ items }: TodosProps) => {
 
     console.log(itemID);
   };
+
+  const textStyle = (itemId: string) =>
+    checkedItems.includes(itemId) ? styles.checkedItem : styles.text;
+
   return (
-    <div className={styles.container}>
-      <header>TODO LIST</header>
-      <ul className={styles.list}>
-        {items.map((item) => (
-          <li className={styles.item} key={item.id}>
-            <div>
-              <input
-                className={styles.checkbox}
-                type="checkbox"
-                checked={checkedItems.includes(item.id)}
-                onChange={() => toggleCheckbox(item.id)}
-              />
-            </div>
-            <div>
-              <button
-                className={styles.deleteButton}
-                onClick={(event: React.MouseEvent) =>
-                  deleteHandler(item.id)(event)
-                }
-              >
-                <FontAwesomeIcon
-                  icon={faTrashAlt}
-                  className={styles.deleteIcon}
+    <>
+      <div className={styles.container}>
+        <header>TODO LIST</header>
+
+        <ul className={styles.todos}>
+          {items.map((item) => (
+            <li key={item.id} className={styles.todo}>
+              <div>
+                <input
+                  className={styles.checkbox}
+                  type="checkbox"
+                  checked={checkedItems.includes(item.id)}
+                  onChange={() => toggleCheckbox(item.id)}
                 />
-              </button>
-            </div>
-            <div>
-              <p
-                style={{
-                  textDecoration: checkedItems.includes(item.id)
-                    ? "line-through"
-                    : "none",
-                }}
-              >
-                {item.text}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+              </div>
+
+              <div>
+                <button
+                  className={styles.deleteButton}
+                  onClick={(event: React.MouseEvent) =>
+                    deleteHandler(item.id)(event)
+                  }
+                >
+                  <FontAwesomeIcon
+                    icon={faTrashAlt}
+                    className={styles.deleteIcon}
+                  />
+                </button>
+              </div>
+
+              <div>
+                <p className={textStyle(item.id)}>{item.text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

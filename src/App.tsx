@@ -1,9 +1,10 @@
-import Todos from "./components/Todos";
+import { useState } from "react";
+
 import Todo from "./models/todo";
+
+import Todos from "./components/Todos";
 import NewTodo from "./components/NewTodo";
 import Start from "./components/Start";
-
-import { useState } from "react";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -12,7 +13,7 @@ function App() {
 
   function showFormHandler() {
     setIsAdd(true);
-    setShowList(false);
+    // setShowList(false);
   }
 
   const addTodoHandler = (text: string) => {
