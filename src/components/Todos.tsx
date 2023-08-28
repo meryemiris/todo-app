@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import Todo from "../models/todo";
-
 import styles from "./Todos.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -9,23 +7,24 @@ import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 interface TodosProps {
   items: Todo[];
   setItems: React.Dispatch<React.SetStateAction<Todo[]>>;
+  onRemove: (itemID: string) => void;
 }
 
-const Todos: React.FC<TodosProps> = ({ items, setItems }: TodosProps) => {
+const Todos: React.FC<TodosProps> = ({
+  items,
+  setItems,
+  onRemove,
+}: TodosProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
-  const deleteHandler = (itemID: string) => (event: React.MouseEvent) => {
-    event.preventDefault();
-
-    // const updatedItems = items.filter((item) => item.id !== itemID);
-    // setItems(updatedItems);
-    // localStorage.setItem("todos", JSON.stringify(updatedItems));
-
-    const todo = event.currentTarget.parentElement?.parentElement;
-    if (todo) {
-      todo.remove();
+  const deleteHandler = (itemID: string) => () => {
+    const todoIndex = items.findIndex((todo) => todo.id === itemID);
+    if (todoIndex !== -1) {
+      const newTodos = items.slice();
+      newTodos.splice(todoIndex, 1);
+      setItems(newTodos);
+      onRemove(itemID);
     }
-    console.log("removed from local id:", itemID);
   };
 
   const toggleCheckbox = (itemId: string) => {
@@ -43,45 +42,35 @@ const Todos: React.FC<TodosProps> = ({ items, setItems }: TodosProps) => {
     checkedItems.includes(itemId) ? styles.checkedItem : styles.text;
 
   return (
-    <>
-      <div className={styles.container}>
-        <header>TODO LIST</header>
-
-        <ul className={styles.todos}>
-          {items.map((item) => (
-            <li key={item.id} className={styles.todo}>
-              <div
-                className={checkStyle(item.id)}
-                onClick={() => toggleCheckbox(item.id)}
+    <div className={styles.container}>
+      <header>TODO LIST</header>
+      <ul className={styles.todos}>
+        {items.map((item) => (
+          <li key={item.id} className={styles.todo}>
+            <div
+              className={checkStyle(item.id)}
+              onClick={() => toggleCheckbox(item.id)}
+            >
+              <FontAwesomeIcon icon={faCheck} className={checkStyle(item.id)} />
+            </div>
+            <div>
+              <p className={textStyle(item.id)}>{item.text}</p>
+            </div>
+            <div className={styles.delete}>
+              <button
+                className={styles.deleteButton}
+                onClick={deleteHandler(item.id)}
               >
                 <FontAwesomeIcon
-                  icon={faCheck}
-                  className={checkStyle(item.id)}
+                  icon={faTrashAlt}
+                  className={styles.deleteIcon}
                 />
-              </div>
-
-              <div>
-                <p className={textStyle(item.id)}>{item.text}</p>
-              </div>
-
-              <div className={styles.delete}>
-                <button
-                  className={styles.deleteButton}
-                  onClick={(event: React.MouseEvent) =>
-                    deleteHandler(item.id)(event)
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faTrashAlt}
-                    className={styles.deleteIcon}
-                  />
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

@@ -19,10 +19,6 @@ function App() {
     console.log();
   }, [todos]);
 
-  function showFormHandler() {
-    setIsAdd(true);
-  }
-
   const addTodoHandler = (text: string) => {
     const newTodo = new Todo(text);
     setTodos((prevTodos) => {
@@ -31,6 +27,18 @@ function App() {
     setShowList(true);
   };
 
+  const removeTodoHandler = (itemID: string) => {
+    const newTodos = todos.filter((todo) => todo.id !== itemID);
+    setTodos(newTodos);
+    setShowList(true);
+    setIsAdd(true);
+    localStorage.removeItem(itemID);
+  };
+
+  function showFormHandler() {
+    setIsAdd(true);
+  }
+
   return (
     <>
       {isAdd ? (
@@ -38,7 +46,9 @@ function App() {
       ) : (
         <Start onShow={showFormHandler} />
       )}
-      {showList && <Todos items={todos} setItems={setTodos} />}
+      {showList && (
+        <Todos items={todos} setItems={setTodos} onRemove={removeTodoHandler} />
+      )}
     </>
   );
 }
