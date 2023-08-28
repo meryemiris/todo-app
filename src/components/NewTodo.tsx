@@ -1,5 +1,5 @@
 import Todo from "../models/todo";
-import styles from "./NewTodo.module.css";
+import styles from "../styles/NewTodo.module.css";
 
 interface NewTodoProps {
   items: Todo[];
@@ -19,21 +19,18 @@ const NewTodo = ({ onAdd, items }: NewTodoProps) => {
   }
 
   return (
-    <>
-      <form className={styles.container} onSubmit={submitHandler}>
-        <input
-          required
-          type="text"
-          id="text"
-          name="text"
-          placeholder="Enter your todo here..."
-        ></input>
+    <form className={styles.inputGroup} onSubmit={submitHandler}>
+      <input
+        required
+        id="text"
+        name="text"
+        placeholder="Enter your todo here..."
+      ></input>
 
-        <button type="submit" className={styles.addButton}>
-          {items.length > 0 ? "Add" : "Add First Todo"}
-        </button>
-      </form>
-    </>
+      <button type="submit" className={styles.addButton}>
+        {items.length > 0 ? "Add" : "Add First Todo"}
+      </button>
+    </form>
   );
 };
 

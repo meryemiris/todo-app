@@ -26,6 +26,7 @@ function App() {
 
   return (
     <>
+      {todos.length === 0 && <h1>One Task at a Time!</h1>}
       <NewTodo onAdd={addTodoHandler} items={todos} />
       <Todos items={todos} setItems={setTodos} onRemove={removeTodoHandler} />
     </>

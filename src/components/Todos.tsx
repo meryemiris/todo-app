@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Todo from "../models/todo";
 
-import styles from "./Todos.module.css";
+import styles from "../styles/Todos.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -46,48 +46,35 @@ const Todos: React.FC<TodosProps> = ({
     checkedItems.includes(itemId) ? styles.checked : styles.check;
 
   const textStyle = (itemId: string) =>
-    checkedItems.includes(itemId) ? styles.checkedItem : styles.text;
+    checkedItems.includes(itemId) ? styles.checkedTodo : styles.todoText;
 
   return (
-    <>
-      {items.length === 0 ? (
-        <h1 className={styles.catchPhrase}>
-          Empower Your Productivity, One Task at a Time!
-        </h1>
-      ) : (
-        <div className={styles.container}>
-          <ul className={styles.todos}>
-            {items.map((item) => (
-              <li key={item.id} className={styles.todo}>
-                <div
-                  className={checkStyle(item.id)}
-                  onClick={() => toggleCheckbox(item.id)}
-                >
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    className={checkStyle(item.id)}
-                  />
-                </div>
-                <div>
-                  <p className={textStyle(item.id)}>{item.text}</p>
-                </div>
-                <div className={styles.delete}>
-                  <button
-                    className={styles.deleteButton}
-                    onClick={deleteHandler(item.id)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTrashAlt}
-                      className={styles.deleteIcon}
-                    />
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </>
+    <ul className={styles.todos}>
+      {items.map((item) => (
+        <li key={item.id} className={styles.todo}>
+          <div
+            className={checkStyle(item.id)}
+            onClick={() => toggleCheckbox(item.id)}
+          >
+            <FontAwesomeIcon icon={faCheck} className={styles.checkIcon} />
+          </div>
+          <div>
+            <p className={textStyle(item.id)}>{item.text}</p>
+          </div>
+          <div className={styles.delete}>
+            <button
+              className={styles.deleteButton}
+              onClick={deleteHandler(item.id)}
+            >
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                className={styles.deleteIcon}
+              />
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 };
 

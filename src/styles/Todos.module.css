@@ -1,14 +1,3 @@
-.container {
-    display: flex;
-    flex-direction: column;
-}
-
-header {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 1rem;
-}
-
 .todos {
     padding: 0;
 }
@@ -18,45 +7,32 @@ header {
     align-items: center;
 }
 
-.text {
-    margin-left: 10px;
-}
-
-.checkedItem {
+.checkedTodo {
     text-decoration: line-through;
     opacity: 0.6;
     margin-left: 1.5rem;
 }
 
-.check {
-    color: #ccc;
+.todoText {
+    margin-left: 1.5rem;
 }
 
-.checked {
+.checkIcon:hover {
     color: #5f6be1;
-}
-
-.checked:hover,
-.check:hover {
     cursor: pointer;
+
 }
-
-
-
-
 
 .deleteButton {
     background-color: inherit;
     border: 0.5px solid transparent;
     cursor: pointer;
     margin-left: 1.5rem;
-    /* margin-right: 10px; */
 }
 
 .deleteIcon {
     font-family: inherit;
     font-size: 1rem;
-    color: #ccc;
 }
 
 .deleteIcon:hover {
