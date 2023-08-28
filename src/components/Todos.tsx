@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Todo from "../models/todo";
+
 import styles from "./Todos.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -8,14 +9,12 @@ interface TodosProps {
   items: Todo[];
   setItems: React.Dispatch<React.SetStateAction<Todo[]>>;
   onRemove: (itemID: string) => void;
-  onCheck: (itemID: string) => void;
 }
 
 const Todos: React.FC<TodosProps> = ({
   items,
   setItems,
   onRemove,
-  onCheck,
 }: TodosProps) => {
   const checkedList = JSON.parse(localStorage.getItem("checked") as string);
 
@@ -23,8 +22,6 @@ const Todos: React.FC<TodosProps> = ({
 
   useEffect(() => {
     localStorage.setItem("checked", JSON.stringify(checkedItems));
-
-    console.log(checkedItems);
   }, [checkedItems]);
 
   const toggleCheckbox = (itemId: string) => {
@@ -33,7 +30,6 @@ const Todos: React.FC<TodosProps> = ({
         ? prevChecked.filter((id) => id !== itemId)
         : [...prevChecked, itemId]
     );
-    onCheck(itemId);
   };
 
   const deleteHandler = (itemID: string) => () => {

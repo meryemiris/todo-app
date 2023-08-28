@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 
 import Todo from "./models/todo";
-
 import Todos from "./components/Todos";
 import NewTodo from "./components/NewTodo";
 
 function App() {
-  const todoList = JSON.parse(localStorage.getItem("todos") as string);
+  const initialTodos = JSON.parse(localStorage.getItem("todos") as string);
 
-  const [todos, setTodos] = useState<Todo[]>(todoList);
-  const [showList, setShowList] = useState(true);
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -17,13 +15,7 @@ function App() {
 
   const addTodoHandler = (text: string) => {
     const newTodo = new Todo(text);
-    setTodos((prevTodos) => {
-      return prevTodos.concat(newTodo);
-    });
-
-    if (newTodo.text.length === 0) {
-      setShowList(false);
-    }
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
   const removeTodoHandler = (itemID: string) => {
@@ -32,22 +24,10 @@ function App() {
     localStorage.removeItem(itemID);
   };
 
-  const checkTodoHandler = () => {
-    setShowList(true);
-  };
-
   return (
     <>
       <NewTodo onAdd={addTodoHandler} items={todos} />
-
-      {showList && (
-        <Todos
-          items={todos}
-          setItems={setTodos}
-          onRemove={removeTodoHandler}
-          onCheck={checkTodoHandler}
-        />
-      )}
+      <Todos items={todos} setItems={setTodos} onRemove={removeTodoHandler} />
     </>
   );
 }
