@@ -9,12 +9,10 @@ function App() {
   const todoList = JSON.parse(localStorage.getItem("todos") as string);
 
   const [todos, setTodos] = useState<Todo[]>(todoList);
-  const [showList, setShowList] = useState(false);
+  const [showList, setShowList] = useState(true);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-
-    console.log();
   }, [todos]);
 
   const addTodoHandler = (text: string) => {
@@ -22,13 +20,15 @@ function App() {
     setTodos((prevTodos) => {
       return prevTodos.concat(newTodo);
     });
-    setShowList(true);
+
+    if (newTodo.text.length === 0) {
+      setShowList(false);
+    }
   };
 
   const removeTodoHandler = (itemID: string) => {
     const newTodos = todos.filter((todo) => todo.id !== itemID);
     setTodos(newTodos);
-    setShowList(true);
     localStorage.removeItem(itemID);
   };
 
@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      <NewTodo onAdd={addTodoHandler} />
+      <NewTodo onAdd={addTodoHandler} items={todos} />
 
       {showList && (
         <Todos

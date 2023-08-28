@@ -1,14 +1,12 @@
+import Todo from "../models/todo";
 import styles from "./NewTodo.module.css";
 
-import { useState } from "react";
-
 interface NewTodoProps {
+  items: Todo[];
   onAdd: (text: string) => void;
 }
 
-const NewTodo = ({ onAdd }: NewTodoProps) => {
-  const [isheader, setIsHeader] = useState(true);
-
+const NewTodo = ({ onAdd, items }: NewTodoProps) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -16,18 +14,12 @@ const NewTodo = ({ onAdd }: NewTodoProps) => {
     const todoText = data.get("text") as string;
 
     onAdd(todoText);
-    setIsHeader(false);
 
     event.currentTarget.reset();
   }
 
   return (
     <>
-      {isheader && (
-        <h1 className={styles.catchPhrase}>
-          Empower Your Productivity, One Task at a Time!
-        </h1>
-      )}
       <form className={styles.container} onSubmit={submitHandler}>
         <input
           required
@@ -38,7 +30,7 @@ const NewTodo = ({ onAdd }: NewTodoProps) => {
         ></input>
 
         <button type="submit" className={styles.addButton}>
-          Add
+          {items.length > 0 ? "Add" : "Add First Todo"}
         </button>
       </form>
     </>

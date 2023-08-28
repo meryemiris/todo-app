@@ -53,35 +53,45 @@ const Todos: React.FC<TodosProps> = ({
     checkedItems.includes(itemId) ? styles.checkedItem : styles.text;
 
   return (
-    <div className={styles.container}>
-      <header>TODO LIST</header>
-      <ul className={styles.todos}>
-        {items.map((item) => (
-          <li key={item.id} className={styles.todo}>
-            <div
-              className={checkStyle(item.id)}
-              onClick={() => toggleCheckbox(item.id)}
-            >
-              <FontAwesomeIcon icon={faCheck} className={checkStyle(item.id)} />
-            </div>
-            <div>
-              <p className={textStyle(item.id)}>{item.text}</p>
-            </div>
-            <div className={styles.delete}>
-              <button
-                className={styles.deleteButton}
-                onClick={deleteHandler(item.id)}
-              >
-                <FontAwesomeIcon
-                  icon={faTrashAlt}
-                  className={styles.deleteIcon}
-                />
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {items.length === 0 ? (
+        <h1 className={styles.catchPhrase}>
+          Empower Your Productivity, One Task at a Time!
+        </h1>
+      ) : (
+        <div className={styles.container}>
+          <ul className={styles.todos}>
+            {items.map((item) => (
+              <li key={item.id} className={styles.todo}>
+                <div
+                  className={checkStyle(item.id)}
+                  onClick={() => toggleCheckbox(item.id)}
+                >
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={checkStyle(item.id)}
+                  />
+                </div>
+                <div>
+                  <p className={textStyle(item.id)}>{item.text}</p>
+                </div>
+                <div className={styles.delete}>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={deleteHandler(item.id)}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTrashAlt}
+                      className={styles.deleteIcon}
+                    />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 
