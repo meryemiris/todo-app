@@ -4,13 +4,11 @@ import Todo from "./models/todo";
 
 import Todos from "./components/Todos";
 import NewTodo from "./components/NewTodo";
-import Start from "./components/Start";
 
 function App() {
   const todoList = JSON.parse(localStorage.getItem("todos") as string);
 
   const [todos, setTodos] = useState<Todo[]>(todoList);
-  const [isAdd, setIsAdd] = useState(false);
   const [showList, setShowList] = useState(false);
 
   useEffect(() => {
@@ -31,23 +29,24 @@ function App() {
     const newTodos = todos.filter((todo) => todo.id !== itemID);
     setTodos(newTodos);
     setShowList(true);
-    setIsAdd(true);
     localStorage.removeItem(itemID);
   };
 
-  function showFormHandler() {
-    setIsAdd(true);
-  }
+  const checkTodoHandler = () => {
+    setShowList(true);
+  };
 
   return (
     <>
-      {isAdd ? (
-        <NewTodo onAdd={addTodoHandler} />
-      ) : (
-        <Start onShow={showFormHandler} />
-      )}
+      <NewTodo onAdd={addTodoHandler} />
+
       {showList && (
-        <Todos items={todos} setItems={setTodos} onRemove={removeTodoHandler} />
+        <Todos
+          items={todos}
+          setItems={setTodos}
+          onRemove={removeTodoHandler}
+          onCheck={checkTodoHandler}
+        />
       )}
     </>
   );

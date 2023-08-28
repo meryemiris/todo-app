@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Todo from "../models/todo";
 import styles from "./Todos.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,14 +8,33 @@ interface TodosProps {
   items: Todo[];
   setItems: React.Dispatch<React.SetStateAction<Todo[]>>;
   onRemove: (itemID: string) => void;
+  onCheck: (itemID: string) => void;
 }
 
 const Todos: React.FC<TodosProps> = ({
   items,
   setItems,
   onRemove,
+  onCheck,
 }: TodosProps) => {
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const checkedList = JSON.parse(localStorage.getItem("checked") as string);
+
+  const [checkedItems, setCheckedItems] = useState<string[]>(checkedList || []);
+
+  useEffect(() => {
+    localStorage.setItem("checked", JSON.stringify(checkedItems));
+
+    console.log(checkedItems);
+  }, [checkedItems]);
+
+  const toggleCheckbox = (itemId: string) => {
+    setCheckedItems((prevChecked) =>
+      prevChecked.includes(itemId)
+        ? prevChecked.filter((id) => id !== itemId)
+        : [...prevChecked, itemId]
+    );
+    onCheck(itemId);
+  };
 
   const deleteHandler = (itemID: string) => () => {
     const todoIndex = items.findIndex((todo) => todo.id === itemID);
@@ -25,14 +44,6 @@ const Todos: React.FC<TodosProps> = ({
       setItems(newTodos);
       onRemove(itemID);
     }
-  };
-
-  const toggleCheckbox = (itemId: string) => {
-    setCheckedItems((prevChecked) =>
-      prevChecked.includes(itemId)
-        ? prevChecked.filter((id) => id !== itemId)
-        : [...prevChecked, itemId]
-    );
   };
 
   const checkStyle = (itemId: string) =>
