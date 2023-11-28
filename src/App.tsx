@@ -24,16 +24,12 @@ function App() {
   };
 
   return (
-    <>
-      {todos.length === 0 && <h1>One Task at a Time!</h1>}
-
-      <Todos
-        items={todos}
-        setItems={setTodos}
-        onRemove={removeTodoHandler}
-        onAdd={addTodoHandler}
-      />
-    </>
+    <Todos
+      items={todos}
+      setItems={setTodos}
+      onRemove={removeTodoHandler}
+      onAdd={addTodoHandler}
+    />
   );
 }
 

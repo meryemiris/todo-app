@@ -9,6 +9,7 @@ import {
   Stack,
   Box,
   HStack,
+  Tooltip,
 } from "@chakra-ui/react";
 import NewTodo from "./NewTodo";
 import Todo from "../models/todo";
@@ -17,7 +18,7 @@ interface TodosProps {
   items: Todo[];
   setItems: React.Dispatch<React.SetStateAction<Todo[]>>;
   onRemove: (itemID: string) => void;
-  onAdd: (itemID: string) => void;
+  onAdd: (itemID: string, timestamp: number) => void;
 }
 
 const Todos: React.FC<TodosProps> = ({
@@ -58,34 +59,55 @@ const Todos: React.FC<TodosProps> = ({
       </CardHeader>
 
       <CardBody>
-        {items.map((item) => (
-          <Stack mb={4}>
-            <Box key={item.id}>
-              <HStack>
-                <Checkbox
-                  size="lg"
-                  isChecked={checkedItems.includes(item.id)}
-                  onChange={() => toggleCheckbox(item.id)}
-                />
-                <Text
-                  textDecoration={
-                    checkedItems.includes(item.id) ? "line-through" : "none"
-                  }
-                >
-                  {item.text}
-                </Text>
-                <Button
-                  size="xs"
-                  ml="auto"
-                  colorScheme="red"
-                  onClick={deleteHandler(item.id)}
-                >
-                  del
-                </Button>
-              </HStack>
-            </Box>
-          </Stack>
-        ))}
+        {items.length === 0 ? (
+          <Text as="em" alignItems={"center"}>
+            One Task at a Time!
+          </Text>
+        ) : (
+          items.map((item) => (
+            <Stack mb={4}>
+              <Box key={item.id}>
+                <HStack>
+                  <Checkbox
+                    size="lg"
+                    isChecked={checkedItems.includes(item.id)}
+                    onChange={() => toggleCheckbox(item.id)}
+                  />
+
+                  <Tooltip
+                    placement="auto-start"
+                    label={`Added at: ${new Date(item.timestamp).toLocaleString(
+                      undefined,
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        day: "numeric",
+                        month: "numeric",
+                      }
+                    )}`}
+                  >
+                    <Text
+                      textDecoration={
+                        checkedItems.includes(item.id) ? "line-through" : "none"
+                      }
+                    >
+                      {item.text}
+                    </Text>
+                  </Tooltip>
+
+                  <Button
+                    size="xs"
+                    ml="auto"
+                    colorScheme="red"
+                    onClick={deleteHandler(item.id)}
+                  >
+                    del
+                  </Button>
+                </HStack>
+              </Box>
+            </Stack>
+          ))
+        )}
       </CardBody>
     </Card>
   );

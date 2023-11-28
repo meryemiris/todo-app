@@ -4,17 +4,19 @@ import Todo from "../models/todo";
 
 interface NewTodoProps {
   items: Todo[];
-  onAdd: (text: string) => void;
+  onAdd: (text: string, timestamp: number) => void;
 }
 
 const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    const timestamp = Date.now();
+
     const data = new FormData(event.currentTarget);
     const todoText = data.get("text") as string;
 
-    onAdd(todoText);
+    onAdd(todoText, timestamp);
 
     event.currentTarget.reset();
   }
