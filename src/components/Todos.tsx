@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import {
   Button,
-  Checkbox,
   Text,
   Card,
   CardBody,
@@ -11,8 +10,10 @@ import {
   HStack,
   Tooltip,
 } from "@chakra-ui/react";
+
 import NewTodo from "./NewTodo";
 import Todo from "../models/todo";
+import CustomCheckbox from "./CustomCheckBox";
 
 interface TodosProps {
   items: Todo[];
@@ -68,8 +69,7 @@ const Todos: React.FC<TodosProps> = ({
             <Stack mb={4}>
               <Box key={item.id}>
                 <HStack>
-                  <Checkbox
-                    size="lg"
+                  <CustomCheckbox
                     isChecked={checkedItems.includes(item.id)}
                     onChange={() => toggleCheckbox(item.id)}
                   />
