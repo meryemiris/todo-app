@@ -1,23 +1,32 @@
 import { useState, useEffect } from "react";
+import {
+  Button,
+  Checkbox,
+  Text,
+  Card,
+  CardBody,
+  CardHeader,
+  Stack,
+  Box,
+  HStack,
+} from "@chakra-ui/react";
+import NewTodo from "./NewTodo";
 import Todo from "../models/todo";
-
-import styles from "../styles/Todos.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface TodosProps {
   items: Todo[];
   setItems: React.Dispatch<React.SetStateAction<Todo[]>>;
   onRemove: (itemID: string) => void;
+  onAdd: (itemID: string) => void;
 }
 
 const Todos: React.FC<TodosProps> = ({
   items,
   setItems,
   onRemove,
+  onAdd,
 }: TodosProps) => {
   const checkedList = JSON.parse(localStorage.getItem("checked") as string);
-
   const [checkedItems, setCheckedItems] = useState<string[]>(checkedList || []);
 
   useEffect(() => {
@@ -42,39 +51,43 @@ const Todos: React.FC<TodosProps> = ({
     }
   };
 
-  const checkStyle = (itemId: string) =>
-    checkedItems.includes(itemId) ? styles.checked : styles.check;
-
-  const textStyle = (itemId: string) =>
-    checkedItems.includes(itemId) ? styles.checkedTodo : styles.todoText;
-
   return (
-    <ul className={styles.todos}>
-      {items.map((item) => (
-        <li key={item.id} className={styles.todo}>
-          <div
-            className={checkStyle(item.id)}
-            onClick={() => toggleCheckbox(item.id)}
-          >
-            <FontAwesomeIcon icon={faCheck} className={styles.checkIcon} />
-          </div>
-          <div>
-            <p className={textStyle(item.id)}>{item.text}</p>
-          </div>
-          <div className={styles.delete}>
-            <button
-              className={styles.deleteButton}
-              onClick={deleteHandler(item.id)}
-            >
-              <FontAwesomeIcon
-                icon={faTrashAlt}
-                className={styles.deleteIcon}
-              />
-            </button>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <Card>
+      <CardHeader>
+        <NewTodo onAdd={onAdd} items={items} />
+      </CardHeader>
+
+      <CardBody>
+        {items.map((item) => (
+          <Stack mb={4}>
+            <Box key={item.id}>
+              <HStack>
+                <Checkbox
+                  size="lg"
+                  isChecked={checkedItems.includes(item.id)}
+                  onChange={() => toggleCheckbox(item.id)}
+                />
+                <Text
+                  textDecoration={
+                    checkedItems.includes(item.id) ? "line-through" : "none"
+                  }
+                >
+                  {item.text}
+                </Text>
+                <Button
+                  size="xs"
+                  ml="auto"
+                  colorScheme="red"
+                  onClick={deleteHandler(item.id)}
+                >
+                  del
+                </Button>
+              </HStack>
+            </Box>
+          </Stack>
+        ))}
+      </CardBody>
+    </Card>
   );
 };
 

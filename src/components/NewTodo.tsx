@@ -1,12 +1,13 @@
+import React from "react";
+import { Button, Input, FormControl, HStack } from "@chakra-ui/react";
 import Todo from "../models/todo";
-import styles from "../styles/NewTodo.module.css";
 
 interface NewTodoProps {
   items: Todo[];
   onAdd: (text: string) => void;
 }
 
-const NewTodo = ({ onAdd, items }: NewTodoProps) => {
+const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -19,17 +20,22 @@ const NewTodo = ({ onAdd, items }: NewTodoProps) => {
   }
 
   return (
-    <form className={styles.inputGroup} onSubmit={submitHandler}>
-      <input
-        required
-        id="text"
-        name="text"
-        placeholder="Enter your todo here..."
-      ></input>
+    <form onSubmit={submitHandler}>
+      <HStack spacing={1} align="stretch">
+        <FormControl id="text">
+          <Input
+            placeholder={
+              items.length > 0 ? "Enter your todo here..." : "Add First Todo"
+            }
+            required
+            name="text"
+          />
+        </FormControl>
 
-      <button type="submit" className={styles.addButton}>
-        {items.length > 0 ? "Add" : "Add First Todo"}
-      </button>
+        <Button padding={5} type="submit" colorScheme="pink">
+          +
+        </Button>
+      </HStack>
     </form>
   );
 };

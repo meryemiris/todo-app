@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 
 import Todo from "./models/todo";
 import Todos from "./components/Todos";
-import NewTodo from "./components/NewTodo";
 
 function App() {
   const initialTodos = JSON.parse(localStorage.getItem("todos") as string);
@@ -27,8 +26,13 @@ function App() {
   return (
     <>
       {todos.length === 0 && <h1>One Task at a Time!</h1>}
-      <NewTodo onAdd={addTodoHandler} items={todos} />
-      <Todos items={todos} setItems={setTodos} onRemove={removeTodoHandler} />
+
+      <Todos
+        items={todos}
+        setItems={setTodos}
+        onRemove={removeTodoHandler}
+        onAdd={addTodoHandler}
+      />
     </>
   );
 }
