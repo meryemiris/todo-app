@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Button,
   Text,
   Card,
   CardBody,
@@ -37,21 +36,21 @@ const Todos: React.FC<TodosProps> = ({
   }, [checkedItems]);
 
   const toggleCheckbox = (itemId: string) => {
-    setCheckedItems((prevChecked) =>
-      prevChecked.includes(itemId)
+    setCheckedItems((prevChecked) => {
+      const isChecked = prevChecked.includes(itemId);
+      if (!isChecked) {
+        const todoIndex = items.findIndex((todo) => todo.id === itemId);
+        if (todoIndex !== -1) {
+          const newTodos = items.slice();
+          newTodos.splice(todoIndex, 1);
+          setItems(newTodos);
+          onRemove(itemId);
+        }
+      }
+      return isChecked
         ? prevChecked.filter((id) => id !== itemId)
-        : [...prevChecked, itemId]
-    );
-  };
-
-  const deleteHandler = (itemID: string) => () => {
-    const todoIndex = items.findIndex((todo) => todo.id === itemID);
-    if (todoIndex !== -1) {
-      const newTodos = items.slice();
-      newTodos.splice(todoIndex, 1);
-      setItems(newTodos);
-      onRemove(itemID);
-    }
+        : [...prevChecked, itemId];
+    });
   };
 
   return (
@@ -88,8 +87,8 @@ const Todos: React.FC<TodosProps> = ({
                       })}`}
                     >
                       <Text
-                        maxW="200px" // Set maximum width to 200px
-                        overflowWrap="break-word" // Enable word wrapping
+                        maxW="200px"
+                        overflowWrap="break-word"
                         textDecoration={
                           checkedItems.includes(item.id)
                             ? "line-through"
@@ -99,15 +98,6 @@ const Todos: React.FC<TodosProps> = ({
                         {item.text}
                       </Text>
                     </Tooltip>
-
-                    <Button
-                      size="xs"
-                      ml="auto"
-                      colorScheme="red"
-                      onClick={deleteHandler(item.id)}
-                    >
-                      del
-                    </Button>
                   </HStack>
                 </Box>
               </Stack>
