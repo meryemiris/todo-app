@@ -9,6 +9,9 @@ import {
   HStack,
   Tooltip,
   Flex,
+  Input,
+  Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
 
 import NewTodo from "./NewTodo";
@@ -29,11 +32,14 @@ const Todos: React.FC<TodosProps> = ({
   onAdd,
 }: TodosProps) => {
   const checkedList = JSON.parse(localStorage.getItem("checked") as string);
+  const editedList = JSON.parse(localStorage.getItem("editingItem") as string);
+
   const [checkedItems, setCheckedItems] = useState<string[]>(checkedList || []);
+  const [editingItem, setEditingItem] = useState<string>(editedList || "");
 
   useEffect(() => {
     localStorage.setItem("checked", JSON.stringify(checkedItems));
-  }, [checkedItems]);
+  }, [checkedItems, editingItem]);
 
   const toggleCheckbox = (itemId: string) => {
     setCheckedItems((prevChecked) => {
@@ -45,12 +51,31 @@ const Todos: React.FC<TodosProps> = ({
           newTodos.splice(todoIndex, 1);
           setItems(newTodos);
           onRemove(itemId);
+          setEditingItem("");
         }
       }
       return isChecked
         ? prevChecked.filter((id) => id !== itemId)
         : [...prevChecked, itemId];
     });
+  };
+
+  const startEditing = (itemId: string): void => {
+    setEditingItem(itemId);
+  };
+
+  const saveEditing = (itemId: string, newText: string): boolean => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId ? { ...item, text: newText } : item
+      )
+    );
+    setEditingItem("");
+    return true;
+  };
+
+  const cancelEditing = () => {
+    setEditingItem("");
   };
 
   return (
@@ -67,8 +92,8 @@ const Todos: React.FC<TodosProps> = ({
             </Text>
           ) : (
             items.map((item) => (
-              <Stack mb={4}>
-                <Box key={item.id}>
+              <Stack key={item.id} mb={4}>
+                <Box>
                   <HStack alignItems={"flex-start"}>
                     <CustomCheckbox
                       isChecked={checkedItems.includes(item.id)}
@@ -86,17 +111,50 @@ const Todos: React.FC<TodosProps> = ({
                         month: "numeric",
                       })}`}
                     >
-                      <Text
-                        maxW="200px"
-                        overflowWrap="break-word"
-                        textDecoration={
-                          checkedItems.includes(item.id)
-                            ? "line-through"
-                            : "none"
-                        }
-                      >
-                        {item.text}
-                      </Text>
+                      {editingItem && editingItem === item.id ? (
+                        <>
+                          <Input
+                            defaultValue={item.text}
+                            onBlur={(e) =>
+                              saveEditing(item.id, e.currentTarget.value)
+                            }
+                            autoFocus
+                          />
+                          <ButtonGroup>
+                            <Button
+                              size="xs"
+                              onClick={() => saveEditing(item.id, item.text)}
+                            >
+                              ok
+                            </Button>
+                            <Button size="xs" onClick={cancelEditing}>
+                              x
+                            </Button>
+                          </ButtonGroup>
+                        </>
+                      ) : (
+                        <>
+                          <Text
+                            maxW="200px"
+                            overflowWrap="break-word"
+                            textDecoration={
+                              checkedItems.includes(item.id)
+                                ? "line-through"
+                                : "none"
+                            }
+                          >
+                            {item.text}
+                          </Text>
+                          <Button
+                            onClick={(event) => {
+                              event.preventDefault();
+                              startEditing(item.id);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                        </>
+                      )}
                     </Tooltip>
                   </HStack>
                 </Box>
