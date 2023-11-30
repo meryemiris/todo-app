@@ -9,6 +9,7 @@ import {
   Box,
   HStack,
   Tooltip,
+  Flex,
 } from "@chakra-ui/react";
 
 import NewTodo from "./NewTodo";
@@ -54,62 +55,67 @@ const Todos: React.FC<TodosProps> = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <NewTodo onAdd={onAdd} items={items} />
-      </CardHeader>
+    <Flex justifyContent="center" minWidth={"fit-content"}>
+      <Card maxW={"xs"}>
+        <CardHeader>
+          <NewTodo onAdd={onAdd} items={items} />
+        </CardHeader>
 
-      <CardBody>
-        {items.length === 0 ? (
-          <Text as="em" alignItems={"center"}>
-            One Task at a Time!
-          </Text>
-        ) : (
-          items.map((item) => (
-            <Stack mb={4}>
-              <Box key={item.id}>
-                <HStack>
-                  <CustomCheckbox
-                    isChecked={checkedItems.includes(item.id)}
-                    onChange={() => toggleCheckbox(item.id)}
-                  />
+        <CardBody>
+          {items.length === 0 ? (
+            <Text as="em" alignItems={"center"}>
+              One Task at a Time!
+            </Text>
+          ) : (
+            items.map((item) => (
+              <Stack mb={4}>
+                <Box key={item.id}>
+                  <HStack alignItems={"flex-start"}>
+                    <CustomCheckbox
+                      isChecked={checkedItems.includes(item.id)}
+                      onChange={() => toggleCheckbox(item.id)}
+                    />
 
-                  <Tooltip
-                    placement="auto-start"
-                    label={`Added at: ${new Date(item.timestamp).toLocaleString(
-                      undefined,
-                      {
+                    <Tooltip
+                      placement="auto-start"
+                      label={`Added at: ${new Date(
+                        item.timestamp
+                      ).toLocaleString(undefined, {
                         hour: "2-digit",
                         minute: "2-digit",
                         day: "numeric",
                         month: "numeric",
-                      }
-                    )}`}
-                  >
-                    <Text
-                      textDecoration={
-                        checkedItems.includes(item.id) ? "line-through" : "none"
-                      }
+                      })}`}
                     >
-                      {item.text}
-                    </Text>
-                  </Tooltip>
+                      <Text
+                        maxW="200px" // Set maximum width to 200px
+                        overflowWrap="break-word" // Enable word wrapping
+                        textDecoration={
+                          checkedItems.includes(item.id)
+                            ? "line-through"
+                            : "none"
+                        }
+                      >
+                        {item.text}
+                      </Text>
+                    </Tooltip>
 
-                  <Button
-                    size="xs"
-                    ml="auto"
-                    colorScheme="red"
-                    onClick={deleteHandler(item.id)}
-                  >
-                    del
-                  </Button>
-                </HStack>
-              </Box>
-            </Stack>
-          ))
-        )}
-      </CardBody>
-    </Card>
+                    <Button
+                      size="xs"
+                      ml="auto"
+                      colorScheme="red"
+                      onClick={deleteHandler(item.id)}
+                    >
+                      del
+                    </Button>
+                  </HStack>
+                </Box>
+              </Stack>
+            ))
+          )}
+        </CardBody>
+      </Card>
+    </Flex>
   );
 };
 
