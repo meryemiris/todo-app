@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, Input, FormControl, HStack } from "@chakra-ui/react";
+import { Input, FormControl, HStack, IconButton } from "@chakra-ui/react";
 import Todo from "../models/todo";
+import { AddIcon } from "@chakra-ui/icons";
 
 interface NewTodoProps {
   items: Todo[];
@@ -26,17 +27,25 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
       <HStack spacing={1} align="stretch">
         <FormControl id="text">
           <Input
+            bg="yellow.100"
+            color={"gray.800"}
             placeholder={
               items.length > 0 ? "Enter your todo here..." : "Add First Todo"
             }
+            focusBorderColor="pink.400"
+            _placeholder={{ color: "gray.800", fontSize: "sm" }}
             required
             name="text"
           />
         </FormControl>
 
-        <Button padding={5} type="submit" colorScheme="pink">
-          +
-        </Button>
+        <IconButton
+          icon={<AddIcon />}
+          aria-label="Add Todo"
+          padding={4}
+          type="submit"
+          colorScheme="pink"
+        />
       </HStack>
     </form>
   );

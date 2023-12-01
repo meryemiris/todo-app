@@ -10,13 +10,16 @@ import {
   Tooltip,
   Flex,
   Input,
-  Button,
   ButtonGroup,
 } from "@chakra-ui/react";
+
+import { IconButton } from "@chakra-ui/react";
 
 import NewTodo from "./NewTodo";
 import Todo from "../models/todo";
 import CustomCheckbox from "./CustomCheckBox";
+
+import { CheckIcon, EditIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 interface TodosProps {
   items: Todo[];
@@ -94,7 +97,10 @@ const Todos: React.FC<TodosProps> = ({
             items.map((item) => (
               <Stack key={item.id} mb={4}>
                 <Box>
-                  <HStack alignItems={"flex-start"}>
+                  <HStack
+                    alignItems={"center"}
+                    justifyContent={"space-between"}
+                  >
                     <CustomCheckbox
                       isChecked={checkedItems.includes(item.id)}
                       onChange={() => toggleCheckbox(item.id)}
@@ -114,6 +120,8 @@ const Todos: React.FC<TodosProps> = ({
                       {editingItem && editingItem === item.id ? (
                         <>
                           <Input
+                            size="sm"
+                            variant="flushed"
                             defaultValue={item.text}
                             onBlur={(e) =>
                               saveEditing(item.id, e.currentTarget.value)
@@ -121,21 +129,24 @@ const Todos: React.FC<TodosProps> = ({
                             autoFocus
                           />
                           <ButtonGroup>
-                            <Button
+                            <IconButton
+                              aria-label="Save todo"
                               size="xs"
+                              icon={<CheckIcon />}
                               onClick={() => saveEditing(item.id, item.text)}
-                            >
-                              ok
-                            </Button>
-                            <Button size="xs" onClick={cancelEditing}>
-                              x
-                            </Button>
+                            />
+                            <IconButton
+                              aria-label="Cancel editing todo"
+                              size="xs"
+                              onClick={cancelEditing}
+                              icon={<SmallCloseIcon />}
+                            />
                           </ButtonGroup>
                         </>
                       ) : (
                         <>
                           <Text
-                            maxW="200px"
+                            maxW="300px"
                             overflowWrap="break-word"
                             textDecoration={
                               checkedItems.includes(item.id)
@@ -145,14 +156,16 @@ const Todos: React.FC<TodosProps> = ({
                           >
                             {item.text}
                           </Text>
-                          <Button
+                          <IconButton
+                            size={"xs"}
+                            variant={"gost"}
+                            aria-label="Edit todo"
+                            icon={<EditIcon />}
                             onClick={(event) => {
                               event.preventDefault();
                               startEditing(item.id);
                             }}
-                          >
-                            Edit
-                          </Button>
+                          />
                         </>
                       )}
                     </Tooltip>
