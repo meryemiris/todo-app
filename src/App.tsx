@@ -26,7 +26,7 @@ function App() {
   return (
     <Todos
       items={todos}
-      setItems={setTodos}
+      setTodos={setTodos}
       onRemove={removeTodoHandler}
       onAdd={addTodoHandler}
     />
