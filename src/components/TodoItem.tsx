@@ -84,43 +84,47 @@ const TodoItem: React.FC<TodoItemProps> = ({
         onChange={() => toggleCheckbox(item.id)}
       />
 
-      <Tooltip
-        placement="auto-start"
-        label={`Added at: ${new Date(item.timestamp).toLocaleString(undefined, {
-          hour: "2-digit",
-          minute: "2-digit",
-          day: "numeric",
-          month: "numeric",
-        })}`}
-      >
-        {editingItem && editingItem === item.id ? (
-          <>
-            <Input
-              size="sm"
-              variant="flushed"
-              defaultValue={item.text}
-              onBlur={(e) => saveEditing(item.id, e.currentTarget.value)}
-              autoFocus
+      {editingItem && editingItem === item.id ? (
+        <>
+          <Input
+            size="sm"
+            variant="flushed"
+            defaultValue={item.text}
+            onBlur={(e) => saveEditing(item.id, e.currentTarget.value)}
+            autoFocus
+          />
+
+          <ButtonGroup>
+            <IconButton
+              aria-label="Save todo"
+              size="xs"
+              icon={<CheckIcon />}
+              onClick={() => saveEditing(item.id, item.text)}
             />
-            <ButtonGroup>
-              <IconButton
-                aria-label="Save todo"
-                size="xs"
-                icon={<CheckIcon />}
-                onClick={() => saveEditing(item.id, item.text)}
-              />
-              <IconButton
-                aria-label="Cancel editing todo"
-                size="xs"
-                onClick={cancelEditing}
-                icon={<SmallCloseIcon />}
-              />
-            </ButtonGroup>
-          </>
-        ) : (
-          <>
+            <IconButton
+              aria-label="Cancel editing todo"
+              size="xs"
+              onClick={cancelEditing}
+              icon={<SmallCloseIcon />}
+            />
+          </ButtonGroup>
+        </>
+      ) : (
+        <>
+          <Tooltip
+            placement="left"
+            label={`Added at: ${new Date(item.timestamp).toLocaleString(
+              undefined,
+              {
+                hour: "2-digit",
+                minute: "2-digit",
+                day: "numeric",
+                month: "numeric",
+              }
+            )}`}
+          >
             <Text
-              maxW="300px"
+              maxW="200px"
               overflowWrap="break-word"
               textDecoration={
                 checkedItems.includes(item.id) ? "line-through" : "none"
@@ -128,21 +132,22 @@ const TodoItem: React.FC<TodoItemProps> = ({
             >
               {item.text}
             </Text>
-            <Tooltip label="Edit" openDelay={500}>
-              <IconButton
-                size={"xs"}
-                variant={"gost"}
-                aria-label="Edit todo"
-                icon={<EditIcon />}
-                onClick={(event) => {
-                  event.preventDefault();
-                  startEditing(item.id);
-                }}
-              />
-            </Tooltip>
-          </>
-        )}
-      </Tooltip>
+          </Tooltip>
+
+          <Tooltip label="Edit" openDelay={500}>
+            <IconButton
+              size={"xs"}
+              variant={"gost"}
+              aria-label="Edit todo"
+              icon={<EditIcon />}
+              onClick={(event) => {
+                event.preventDefault();
+                startEditing(item.id);
+              }}
+            />
+          </Tooltip>
+        </>
+      )}
     </HStack>
   );
 };
