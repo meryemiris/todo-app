@@ -8,16 +8,17 @@ interface CustomCheckboxProps {
 const CustomCheckbox: React.FC<CustomCheckboxProps> = (
   props: CustomCheckboxProps
 ) => {
-  const { state, getInputProps } = useCheckbox(props);
+  const { getInputProps } = useCheckbox(props);
 
   return (
     <Tooltip label="done" openDelay={500}>
       <chakra.label
-        bg={state.isChecked ? "green.500" : "yellow.100"}
         rounded="full"
-        px={2}
-        py={2}
+        border="2px solid"
+        borderColor="gray.800"
         cursor="pointer"
+        px={1.5}
+        py={1.5}
       >
         <input {...getInputProps()} />
       </chakra.label>

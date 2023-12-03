@@ -73,7 +73,12 @@ const TodoItem: React.FC<TodoItemProps> = ({
   };
   return (
     <HStack
-      border={"solid"}
+      bg={"yellow.50"}
+      color={"gray.800"}
+      border={"2px"}
+      borderColor={"green.50"}
+      boxShadow={10}
+      borderRadius={"md"}
       key={item.id}
       mb={5}
       alignItems={"center"}
@@ -94,16 +99,16 @@ const TodoItem: React.FC<TodoItemProps> = ({
             autoFocus
           />
 
-          <ButtonGroup>
+          <ButtonGroup size={"xs"}>
             <IconButton
               aria-label="Save todo"
-              size="xs"
+              color={"gray.800"}
               icon={<CheckIcon />}
               onClick={() => saveEditing(item.id, item.text)}
             />
             <IconButton
               aria-label="Cancel editing todo"
-              size="xs"
+              color={"gray.800"}
               onClick={cancelEditing}
               icon={<SmallCloseIcon />}
             />
@@ -124,7 +129,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             )}`}
           >
             <Text
-              maxW="200px"
+              maxW="300px"
               overflowWrap="break-word"
               textDecoration={
                 checkedItems.includes(item.id) ? "line-through" : "none"

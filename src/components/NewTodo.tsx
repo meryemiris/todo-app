@@ -27,12 +27,12 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
       <HStack spacing={1} align="stretch">
         <FormControl id="text">
           <Input
-            bg="yellow.100"
+            bg="yellow.50"
             color={"gray.800"}
             placeholder={
               items.length > 0 ? "Enter your todo here..." : "Add First Todo"
             }
-            focusBorderColor="pink.400"
+            // focusBorderColor="pink.400"
             _placeholder={{ color: "gray.800", fontSize: "sm" }}
             required
             name="text"
