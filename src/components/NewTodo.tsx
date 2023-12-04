@@ -32,7 +32,7 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
             placeholder={
               items.length > 0 ? "Enter your todo here..." : "Add First Todo"
             }
-            // focusBorderColor="pink.400"
+            focusBorderColor="pink.400"
             _placeholder={{ color: "gray.800", fontSize: "sm" }}
             required
             name="text"
@@ -42,7 +42,7 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
         <IconButton
           icon={<AddIcon />}
           aria-label="Add Todo"
-          padding={4}
+          padding={5}
           type="submit"
           colorScheme="pink"
         />

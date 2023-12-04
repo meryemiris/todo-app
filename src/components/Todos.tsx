@@ -1,8 +1,8 @@
-import { Card, CardBody, CardHeader, Flex, Text } from "@chakra-ui/react";
-
 import NewTodo from "./NewTodo";
 import Todo from "../models/todo";
 import TodoItem from "./TodoItem";
+
+import { Text, Grid, VStack } from "@chakra-ui/react";
 
 interface TodosProps {
   items: Todo[];
@@ -38,15 +38,12 @@ const Todos: React.FC<TodosProps> = ({
   };
 
   return (
-    <Flex justifyContent="center" minWidth={"fit-content"}>
-      <Card width={"fit-content"}>
-        <CardHeader>
-          <NewTodo onAdd={onAdd} items={items} />
-        </CardHeader>
-
-        <CardBody>{TodoList()}</CardBody>
-      </Card>
-    </Flex>
+    <VStack>
+      <NewTodo onAdd={onAdd} items={items} />
+      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+        <TodoList />
+      </Grid>
+    </VStack>
   );
 };
 
