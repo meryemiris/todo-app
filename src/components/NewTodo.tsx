@@ -1,7 +1,13 @@
 import React from "react";
-import { Input, FormControl, HStack, IconButton } from "@chakra-ui/react";
-import Todo from "../models/todo";
+import {
+  Input,
+  Stack,
+  FormControl,
+  useColorModeValue,
+  IconButton,
+} from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import Todo from "../models/todo";
 
 interface NewTodoProps {
   items: Todo[];
@@ -24,29 +30,42 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
 
   return (
     <form onSubmit={submitHandler}>
-      <HStack spacing={1} align="stretch">
-        <FormControl id="text">
+      <Stack
+        w={250}
+        mb={3}
+        direction={{ base: "column", sm: "row" }}
+        spacing={{ base: 1, md: 2 }}
+      >
+        <FormControl id="text" flex="1">
           <Input
-            bg="yellow.50"
-            color={"gray.800"}
+            size={"sm"}
+            bg={useColorModeValue("gray.100", "yellow.200")}
+            color={useColorModeValue("gray.800", "black")}
             placeholder={
               items.length > 0 ? "Enter your todo here..." : "Add First Todo"
             }
+            _placeholder={{
+              fontSize: "sm",
+              color: useColorModeValue("gray.800", "black"),
+            }}
             focusBorderColor="pink.400"
-            _placeholder={{ color: "gray.800", fontSize: "sm" }}
+            borderRadius="md"
             required
             name="text"
           />
         </FormControl>
 
         <IconButton
+          size={"sm"}
+          aria-label="add todo"
           icon={<AddIcon />}
-          aria-label="Add Todo"
-          padding={5}
           type="submit"
           colorScheme="pink"
+          borderRadius="md"
+          alignSelf={{ base: "center", md: "flex-start" }}
+          w={{ base: "100%", sm: "auto" }}
         />
-      </HStack>
+      </Stack>
     </form>
   );
 };

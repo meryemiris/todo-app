@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import CustomCheckbox from "./CustomCheckBox";
@@ -75,16 +76,23 @@ const TodoItem: React.FC<TodoItemProps> = ({
   const cancelEditing = () => {
     setEditingItem("");
   };
+
+  const cardBgColor = useColorModeValue("yellow.50", "gray.700");
+  const cardBorderColor = useColorModeValue("green.100", "gray.600");
+  const textColor = useColorModeValue("gray.800", "gray.900");
+  const todoBgColor = useColorModeValue("gray.100", "yellow.200");
+  const todoBorderColor = useColorModeValue("gray.100", "yellow.200");
+
   return (
-    <Card w={250} h={"auto"} mt={5}>
+    <Card w={250} h={"auto"} bg={cardBgColor} borderColor={cardBorderColor}>
       <CardHeader p={0} pt={3}>
         <HStack
           key={item.id}
           p={1}
-          bg={"yellow.50"}
-          color={"gray.800"}
+          bg={todoBgColor}
+          color={textColor}
           border={"2px"}
-          borderColor={"green.100"}
+          borderColor={todoBorderColor}
           alignItems={"center"}
           justifyContent={"space-between"}
         >
@@ -106,13 +114,13 @@ const TodoItem: React.FC<TodoItemProps> = ({
               <ButtonGroup size={"xs"}>
                 <IconButton
                   aria-label="Save todo"
-                  color={"gray.800"}
+                  color={textColor}
                   icon={<CheckIcon />}
                   onClick={() => saveEditing(item.id, item.text)}
                 />
                 <IconButton
                   aria-label="Cancel editing todo"
-                  color={"gray.800"}
+                  color={textColor}
                   onClick={cancelEditing}
                   icon={<SmallCloseIcon />}
                 />
@@ -121,7 +129,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
           ) : (
             <>
               <Text
-                maxW="150px"
+                maxW="200px"
                 overflowWrap="break-word"
                 textDecoration={
                   checkedItems.includes(item.id) ? "line-through" : "none"
@@ -132,8 +140,9 @@ const TodoItem: React.FC<TodoItemProps> = ({
 
               <Tooltip label="Edit" openDelay={500}>
                 <IconButton
+                  color={textColor}
                   size={"xs"}
-                  variant={"gost"}
+                  variant={"ghost"}
                   aria-label="Edit todo"
                   icon={<EditIcon />}
                   onClick={(event) => {

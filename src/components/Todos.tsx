@@ -2,7 +2,7 @@ import NewTodo from "./NewTodo";
 import Todo from "../models/todo";
 import TodoItem from "./TodoItem";
 
-import { Text, Grid, VStack } from "@chakra-ui/react";
+import { Text, Grid, VStack, useBreakpointValue } from "@chakra-ui/react";
 
 interface TodosProps {
   items: Todo[];
@@ -17,7 +17,15 @@ const Todos: React.FC<TodosProps> = ({
   setTodos,
   onRemove,
 }: TodosProps) => {
-  const TodoList = () => {
+  const columnCount = useBreakpointValue({
+    base: 1,
+    sm: 2,
+    md: 3,
+    lg: 4,
+    xl: 5,
+  });
+
+  function TodoList() {
     if (items.length === 0) {
       return (
         <Text as="em" alignItems="center">
@@ -35,12 +43,12 @@ const Todos: React.FC<TodosProps> = ({
         onRemove={onRemove}
       />
     ));
-  };
+  }
 
   return (
     <VStack>
       <NewTodo onAdd={onAdd} items={items} />
-      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+      <Grid templateColumns={`repeat(${columnCount}, 1fr)`} gap={6}>
         <TodoList />
       </Grid>
     </VStack>
