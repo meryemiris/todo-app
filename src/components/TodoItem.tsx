@@ -77,11 +77,11 @@ const TodoItem: React.FC<TodoItemProps> = ({
     setEditingItem("");
   };
 
-  const cardBgColor = useColorModeValue("yellow.50", "gray.700");
+  const cardBgColor = useColorModeValue("yellow.100", "gray.900");
   const cardBorderColor = useColorModeValue("green.100", "gray.600");
-  const textColor = useColorModeValue("gray.800", "gray.900");
-  const todoBgColor = useColorModeValue("gray.100", "yellow.200");
-  const todoBorderColor = useColorModeValue("gray.100", "yellow.200");
+  const textColor = useColorModeValue("gray.900", "white");
+  const todoBgColor = useColorModeValue("purple.100", "purple.800");
+  const todoBorderColor = useColorModeValue("purple.100", "purple.800");
 
   return (
     <Card w={250} h={"auto"} bg={cardBgColor} borderColor={cardBorderColor}>
