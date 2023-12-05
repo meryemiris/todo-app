@@ -41,7 +41,9 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
             bg={useColorModeValue("purple.100", "#4B0082")}
             color={useColorModeValue("gray.900", "white")}
             placeholder={
-              items.length > 0 ? "Enter your todo here..." : "Add First Todo"
+              items && items.length > 0
+                ? "Enter your todo here..."
+                : "Add First Todo"
             }
             _placeholder={{
               fontSize: "sm",

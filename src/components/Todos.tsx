@@ -27,23 +27,21 @@ const Todos: React.FC<TodosProps> = ({
   });
 
   function TodoList() {
-    if (items.length === 0) {
-      return (
-        <Text as="em" alignItems="center">
-          One Task at a Time!
-        </Text>
-      );
-    }
-
-    return items.map((item) => (
-      <TodoItem
-        key={item.id}
-        item={item}
-        items={items}
-        setTodos={setTodos}
-        onRemove={onRemove}
-      />
-    ));
+    return (items ?? []).length === 0 ? (
+      <Text as="em" alignItems="center">
+        One Task at a Time!
+      </Text>
+    ) : (
+      items.map((item) => (
+        <TodoItem
+          key={item.id}
+          item={item}
+          items={items}
+          setTodos={setTodos}
+          onRemove={onRemove}
+        />
+      ))
+    );
   }
 
   return (

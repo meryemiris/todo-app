@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
-
 import Todo from "./models/todo";
 import Todos from "./components/Todos";
 
 function App() {
-  const initialTodos = JSON.parse(localStorage.getItem("todos") as string);
+  // Change the localStorage key to "todoAppData"
+  const initialTodoAppData = JSON.parse(
+    localStorage.getItem("todoAppData") || "{}"
+  );
 
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [todos, setTodos] = useState<Todo[]>(initialTodoAppData.todos || []);
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
+    // Update localStorage key to "todoAppData"
+    localStorage.setItem("todoAppData", JSON.stringify({ todos }));
   }, [todos]);
 
   const addTodoHandler = (text: string) => {

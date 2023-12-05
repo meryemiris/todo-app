@@ -37,16 +37,20 @@ const TodoItem: React.FC<TodoItemProps> = ({
   setTodos,
   onRemove,
 }: TodoItemProps) => {
-  const checkedList = JSON.parse(localStorage.getItem("checked") as string);
-  const editedList = JSON.parse(localStorage.getItem("editingItem") as string);
-
-  const [checkedItems, setCheckedItems] = useState<string[]>(checkedList || []);
-  const [editingItem, setEditingItem] = useState<string>(editedList || "");
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [editingItem, setEditingItem] = useState<string>("");
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
+    const storedCheckedItems = JSON.parse(
+      localStorage.getItem("checked") || "[]"
+    );
+    setCheckedItems(storedCheckedItems);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("checked", JSON.stringify(checkedItems));
-  }, [checkedItems, editingItem]);
+  }, [checkedItems]);
 
   const toggleCheckbox = (itemId: string) => {
     setCheckedItems((prevChecked) => {
@@ -173,7 +177,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             {item.text}
           </Text>
         )}
-        {showDetails && <TodoItemDetails />}
+        {showDetails && <TodoItemDetails todoId={item.id} />}
       </CardBody>
 
       <CardFooter alignItems={"flex-end"}>
