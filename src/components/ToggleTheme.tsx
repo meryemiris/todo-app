@@ -5,12 +5,14 @@ export default function ToggleTheme() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Flex justifyContent={"flex-end"} mb={2}>
+    <Flex justifyContent={"flex-end"}>
       <Tooltip label="Toggle Theme" aria-label="A tooltip" openDelay={500}>
         <IconButton
+          size={"sm"}
           variant="ghost"
           aria-label="color mode button"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          color={"white"}
           onClick={toggleColorMode}
         />
       </Tooltip>

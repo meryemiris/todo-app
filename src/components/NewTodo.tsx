@@ -31,22 +31,21 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
   return (
     <form onSubmit={submitHandler}>
       <Stack
-        w={250}
-        mb={3}
         direction={{ base: "column", sm: "row" }}
         spacing={{ base: 1, md: 2 }}
       >
         <FormControl id="text" flex="1">
           <Input
-            size={"sm"}
-            bg={useColorModeValue("gray.100", "yellow.200")}
-            color={useColorModeValue("gray.800", "black")}
+            mr={10}
+            // size={"sm"}
+            bg={useColorModeValue("purple.100", "#4B0082")}
+            color={useColorModeValue("gray.900", "white")}
             placeholder={
               items.length > 0 ? "Enter your todo here..." : "Add First Todo"
             }
             _placeholder={{
               fontSize: "sm",
-              color: useColorModeValue("gray.800", "black"),
+              color: useColorModeValue("gray.900", "white"),
             }}
             focusBorderColor="pink.400"
             borderRadius="md"
@@ -56,7 +55,7 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
         </FormControl>
 
         <IconButton
-          size={"sm"}
+          // size={"sm"}
           aria-label="add todo"
           icon={<AddIcon />}
           type="submit"

@@ -3,6 +3,7 @@ import Todo from "../models/todo";
 import TodoItem from "./TodoItem";
 
 import { Text, Grid, VStack, useBreakpointValue } from "@chakra-ui/react";
+import Navbar from "./Navbar";
 
 interface TodosProps {
   items: Todo[];
@@ -47,7 +48,9 @@ const Todos: React.FC<TodosProps> = ({
 
   return (
     <VStack>
-      <NewTodo onAdd={onAdd} items={items} />
+      <Navbar>
+        <NewTodo onAdd={onAdd} items={items} />
+      </Navbar>
       <Grid templateColumns={`repeat(${columnCount}, 1fr)`} gap={6}>
         <TodoList />
       </Grid>

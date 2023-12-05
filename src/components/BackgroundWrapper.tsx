@@ -7,8 +7,8 @@ interface BackgroundWrapperProps {
 const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
   const { colorMode } = useColorMode();
   const bgColor = useColorModeValue("gray.50", "gray.800"); // Adjust as needed
-  const lightImage = "../public/light.svg";
-  const darkImage = "../public/dark.svg";
+  const lightImage = "/light.svg";
+  const darkImage = "/dark.svg";
   return (
     <Box
       minH="100vh"
@@ -16,7 +16,7 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
       backgroundImage={`url('${
         colorMode === "light" ? lightImage : darkImage
       }')`}
-      backgroundSize="cover"
+      backgroundSize="fit"
       backgroundPosition="center"
     >
       {children}
