@@ -22,7 +22,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from "@chakra-ui/icons";
-import TodoItemDetails from "./TodoItemDetails";
+import Tasks from "./Tasks";
 
 interface TodoItemProps {
   todo: Todo;
@@ -177,7 +177,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             {todo.text}
           </Text>
         )}
-        {showDetails && <TodoItemDetails todoId={todo.id} />}
+        {showDetails && <Tasks initialTasks={todo.tasks} todoId={todo.id} />}
       </CardBody>
 
       <CardFooter alignItems={"flex-end"}>
