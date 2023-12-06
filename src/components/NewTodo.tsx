@@ -10,11 +10,11 @@ import { AddIcon } from "@chakra-ui/icons";
 import Todo from "../models/todo";
 
 interface NewTodoProps {
-  items: Todo[];
+  todoList: Todo[];
   onAdd: (text: string, timestamp: number) => void;
 }
 
-const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
+const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -37,11 +37,10 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
         <FormControl id="text" flex="1">
           <Input
             mr={10}
-            // size={"sm"}
             bg={useColorModeValue("purple.100", "#4B0082")}
             color={useColorModeValue("gray.900", "white")}
             placeholder={
-              items && items.length > 0
+              todoList && todoList.length > 0
                 ? "Enter your todo here..."
                 : "Add First Todo"
             }
@@ -57,7 +56,6 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, items }: NewTodoProps) => {
         </FormControl>
 
         <IconButton
-          // size={"sm"}
           aria-label="add todo"
           icon={<AddIcon />}
           type="submit"

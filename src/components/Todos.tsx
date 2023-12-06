@@ -6,14 +6,15 @@ import { Text, Grid, VStack, useBreakpointValue } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 
 interface TodosProps {
-  items: Todo[];
+  todoList: Todo[];
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   onAdd: (itemID: string, timestamp: number) => void;
+  onEdit: (itemID: string, newText: string) => void;
   onRemove: (itemID: string) => void;
 }
 
 const Todos: React.FC<TodosProps> = ({
-  items,
+  todoList,
   onAdd,
   setTodos,
   onRemove,
@@ -27,16 +28,16 @@ const Todos: React.FC<TodosProps> = ({
   });
 
   function TodoList() {
-    return (items ?? []).length === 0 ? (
+    return todoList.length === 0 ? (
       <Text as="em" alignItems="center">
         One Task at a Time!
       </Text>
     ) : (
-      items.map((item) => (
+      todoList.map((todo) => (
         <TodoItem
-          key={item.id}
-          item={item}
-          items={items}
+          key={todo.id}
+          todo={todo}
+          todoList={todoList}
           setTodos={setTodos}
           onRemove={onRemove}
         />
@@ -47,7 +48,7 @@ const Todos: React.FC<TodosProps> = ({
   return (
     <VStack>
       <Navbar>
-        <NewTodo onAdd={onAdd} items={items} />
+        <NewTodo onAdd={onAdd} todoList={todoList} />
       </Navbar>
       <Grid templateColumns={`repeat(${columnCount}, 1fr)`} gap={6}>
         <TodoList />

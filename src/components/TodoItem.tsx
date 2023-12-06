@@ -12,7 +12,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-import CustomCheckbox from "./CustomCheckBox";
+import CustomCheckbox from "../utils/CustomCheckBox";
 import Todo from "../models/todo";
 import { useState, useEffect } from "react";
 import {
@@ -25,15 +25,15 @@ import {
 import TodoItemDetails from "./TodoItemDetails";
 
 interface TodoItemProps {
-  item: Todo;
-  items: Todo[];
+  todo: Todo;
+  todoList: Todo[];
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   onRemove: (itemID: string) => void;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({
-  item,
-  items,
+  todo,
+  todoList,
   setTodos,
   onRemove,
 }: TodoItemProps) => {
@@ -56,9 +56,9 @@ const TodoItem: React.FC<TodoItemProps> = ({
     setCheckedItems((prevChecked) => {
       const isChecked = prevChecked.includes(itemId);
       if (!isChecked) {
-        const todoIndex = items.findIndex((todo) => todo.id === itemId);
+        const todoIndex = todoList.findIndex((todo) => todo.id === itemId);
         if (todoIndex !== -1) {
-          const newTodos = items.slice();
+          const newTodos = todoList.slice();
           newTodos.splice(todoIndex, 1);
           setTodos(newTodos);
           onRemove(itemId);
@@ -103,7 +103,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
     <Card w={250} h={"auto"} bg={cardBgColor} borderColor={cardBorderColor}>
       <CardHeader p={0} py={2}>
         <HStack
-          key={item.id}
+          key={todo.id}
           bg={todoBgColor}
           color={textColor}
           border={"2px"}
@@ -112,8 +112,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
           justifyContent={"space-between"}
         >
           <CustomCheckbox
-            isChecked={checkedItems.includes(item.id)}
-            onChange={() => toggleCheckbox(item.id)}
+            isChecked={checkedItems.includes(todo.id)}
+            onChange={() => toggleCheckbox(todo.id)}
           />
           <Tooltip label="Edit" openDelay={500}>
             <IconButton
@@ -124,7 +124,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
               icon={<EditIcon />}
               onClick={(event) => {
                 event.preventDefault();
-                startEditing(item.id);
+                startEditing(todo.id);
               }}
             />
           </Tooltip>
@@ -145,8 +145,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
             <Textarea
               size="sm"
               variant="flushed"
-              defaultValue={item.text}
-              onBlur={(e) => saveEditing(item.id, e.currentTarget.value)}
+              defaultValue={todo.text}
+              onBlur={(e) => saveEditing(todo.id, e.currentTarget.value)}
               autoFocus
             />
 
@@ -155,7 +155,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
                 aria-label="Save todo"
                 color={textColor}
                 icon={<CheckIcon />}
-                onClick={() => saveEditing(item.id, item.text)}
+                onClick={() => saveEditing(todo.id, todo.text)}
               />
               <IconButton
                 aria-label="Cancel editing todo"
@@ -171,18 +171,18 @@ const TodoItem: React.FC<TodoItemProps> = ({
             maxW="200px"
             overflowWrap="break-word"
             textDecoration={
-              checkedItems.includes(item.id) ? "line-through" : "none"
+              checkedItems.includes(todo.id) ? "line-through" : "none"
             }
           >
-            {item.text}
+            {todo.text}
           </Text>
         )}
-        {showDetails && <TodoItemDetails todoId={item.id} />}
+        {showDetails && <TodoItemDetails todoId={todo.id} />}
       </CardBody>
 
       <CardFooter alignItems={"flex-end"}>
         <Text textColor={"gray.500"} fontSize={"xs"}>{`Added at: ${new Date(
-          item.timestamp
+          todo.timestamp
         ).toLocaleString(undefined, {
           hour: "2-digit",
           minute: "2-digit",

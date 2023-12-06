@@ -1,6 +1,6 @@
 import { Button, Flex, HStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import ToggleTheme from "./ToggleTheme";
+import ToggleTheme from "../utils/ToggleTheme";
 
 interface NavbarProps {
   children: ReactNode;

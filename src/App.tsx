@@ -3,15 +3,12 @@ import Todo from "./models/todo";
 import Todos from "./components/Todos";
 
 function App() {
-  // Change the localStorage key to "todoAppData"
   const initialTodoAppData = JSON.parse(
     localStorage.getItem("todoAppData") || "{}"
   );
 
   const [todos, setTodos] = useState<Todo[]>(initialTodoAppData.todos || []);
-
   useEffect(() => {
-    // Update localStorage key to "todoAppData"
     localStorage.setItem("todoAppData", JSON.stringify({ todos }));
   }, [todos]);
 
@@ -26,12 +23,21 @@ function App() {
     localStorage.removeItem(itemID);
   };
 
+  const editTodoHandler = (itemID: string, newText: string) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === itemID ? { ...todo, text: newText } : todo
+      )
+    );
+  };
+
   return (
     <Todos
-      items={todos}
+      todoList={todos}
       setTodos={setTodos}
       onRemove={removeTodoHandler}
       onAdd={addTodoHandler}
+      onEdit={editTodoHandler}
     />
   );
 }
