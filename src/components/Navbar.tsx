@@ -1,6 +1,5 @@
-import { Button, Flex, HStack } from "@chakra-ui/react";
+import { Flex, HStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import ToggleTheme from "../utils/ToggleTheme";
 
 interface NavbarProps {
   children: ReactNode;
@@ -9,11 +8,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ children }) => {
   return (
     <Flex mb={2} mt={3}>
-      <HStack alignItems="center">
-        <Button colorScheme="pink">Random TODO</Button>
-        {children}
-        <ToggleTheme />
-      </HStack>
+      <HStack alignItems="center">{children}</HStack>
     </Flex>
   );
 };

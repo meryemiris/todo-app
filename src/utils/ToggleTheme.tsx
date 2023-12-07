@@ -11,7 +11,7 @@ export default function ToggleTheme() {
           variant="ghost"
           aria-label="color mode button"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-          color={"gray.900"}
+          color={"white"}
           onClick={toggleColorMode}
         />
       </Tooltip>

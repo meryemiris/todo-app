@@ -5,6 +5,7 @@ import {
   FormControl,
   useColorModeValue,
   IconButton,
+  Button,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import Todo from "../models/todo";
@@ -33,7 +34,16 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
       <Stack
         direction={{ base: "column", sm: "row" }}
         spacing={{ base: 1, md: 2 }}
+        alignItems="center"
+        display={"flex"}
       >
+        <Button
+          colorScheme="pink"
+          alignSelf={{ base: "center", md: "flex-start" }}
+          w={{ base: "100%", sm: "auto" }}
+        >
+          Random TODO
+        </Button>
         <FormControl id="text" flex="1">
           <Input
             mr={10}

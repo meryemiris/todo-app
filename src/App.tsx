@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import TodosModel from "./models/todo";
+import ToggleTheme from "./utils/ToggleTheme";
 
 function App() {
   const initialTodoAppData = JSON.parse(
@@ -34,13 +35,16 @@ function App() {
   };
 
   return (
-    <Todos
-      todoList={todos}
-      setTodos={setTodos}
-      onRemove={removeTodoHandler}
-      onAdd={addTodoHandler}
-      onEdit={editTodoHandler}
-    />
+    <>
+      <ToggleTheme />
+      <Todos
+        todoList={todos}
+        setTodos={setTodos}
+        onRemove={removeTodoHandler}
+        onAdd={addTodoHandler}
+        onEdit={editTodoHandler}
+      />
+    </>
   );
 }
 

@@ -9,7 +9,8 @@ import {
   CardBody,
   CardFooter,
   useColorModeValue,
-  Textarea,
+  Box,
+  Input,
 } from "@chakra-ui/react";
 
 import CustomCheckbox from "../utils/CustomCheckBox";
@@ -100,7 +101,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
   const todoBorderColor = useColorModeValue("purple.100", "#4B0082");
 
   return (
-    <Card w={250} h={"auto"} bg={cardBgColor} borderColor={cardBorderColor}>
+    <Card w={"100%"} bg={cardBgColor} borderColor={cardBorderColor}>
       <CardHeader p={0} py={2}>
         <HStack
           key={todo.id}
@@ -111,74 +112,81 @@ const TodoItem: React.FC<TodoItemProps> = ({
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <CustomCheckbox
-            isChecked={checkedItems.includes(todo.id)}
-            onChange={() => toggleCheckbox(todo.id)}
-          />
-          <Tooltip label="Edit" openDelay={500}>
+          {editingItem ? (
+            <>
+              <Input
+                size="sm"
+                variant="flushed"
+                defaultValue={todo.text}
+                onBlur={(e) => saveEditing(todo.id, e.currentTarget.value)}
+                autoFocus
+              />
+
+              <ButtonGroup size={"xs"}>
+                <IconButton
+                  aria-label="Save todo"
+                  color={textColor}
+                  icon={<CheckIcon />}
+                  onClick={() => saveEditing(todo.id, todo.text)}
+                />
+                <IconButton
+                  aria-label="Cancel editing todo"
+                  color={textColor}
+                  onClick={cancelEditing}
+                  icon={<SmallCloseIcon />}
+                />
+              </ButtonGroup>
+            </>
+          ) : (
+            <>
+              <CustomCheckbox
+                isChecked={checkedItems.includes(todo.id)}
+                onChange={() => toggleCheckbox(todo.id)}
+              />
+              <Text
+                fontSize={"sm"}
+                maxW="200px"
+                overflowWrap="break-word"
+                textDecoration={
+                  checkedItems.includes(todo.id) ? "line-through" : "none"
+                }
+              >
+                {todo.text.toUpperCase()}
+              </Text>
+            </>
+          )}
+
+          <Box>
+            <Tooltip label="Edit" openDelay={500}>
+              <IconButton
+                color={textColor}
+                size={"xs"}
+                variant={"ghost"}
+                aria-label="Edit todo"
+                icon={<EditIcon />}
+                onClick={(event) => {
+                  event.preventDefault();
+                  startEditing(todo.id);
+                }}
+              />
+            </Tooltip>
             <IconButton
               color={textColor}
-              size={"xs"}
+              size={"sm"}
               variant={"ghost"}
-              aria-label="Edit todo"
-              icon={<EditIcon />}
-              onClick={(event) => {
-                event.preventDefault();
-                startEditing(todo.id);
-              }}
+              aria-label="show details"
+              icon={showDetails ? <ChevronUpIcon /> : <ChevronDownIcon />}
+              onClick={toggleShowDetails}
             />
-          </Tooltip>
-          <IconButton
-            color={textColor}
-            size={"sm"}
-            variant={"ghost"}
-            aria-label="show details"
-            icon={showDetails ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            onClick={toggleShowDetails}
-          />
+          </Box>
         </HStack>
       </CardHeader>
 
-      <CardBody>
-        {editingItem ? (
-          <>
-            <Textarea
-              size="sm"
-              variant="flushed"
-              defaultValue={todo.text}
-              onBlur={(e) => saveEditing(todo.id, e.currentTarget.value)}
-              autoFocus
-            />
-
-            <ButtonGroup size={"xs"}>
-              <IconButton
-                aria-label="Save todo"
-                color={textColor}
-                icon={<CheckIcon />}
-                onClick={() => saveEditing(todo.id, todo.text)}
-              />
-              <IconButton
-                aria-label="Cancel editing todo"
-                color={textColor}
-                onClick={cancelEditing}
-                icon={<SmallCloseIcon />}
-              />
-            </ButtonGroup>
-          </>
-        ) : (
-          <Text
-            fontSize={"sm"}
-            maxW="200px"
-            overflowWrap="break-word"
-            textDecoration={
-              checkedItems.includes(todo.id) ? "line-through" : "none"
-            }
-          >
-            {todo.text}
-          </Text>
-        )}
-        {showDetails && <Tasks initialTasks={todo.tasks} todoId={todo.id} />}
-      </CardBody>
+      {showDetails && (
+        <CardBody>
+          <Tasks initialTasks={todo.tasks} todoId={todo.id} />
+        </CardBody>
+      )}
 
       <CardFooter alignItems={"flex-end"}>
         <Text textColor={"gray.500"} fontSize={"xs"}>{`Added at: ${new Date(
