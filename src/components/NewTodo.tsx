@@ -6,6 +6,7 @@ import {
   useColorModeValue,
   IconButton,
   Button,
+  Box,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import Todo from "../models/todo";
@@ -29,6 +30,11 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
     event.currentTarget.reset();
   }
 
+  const boxShadow = useColorModeValue(
+    "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
+    "0 0 0 transparent"
+  );
+
   return (
     <form onSubmit={submitHandler}>
       <Stack
@@ -41,8 +47,11 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
           colorScheme="pink"
           alignSelf={{ base: "center", md: "flex-start" }}
           w={{ base: "100%", sm: "auto" }}
+          boxShadow={boxShadow}
         >
-          Random TODO
+          <Box fontSize="2xl" role="img" aria-label="dice">
+            🎲
+          </Box>
         </Button>
         <FormControl id="text" flex="1">
           <Input
@@ -62,6 +71,7 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
             borderRadius="md"
             required
             name="text"
+            boxShadow={boxShadow}
           />
         </FormControl>
 
@@ -73,6 +83,7 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
           borderRadius="md"
           alignSelf={{ base: "center", md: "flex-start" }}
           w={{ base: "100%", sm: "auto" }}
+          boxShadow={boxShadow}
         />
       </Stack>
     </form>

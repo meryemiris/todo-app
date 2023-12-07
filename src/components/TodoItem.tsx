@@ -96,12 +96,21 @@ const TodoItem: React.FC<TodoItemProps> = ({
 
   const cardBgColor = useColorModeValue("yellow.100", "gray.800");
   const cardBorderColor = useColorModeValue("green.100", "gray.600");
+  const cardBoxShadow = useColorModeValue(
+    "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
+    "0 0 0 transparent"
+  );
   const textColor = useColorModeValue("gray.900", "white");
   const todoBgColor = useColorModeValue("purple.100", "#4B0082");
   const todoBorderColor = useColorModeValue("purple.100", "#4B0082");
 
   return (
-    <Card w={"100%"} bg={cardBgColor} borderColor={cardBorderColor}>
+    <Card
+      boxShadow={cardBoxShadow}
+      w={"100%"}
+      bg={cardBgColor}
+      borderColor={cardBorderColor}
+    >
       <CardHeader p={0} py={2}>
         <HStack
           key={todo.id}
