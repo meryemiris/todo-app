@@ -19,7 +19,7 @@ const Todos: React.FC<TodosProps> = ({
   onRemove,
 }: TodosProps) => {
   return (
-    <VStack align="center" spacing={4} width="100%" justifyContent="center">
+    <VStack spacing={4}>
       <NewTodo onAdd={onAdd} todoList={todoList} />
 
       <VStack width="75%" display="flex" justifyContent="space-between">

@@ -119,7 +119,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
           border={"2px"}
           borderColor={todoBorderColor}
           alignItems={"center"}
-          justifyContent={"space-between"}
+          justifyContent={"space-around"}
         >
           {editingItem ? (
             <>
@@ -192,7 +192,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
       </CardHeader>
 
       {showDetails && (
-        <CardBody>
+        <CardBody pt={0}>
           <Tasks initialTasks={todo.tasks} todoId={todo.id} />
         </CardBody>
       )}

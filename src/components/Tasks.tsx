@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
-  VStack,
   Button,
   ListItem,
   Input,
-  UnorderedList,
   HStack,
   IconButton,
+  List,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 
@@ -102,50 +101,48 @@ const Tasks: React.FC<TasksProps> = ({ initialTasks, todoId }: TasksProps) => {
   };
 
   return (
-    <VStack>
+    <List width={"100%"}>
       <Button onClick={newTaskHandler} leftIcon={<AddIcon />}>
         New Task
       </Button>
+      {tasks.map((task) => (
+        <ListItem key={task.id}>
+          <HStack>
+            <IconButton
+              size={"sm"}
+              variant={"ghost"}
+              icon={<DeleteIcon />}
+              aria-label="remove task"
+              onClick={() => removeTaskHandler(task.id)}
+            />
 
-      <UnorderedList>
-        {tasks.map((task) => (
-          <ListItem w={"auto"} key={task.id}>
-            <HStack>
-              <form onSubmit={(e) => saveTaskHandler(task.id, e)}>
-                <Input
-                  variant={isEditTask ? "flushed" : "unstyled"}
-                  id={task.id}
-                  name="text"
-                  value={task.text}
-                  onChange={(e) => editTaskHandler(task.id, e.target.value)}
-                />
-              </form>
-
-              <IconButton
-                size={"sm"}
-                variant={"ghost"}
-                icon={<DeleteIcon />}
-                aria-label="remove task"
-                onClick={() => removeTaskHandler(task.id)}
-              />
-            </HStack>
-          </ListItem>
-        ))}
-        {isNewTask && (
-          <ListItem>
-            <form onSubmit={addTaskHandler}>
+            <form onSubmit={(e) => saveTaskHandler(task.id, e)}>
               <Input
-                variant={"flushed"}
-                value={newTaskText}
-                placeholder="Add new task"
-                name="newTaskText"
-                onChange={(e) => setNewTaskText(e.target.value)}
+                width={"100%"}
+                variant={isEditTask ? "flushed" : "unstyled"}
+                id={task.id}
+                name="text"
+                value={task.text}
+                onChange={(e) => editTaskHandler(task.id, e.target.value)}
               />
             </form>
-          </ListItem>
-        )}
-      </UnorderedList>
-    </VStack>
+          </HStack>
+        </ListItem>
+      ))}
+      {isNewTask && (
+        <ListItem width={"100%"}>
+          <form onSubmit={addTaskHandler}>
+            <Input
+              variant={"flushed"}
+              value={newTaskText}
+              placeholder="Add new task"
+              name="newTaskText"
+              onChange={(e) => setNewTaskText(e.target.value)}
+            />
+          </form>
+        </ListItem>
+      )}
+    </List>
   );
 };
 
