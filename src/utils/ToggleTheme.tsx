@@ -5,8 +5,13 @@ export default function ToggleTheme() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Flex justifyContent={"flex-end"}>
-      <Tooltip label="Toggle Theme" aria-label="A tooltip" openDelay={500}>
+    <Flex justifyContent={"flex-end"} mr={5}>
+      <Tooltip
+        label="Toggle Theme"
+        placement="auto-start"
+        aria-label="A tooltip"
+        openDelay={500}
+      >
         <IconButton
           variant="ghost"
           aria-label="color mode button"

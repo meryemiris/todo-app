@@ -96,8 +96,6 @@ const Tasks: React.FC<TasksProps> = ({ initialTasks, todoId }: TasksProps) => {
 
     setIsEditTask(false);
     setNewTaskText("");
-
-    console.log(`Task with ID ${taskId} saved.`);
   };
 
   return (

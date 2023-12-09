@@ -9,18 +9,19 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import Todo from "../models/todo";
+import TodosModel from "../models/todo";
 
 interface NewTodoProps {
-  todoList: Todo[];
-  onAdd: (text: string, timestamp: number) => void;
+  todoList: TodosModel[];
+  onAdd: (text: string, timestamp: Date) => void;
 }
 
 const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const timestamp = Date.now();
+    const currDate = Date.now();
+    const timestamp = new Date(currDate);
 
     const data = new FormData(event.currentTarget);
     const todoText = data.get("text") as string;

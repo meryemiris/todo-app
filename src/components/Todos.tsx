@@ -1,46 +1,28 @@
 import React from "react";
-import { VStack, Text } from "@chakra-ui/react";
 
-import NewTodo from "./NewTodo";
-import Todo from "../models/todo";
-import TodoItem from "./TodoItem";
+import TodoItem from "./TodoCard";
+import TodosModel from "../models/todo";
 
 interface TodosProps {
-  todoList: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-  onAdd: (itemID: string, timestamp: number) => void;
+  todoList: TodosModel[];
+  setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
   onRemove: (itemID: string) => void;
 }
 
 const Todos: React.FC<TodosProps> = ({
   todoList,
-  onAdd,
   setTodos,
   onRemove,
 }: TodosProps) => {
-  return (
-    <VStack spacing={4}>
-      <NewTodo onAdd={onAdd} todoList={todoList} />
-
-      <VStack width="75%" display="flex" justifyContent="space-between">
-        {todoList.length === 0 ? (
-          <Text as="em" textAlign="center" flex="1">
-            One Task at a Time!
-          </Text>
-        ) : (
-          todoList.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              todoList={todoList}
-              setTodos={setTodos}
-              onRemove={onRemove}
-            />
-          ))
-        )}
-      </VStack>
-    </VStack>
-  );
+  return todoList.map((todo) => (
+    <TodoItem
+      key={todo.id}
+      todo={todo}
+      todoList={todoList}
+      setTodos={setTodos}
+      onRemove={onRemove}
+    />
+  ));
 };
 
 export default Todos;

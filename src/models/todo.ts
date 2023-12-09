@@ -5,9 +5,9 @@ class TodosModel {
   text: string;
   timestamp: Date;
   tasks: TasksModel[];
-  constructor(todoText: string) {
+  constructor(todoText: string, timestamp: Date) {
     this.text = todoText;
-    this.timestamp = new Date();
+    this.timestamp = timestamp;
     this.id = new Date().toISOString();
     this.tasks = [];
   }
