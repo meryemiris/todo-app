@@ -11,19 +11,19 @@ import {
 import TimeAgo from "./TimeAgo";
 import TodosModel from "../models/todo";
 
-interface TodoItemProps {
+interface TodoCardProps {
   todo: TodosModel;
   todoList: TodosModel[];
   setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
   onRemove: (itemID: string) => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({
+const TodoCard: React.FC<TodoCardProps> = ({
   todo,
   todoList,
   setTodos,
   onRemove,
-}: TodoItemProps) => {
+}: TodoCardProps) => {
   const cardBgColor = useColorModeValue("yellow.100", "gray.800");
   const cardBorderColor = useColorModeValue("green.100", "gray.600");
   const cardBoxShadow = useColorModeValue(
@@ -58,4 +58,4 @@ const TodoItem: React.FC<TodoItemProps> = ({
   );
 };
 
-export default TodoItem;
+export default TodoCard;
