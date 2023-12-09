@@ -1,7 +1,7 @@
 import React from "react";
 
-import TodoItem from "./TodoCard";
 import TodosModel from "../models/todo";
+import TodoCard from "./TodoCard";
 
 interface TodosProps {
   todoList: TodosModel[];
@@ -15,7 +15,7 @@ const Todos: React.FC<TodosProps> = ({
   onRemove,
 }: TodosProps) => {
   return todoList.map((todo) => (
-    <TodoItem
+    <TodoCard
       key={todo.id}
       todo={todo}
       todoList={todoList}
