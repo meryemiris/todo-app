@@ -41,7 +41,11 @@ const TimeAgo: React.FC<TimeAgoProps> = ({ timestamp }) => {
     return () => clearInterval(updateInterval);
   }, [timestamp]);
 
-  return <Text>{timeDifference}</Text>;
+  return (
+    <Text color={"gray.600"} fontSize={"sm"}>
+      {timeDifference}
+    </Text>
+  );
 };
 
 export default TimeAgo;
