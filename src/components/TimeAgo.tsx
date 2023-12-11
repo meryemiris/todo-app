@@ -13,24 +13,22 @@ const TimeAgo: React.FC<TimeAgoProps> = ({ timestamp }) => {
     const now = new Date();
 
     const timeDiff = now.getTime() - timestamp.getTime();
-    let result = "";
 
     const calculateTimeAgo = () => {
       const minutes = Math.floor(timeDiff / (60 * 1000));
       const hours = Math.floor(timeDiff / (60 * 60 * 1000));
       const days = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
 
-      if (days > 0) {
-        result += `${days} day${days > 1 ? "s" : ""} `;
-      }
-      if (hours > 0) {
-        result += `${hours} hour${hours > 1 ? "s" : ""} `;
-      }
+      let result = "";
 
-      if (minutes > 0) {
-        result = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+      if (days > 0) {
+        result += `${days} day${days > 1 ? "s" : ""} ago`;
+      } else if (hours > 0) {
+        result += `${hours} hour${hours > 1 ? "s" : ""} ago`;
+      } else if (minutes > 0) {
+        result += `${minutes} minute${minutes > 1 ? "s" : ""} ago `;
       } else {
-        result = "Less than a minute ago";
+        result = "Just now";
       }
 
       setTimeDifference(result.trim());
