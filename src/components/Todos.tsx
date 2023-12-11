@@ -1,5 +1,4 @@
-import React from "react";
-
+import { HStack } from "@chakra-ui/react";
 import TodosModel from "../models/todo";
 import TodoCard from "./TodoCard";
 
@@ -14,15 +13,26 @@ const Todos: React.FC<TodosProps> = ({
   setTodos,
   onRemove,
 }: TodosProps) => {
-  return todoList.map((todo) => (
-    <TodoCard
-      key={todo.id}
-      todo={todo}
-      todoList={todoList}
-      setTodos={setTodos}
-      onRemove={onRemove}
-    />
-  ));
+  return (
+    <HStack
+      justifySelf={"flex-start"}
+      justifyContent={"center"}
+      align="flex-start"
+      flexWrap={"wrap"}
+      margin={5}
+      gap={4}
+    >
+      {todoList.map((todo) => (
+        <TodoCard
+          key={todo.id}
+          todo={todo}
+          todoList={todoList}
+          setTodos={setTodos}
+          onRemove={onRemove}
+        />
+      ))}
+    </HStack>
+  );
 };
 
 export default Todos;
