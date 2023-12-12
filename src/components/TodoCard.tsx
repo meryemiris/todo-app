@@ -48,7 +48,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
       </CardHeader>
 
       <CardBody pt={0}>
-        <Tasks initialTasks={todo.tasks} todoId={todo.id} />
+        <Tasks initialTasks={todo.tasks} todoId={todo.id} setTodos={setTodos} />
       </CardBody>
 
       <CardFooter pb={2} pl={3} alignItems={"flex-end"}>

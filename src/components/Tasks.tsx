@@ -8,33 +8,38 @@ import {
   List,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-
-interface Task {
-  id: string;
-  text: string;
-  todoId: string;
-}
+import TasksModel from "../models/task";
+import TodosModel from "../models/todo";
 
 interface TasksProps {
-  initialTasks: Task[];
+  setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
+  initialTasks: TasksModel[];
   todoId: string;
 }
 
-const Tasks: React.FC<TasksProps> = ({ initialTasks, todoId }: TasksProps) => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+const Tasks: React.FC<TasksProps> = ({
+  initialTasks,
+  todoId,
+  setTodos,
+}: TasksProps) => {
+  const [tasks, setTasks] = useState<TasksModel[]>(initialTasks);
   const [newTaskText, setNewTaskText] = useState<string>("");
   const [isEditTask, setIsEditTask] = useState(false);
-  const [isNewTask, setIsNewTask] = useState(false);
 
   useEffect(() => {
     const storedTasks = JSON.parse(
       localStorage.getItem(`tasks_${todoId}`) || "[]"
     );
-    setTasks(storedTasks);
-  }, [todoId]);
+    if (initialTasks.length > 0) {
+      // If initialTasks is provided, use it
+      setTasks(initialTasks);
+    } else {
+      // Otherwise, use the stored tasks from local storage
+      setTasks(storedTasks);
+    }
+  }, [initialTasks, todoId]);
 
   const newTaskHandler = () => {
-    setIsNewTask(true);
     setNewTaskText("");
   };
 
@@ -42,7 +47,7 @@ const Tasks: React.FC<TasksProps> = ({ initialTasks, todoId }: TasksProps) => {
     event.preventDefault();
 
     if (newTaskText.trim() !== "") {
-      const newTask: Task = {
+      const newTask: TasksModel = {
         id: new Date().toISOString(),
         text: newTaskText,
         todoId: todoId,
@@ -52,6 +57,16 @@ const Tasks: React.FC<TasksProps> = ({ initialTasks, todoId }: TasksProps) => {
         const updatedTasks = [...prevTasks, newTask];
         localStorage.setItem(`tasks_${todoId}`, JSON.stringify(updatedTasks));
         return updatedTasks;
+      });
+
+      // Ensure to update the tasks property in the current todo
+      setTodos((prevTodos) => {
+        const updatedTodos = prevTodos.map((todo) =>
+          todo.id === todoId
+            ? { ...todo, tasks: [...todo.tasks, newTask] }
+            : todo
+        );
+        return updatedTodos;
       });
 
       setNewTaskText("");
@@ -77,7 +92,7 @@ const Tasks: React.FC<TasksProps> = ({ initialTasks, todoId }: TasksProps) => {
       return updatedTasks;
     });
     setIsEditTask(true);
-    setIsNewTask(false);
+
     setNewTaskText(newText);
   };
 
@@ -127,19 +142,17 @@ const Tasks: React.FC<TasksProps> = ({ initialTasks, todoId }: TasksProps) => {
           </HStack>
         </ListItem>
       ))}
-      {isNewTask && (
-        <ListItem width={"100%"}>
-          <form onSubmit={addTaskHandler}>
-            <Input
-              variant={"flushed"}
-              value={newTaskText}
-              placeholder="Add new task"
-              name="newTaskText"
-              onChange={(e) => setNewTaskText(e.target.value)}
-            />
-          </form>
-        </ListItem>
-      )}
+      <ListItem width={"100%"}>
+        <form onSubmit={addTaskHandler}>
+          <Input
+            variant={"flushed"}
+            value={newTaskText}
+            placeholder="Add new task"
+            name="newTaskText"
+            onChange={(e) => setNewTaskText(e.target.value)}
+          />
+        </form>
+      </ListItem>
     </List>
   );
 };

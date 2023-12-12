@@ -7,7 +7,6 @@ interface TimeAgoProps {
 
 const TimeAgo: React.FC<TimeAgoProps> = ({ timestamp }) => {
   const [timeDifference, setTimeDifference] = useState<string>("");
-  console.log("Timestamp:", timestamp);
 
   useEffect(() => {
     const now = new Date();

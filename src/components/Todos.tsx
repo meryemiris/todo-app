@@ -7,12 +7,13 @@ interface TodosProps {
   setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
   onRemove: (itemID: string) => void;
 }
-
 const Todos: React.FC<TodosProps> = ({
   todoList,
   setTodos,
   onRemove,
 }: TodosProps) => {
+  console.log(todoList);
+
   return (
     <HStack
       justifySelf={"flex-start"}

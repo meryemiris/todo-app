@@ -6,6 +6,7 @@ import NewTodo from "./components/NewTodo";
 
 function App() {
   const storedData = localStorage.getItem("todoAppData");
+
   const parsedData = JSON.parse(storedData || "");
 
   const initialTodos =
