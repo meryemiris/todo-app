@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   Button,
   ListItem,
-  Input,
   HStack,
   IconButton,
   List,
+  Textarea,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import TasksModel from "../models/task";
@@ -18,34 +18,27 @@ interface TasksProps {
 }
 
 const Tasks: React.FC<TasksProps> = ({
+  setTodos,
   initialTasks,
   todoId,
-  setTodos,
 }: TasksProps) => {
   const [tasks, setTasks] = useState<TasksModel[]>(initialTasks);
   const [newTaskText, setNewTaskText] = useState<string>("");
   const [isEditTask, setIsEditTask] = useState(false);
+  const [isNewTask, setIsNewTask] = useState(false);
 
   useEffect(() => {
     const storedTasks = JSON.parse(
       localStorage.getItem(`tasks_${todoId}`) || "[]"
     );
     if (initialTasks.length > 0) {
-      // If initialTasks is provided, use it
       setTasks(initialTasks);
     } else {
-      // Otherwise, use the stored tasks from local storage
       setTasks(storedTasks);
     }
   }, [initialTasks, todoId]);
 
-  const newTaskHandler = () => {
-    setNewTaskText("");
-  };
-
-  const addTaskHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const addTaskHandler = () => {
     if (newTaskText.trim() !== "") {
       const newTask: TasksModel = {
         id: new Date().toISOString(),
@@ -59,7 +52,6 @@ const Tasks: React.FC<TasksProps> = ({
         return updatedTasks;
       });
 
-      // Ensure to update the tasks property in the current todo
       setTodos((prevTodos) => {
         const updatedTodos = prevTodos.map((todo) =>
           todo.id === todoId
@@ -73,6 +65,7 @@ const Tasks: React.FC<TasksProps> = ({
     } else {
       console.log("Task text cannot be empty.");
     }
+    setIsNewTask(true);
   };
 
   const removeTaskHandler = (taskId: string) => {
@@ -80,6 +73,15 @@ const Tasks: React.FC<TasksProps> = ({
       const updatedTasks = prevTasks.filter((task) => task.id !== taskId);
       localStorage.setItem(`tasks_${todoId}`, JSON.stringify(updatedTasks));
       return updatedTasks;
+    });
+
+    setTodos((prevTodos) => {
+      const updatedTodos = prevTodos.map((todo) =>
+        todo.id === todoId
+          ? { ...todo, tasks: todo.tasks.filter((task) => task.id !== taskId) }
+          : todo
+      );
+      return updatedTodos;
     });
   };
 
@@ -91,16 +93,27 @@ const Tasks: React.FC<TasksProps> = ({
       localStorage.setItem(`tasks_${todoId}`, JSON.stringify(updatedTasks));
       return updatedTasks;
     });
-    setIsEditTask(true);
 
+    setTodos((prevTodos) => {
+      const updatedTodos = prevTodos.map((todo) =>
+        todo.id === todoId
+          ? {
+              ...todo,
+              tasks: todo.tasks.map((task) =>
+                task.id === taskId ? { ...task, text: newText } : task
+              ),
+            }
+          : todo
+      );
+      return updatedTodos;
+    });
+
+    setIsEditTask(true);
+    setIsNewTask(false);
     setNewTaskText(newText);
   };
 
-  const saveTaskHandler = (
-    taskId: string,
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  const saveTaskHandler = (taskId: string) => {
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) =>
         task.id === taskId ? { ...task, text: newTaskText } : task
@@ -110,17 +123,15 @@ const Tasks: React.FC<TasksProps> = ({
     });
 
     setIsEditTask(false);
+    setIsNewTask(true);
     setNewTaskText("");
   };
 
   return (
     <List width={"100%"}>
-      <Button onClick={newTaskHandler} leftIcon={<AddIcon />}>
-        New Task
-      </Button>
       {tasks.map((task) => (
         <ListItem key={task.id}>
-          <HStack>
+          <HStack align={"flex-start"}>
             <IconButton
               size={"sm"}
               variant={"ghost"}
@@ -129,30 +140,49 @@ const Tasks: React.FC<TasksProps> = ({
               onClick={() => removeTaskHandler(task.id)}
             />
 
-            <form onSubmit={(e) => saveTaskHandler(task.id, e)}>
-              <Input
-                width={"100%"}
-                variant={isEditTask ? "flushed" : "unstyled"}
-                id={task.id}
-                name="text"
-                value={task.text}
-                onChange={(e) => editTaskHandler(task.id, e.target.value)}
-              />
-            </form>
+            <Textarea
+              overflow={isEditTask ? "hidden" : "unset"}
+              variant={isEditTask ? "flushed" : "unstyled"}
+              id={task.id}
+              name="text"
+              value={task.text}
+              onChange={(e) => editTaskHandler(task.id, e.target.value)}
+            />
+            {isEditTask && (
+              <Button onClick={() => saveTaskHandler(task.id)}>save</Button>
+            )}
           </HStack>
         </ListItem>
       ))}
-      <ListItem width={"100%"}>
-        <form onSubmit={addTaskHandler}>
-          <Input
+      {(isNewTask || !isEditTask) && (
+        <ListItem width={"100%"}>
+          <Textarea
             variant={"flushed"}
             value={newTaskText}
-            placeholder="Add new task"
+            placeholder={
+              tasks.length > 0
+                ? "Add another task..."
+                : "No tasks yet, add a new one..."
+            }
+            _placeholder={{
+              fontSize: "sm",
+              fontStyle: "italic",
+            }}
             name="newTaskText"
             onChange={(e) => setNewTaskText(e.target.value)}
           />
-        </form>
-      </ListItem>
+
+          <Button
+            fontSize={"sm"}
+            variant={"ghost"}
+            color={"gray.600"}
+            onClick={addTaskHandler}
+            leftIcon={<AddIcon />}
+          >
+            Add
+          </Button>
+        </ListItem>
+      )}
     </List>
   );
 };
