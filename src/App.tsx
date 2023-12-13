@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import TodosModel from "./models/todo";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, HStack, Heading } from "@chakra-ui/react";
 import NewTodo from "./components/NewTodo";
+import ToggleTheme from "./utils/ToggleTheme";
+import RandomTodo from "./components/RandomTodo";
 
 function App() {
   const storedData = localStorage.getItem("todoAppData");
@@ -36,6 +38,11 @@ function App() {
 
   return (
     <Flex flexDirection={"column"} align={"center"}>
+      <HStack mt={2} w={"100%"} justifyContent={"space-between"} p={3}>
+        <RandomTodo todoList={todos} />
+
+        <ToggleTheme />
+      </HStack>
       <NewTodo onAdd={addTodoHandler} todoList={todos} />
       {todos.length === 0 ? (
         <Heading fontSize={"md"} mt={5} as="em" textAlign="center" flex="1">
