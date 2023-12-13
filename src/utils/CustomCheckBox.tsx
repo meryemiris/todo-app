@@ -19,6 +19,8 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = (
         cursor="pointer"
         px={1.5}
         py={1.5}
+        backgroundColor={props.isChecked ? "gray.800" : "transparent"} // Change the background color based on the checkbox state
+        color={props.isChecked ? "white" : "black"} // Change the text color based on the checkbox state
       >
         <input {...getInputProps()} />
       </chakra.label>

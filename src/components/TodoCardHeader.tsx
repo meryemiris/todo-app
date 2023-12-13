@@ -36,6 +36,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [editingItem, setEditingItem] = useState<string>("");
   const [showDetails, setShowDetails] = useState(false);
+  const [timers, setTimers] = useState<Record<string, number>>({});
 
   const textColor = useColorModeValue("gray.900", "white");
   const todoBgColor = useColorModeValue("purple.100", "#4B0082");
@@ -52,28 +53,45 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
     localStorage.setItem("checked", JSON.stringify(checkedItems));
   }, [checkedItems]);
 
+  const toggleShowDetails = () => setShowDetails(!showDetails);
+
   const toggleCheckbox = (itemId: string) => {
     setCheckedItems((prevChecked) => {
       const isChecked = prevChecked.includes(itemId);
-      if (!isChecked) {
+
+      if (isChecked) {
+        return prevChecked.filter((id) => id !== itemId);
+      } else {
         const todoIndex = todoList.findIndex((todo) => todo.id === itemId);
+
         if (todoIndex !== -1) {
           const newTodos = todoList.slice();
-          newTodos.splice(todoIndex, 1);
-          setTodos(newTodos);
-          onRemove(itemId);
-          setEditingItem("");
+          const delayTime = 1000;
+
+          if (timers[itemId]) {
+            clearTimeout(timers[itemId]);
+          }
+
+          const timeoutId = setTimeout(() => {
+            newTodos.splice(todoIndex, 1);
+            setTodos(newTodos);
+            onRemove(itemId);
+            setEditingItem("");
+          }, delayTime);
+
+          setTimers((prevTimers) => ({ ...prevTimers, [itemId]: timeoutId }));
         }
+
+        return [...prevChecked, itemId];
       }
-      return isChecked
-        ? prevChecked.filter((id) => id !== itemId)
-        : [...prevChecked, itemId];
     });
   };
 
-  function toggleShowDetails() {
-    setShowDetails(!showDetails);
-  }
+  useEffect(() => {
+    return () => {
+      Object.values(timers).forEach(clearTimeout);
+    };
+  }, [timers]);
 
   const startEditing = (itemId: string): void => {
     setEditingItem(itemId);
