@@ -1,13 +1,11 @@
+import { useEffect, useState } from "react";
+
+import TodosModel from "../models/todo";
+
+import CustomCheckbox from "../utils/CustomCheckBox";
+
+import { CheckIcon, EditIcon } from "@chakra-ui/icons";
 import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  EditIcon,
-  SmallCloseIcon,
-} from "@chakra-ui/icons";
-import {
-  Box,
-  ButtonGroup,
   HStack,
   Heading,
   IconButton,
@@ -15,10 +13,6 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import CustomCheckbox from "../utils/CustomCheckBox";
-import { useEffect, useState } from "react";
-
-import TodosModel from "../models/todo";
 
 interface TodoCardHeaderProps {
   todo: TodosModel;
@@ -35,8 +29,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
 }: TodoCardHeaderProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [editingItem, setEditingItem] = useState<string>("");
-  const [showDetails, setShowDetails] = useState(false);
-  const [timers, setTimers] = useState<Record<string, number>>({});
+  const [timeoutId, setTimeoutId] = useState<number | null>(null);
 
   const textColor = useColorModeValue("gray.900", "white");
   const todoBgColor = useColorModeValue("purple.100", "#4B0082");
@@ -53,8 +46,6 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
     localStorage.setItem("checked", JSON.stringify(checkedItems));
   }, [checkedItems]);
 
-  const toggleShowDetails = () => setShowDetails(!showDetails);
-
   const toggleCheckbox = (itemId: string) => {
     setCheckedItems((prevChecked) => {
       const isChecked = prevChecked.includes(itemId);
@@ -68,18 +59,17 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
           const newTodos = todoList.slice();
           const delayTime = 1000;
 
-          if (timers[itemId]) {
-            clearTimeout(timers[itemId]);
-          }
-
-          const timeoutId = setTimeout(() => {
+          const newTimeoutId = setTimeout(() => {
             newTodos.splice(todoIndex, 1);
             setTodos(newTodos);
             onRemove(itemId);
             setEditingItem("");
           }, delayTime);
 
-          setTimers((prevTimers) => ({ ...prevTimers, [itemId]: timeoutId }));
+          if (timeoutId) {
+            clearTimeout(timeoutId);
+          }
+          setTimeoutId(newTimeoutId);
         }
 
         return [...prevChecked, itemId];
@@ -89,25 +79,23 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
 
   useEffect(() => {
     return () => {
-      Object.values(timers).forEach(clearTimeout);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        setTimeoutId(null);
+      }
     };
-  }, [timers]);
+  }, [timeoutId]);
 
   const startEditing = (itemId: string): void => {
     setEditingItem(itemId);
   };
 
-  const saveEditing = (itemId: string, newText: string): boolean => {
+  const saveEditing = (itemId: string, newText: string): void => {
     setTodos((prevItems) =>
       prevItems.map((item) =>
         item.id === itemId ? { ...item, text: newText } : item
       )
     );
-    setEditingItem("");
-    return true;
-  };
-
-  const cancelEditing = () => {
     setEditingItem("");
   };
 
@@ -121,30 +109,23 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
       justifyContent={"space-around"}
     >
       {editingItem ? (
-        <>
+        <HStack justifyContent={"space-between"}>
           <Input
-            size="sm"
             variant="flushed"
             defaultValue={todo.text}
             onBlur={(e) => saveEditing(todo.id, e.currentTarget.value)}
             autoFocus
           />
 
-          <ButtonGroup size={"xs"}>
-            <IconButton
-              aria-label="Save todo"
-              color={textColor}
-              icon={<CheckIcon />}
-              onClick={() => saveEditing(todo.id, todo.text)}
-            />
-            <IconButton
-              aria-label="Cancel editing todo"
-              color={textColor}
-              onClick={cancelEditing}
-              icon={<SmallCloseIcon />}
-            />
-          </ButtonGroup>
-        </>
+          <IconButton
+            size={"xs"}
+            variant={"ghost"}
+            aria-label="Save todo"
+            color={textColor}
+            icon={<CheckIcon />}
+            onClick={() => saveEditing(todo.id, todo.text)}
+          />
+        </HStack>
       ) : (
         <>
           <CustomCheckbox
@@ -161,32 +142,21 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
           >
             {todo.text.toUpperCase()}
           </Heading>
+          <Tooltip label="Edit" openDelay={500}>
+            <IconButton
+              color={textColor}
+              size={"xs"}
+              variant={"ghost"}
+              aria-label="Edit todo"
+              icon={<EditIcon />}
+              onClick={(event) => {
+                event.preventDefault();
+                startEditing(todo.id);
+              }}
+            />
+          </Tooltip>
         </>
       )}
-
-      <Box>
-        <Tooltip label="Edit" openDelay={500}>
-          <IconButton
-            color={textColor}
-            size={"xs"}
-            variant={"ghost"}
-            aria-label="Edit todo"
-            icon={<EditIcon />}
-            onClick={(event) => {
-              event.preventDefault();
-              startEditing(todo.id);
-            }}
-          />
-        </Tooltip>
-        <IconButton
-          color={textColor}
-          size={"sm"}
-          variant={"ghost"}
-          aria-label="show details"
-          icon={showDetails ? <ChevronUpIcon /> : <ChevronDownIcon />}
-          onClick={toggleShowDetails}
-        />
-      </Box>
     </HStack>
   );
 };
