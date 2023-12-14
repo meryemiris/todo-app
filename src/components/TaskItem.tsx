@@ -58,6 +58,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         />
 
         <IconButton
+          borderRadius="full"
           aria-label="save task"
           icon={<CheckIcon />}
           variant={"ghost"}

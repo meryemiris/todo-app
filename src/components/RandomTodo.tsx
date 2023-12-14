@@ -15,10 +15,13 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import TodosModel from "../models/todo";
 import { useState } from "react";
-import TasksModel from "../models/task";
 import { RepeatIcon } from "@chakra-ui/icons";
+import { motion } from "framer-motion";
+import TodosModel from "../models/todo";
+import TasksModel from "../models/task";
+
+const MotionBox = motion(Box);
 
 interface RandomTodoProps {
   todoList: TodosModel[];
@@ -34,7 +37,6 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
   };
 
   const ModalBgColor = useColorModeValue("yellow.100", "gray.800");
-  const ModalBorderColor = useColorModeValue("green.100", "gray.600");
   const ModalBoxShadow = useColorModeValue(
     "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
     "0 0 0 transparent"
@@ -42,9 +44,27 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
   const textColor = useColorModeValue("gray.900", "white");
   const todoBgColor = useColorModeValue("purple.100", "#4B0082");
 
+  const motivationalMessages = [
+    "You've got this! 💪",
+    "Stay focused and keep pushing forward. 🚀",
+    "Every accomplishment starts with the decision to try. ✨",
+    "Believe in yourself and all that you are. 🌟",
+    "Dream big, work hard, stay focused. ⭐️",
+    "The only way to achieve the impossible is to believe it is possible. 🌈",
+    "Success is not final, failure is not fatal: It is the courage to continue that counts. 🌌",
+    "Your attitude determines your direction. 🌠",
+    "Embrace the journey and don't forget to enjoy the view. 🏞️",
+    "You are capable of more than you know. 🌻",
+    "Keep going, you are making progress. 🏋️‍♂️",
+    "Hard work beats talent when talent doesn't work hard. 🔥",
+    "The future belongs to those who believe in the beauty of their dreams. 🌙",
+  ];
+
   return (
     <>
       <Button
+        minW={"250px"}
+        borderRadius="full"
         onClick={() => {
           handleRandomClick();
           onOpen();
@@ -54,24 +74,28 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
         alignSelf={{ base: "center", md: "flex-start" }}
         w={{ base: "100%", sm: "auto" }}
       >
-        <Box fontSize="2xl" role="img" aria-label="dice">
+        <Box fontSize="xl" role="img" aria-label="dice">
           🎲
         </Box>
-        <Text fontSize={"sm"}> Give me something to do!</Text>
+        <Text fontSize={"xs"}>Random todo, decide for me!</Text>
       </Button>
 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent
+        <MotionBox
+          as={ModalContent}
           border={"solid 1px"}
-          borderColor={ModalBorderColor}
           boxShadow={ModalBoxShadow}
           bg={ModalBgColor}
+          initial={{ opacity: 0, translateY: 40 }}
+          animate={{ opacity: 1, translateY: 0 }}
+          exit={{ opacity: 0, translateY: 40 }}
         >
           <ModalHeader bg={todoBgColor}>
             {randomTodo?.text.toUpperCase()}
           </ModalHeader>
-          <ModalCloseButton />
+
+          <ModalCloseButton borderRadius={"full"} />
           <ModalBody>
             <UnorderedList>
               {randomTodo?.tasks.map((task: TasksModel, index) => (
@@ -82,8 +106,17 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
             </UnorderedList>
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter pb={1} justifyContent={"space-between"}>
+            <Text fontSize={"xs"} color={textColor}>
+              {
+                motivationalMessages[
+                  Math.floor(Math.random() * motivationalMessages.length)
+                ]
+              }
+            </Text>
+
             <IconButton
+              borderRadius="full"
               aria-label="generate new random todo"
               icon={<RepeatIcon />}
               size={"lg"}
@@ -92,7 +125,7 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
               onClick={handleRandomClick}
             />
           </ModalFooter>
-        </ModalContent>
+        </MotionBox>
       </Modal>
     </>
   );

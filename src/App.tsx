@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import TodosModel from "./models/todo";
-import { Flex, HStack, Heading } from "@chakra-ui/react";
+import { Box, Heading, Stack } from "@chakra-ui/react";
 import NewTodo from "./components/NewTodo";
 import ToggleTheme from "./utils/ToggleTheme";
 import RandomTodo from "./components/RandomTodo";
@@ -37,15 +37,20 @@ function App() {
   };
 
   return (
-    <Flex flexDirection={"column"} align={"center"}>
-      <HStack mt={2} w={"100%"} justifyContent={"space-between"} p={3}>
+    <Box px={[4, 8]} py={4} minW={["100%", "80%"]}>
+      <Stack
+        direction={["column", "row"]}
+        align={["stretch", "center"]}
+        spacing={[4, 8]}
+        justifyContent={["center", "space-between"]}
+      >
         <RandomTodo todoList={todos} />
-
+        <NewTodo onAdd={addTodoHandler} todoList={todos} />
         <ToggleTheme />
-      </HStack>
-      <NewTodo onAdd={addTodoHandler} todoList={todos} />
+      </Stack>
+
       {todos.length === 0 ? (
-        <Heading fontSize={"md"} mt={5} as="em" textAlign="center" flex="1">
+        <Heading fontSize="md" mt={5} as="em" textAlign="center" flex="1">
           One Task at a Time!
         </Heading>
       ) : (
@@ -55,7 +60,7 @@ function App() {
           onRemove={removeTodoHandler}
         />
       )}
-    </Flex>
+    </Box>
   );
 }
 

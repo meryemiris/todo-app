@@ -42,7 +42,7 @@ const TimeAgo: React.FC<TimeAgoProps> = ({ timestamp }) => {
   }, [timestamp]);
 
   return (
-    <Text color={textColor} fontSize={"sm"}>
+    <Text color={textColor} fontSize={"xs"}>
       {timeDifference}
     </Text>
   );

@@ -195,6 +195,7 @@ const Tasks: React.FC<TasksProps> = ({
             onChange={(e) => setNewTaskText(e.target.value)}
           />
           <Button
+            borderRadius="full"
             color={textColor}
             fontSize={"xs"}
             variant={"ghost"}

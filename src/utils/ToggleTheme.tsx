@@ -13,6 +13,7 @@ export default function ToggleTheme() {
         openDelay={500}
       >
         <IconButton
+          borderRadius="full"
           variant="ghost"
           aria-label="color mode button"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}

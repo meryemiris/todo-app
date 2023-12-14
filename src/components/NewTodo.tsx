@@ -1,10 +1,10 @@
 import React from "react";
 import {
   Input,
-  Stack,
   FormControl,
   useColorModeValue,
   IconButton,
+  InputGroup,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import TodosModel from "../models/todo";
@@ -36,15 +36,10 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
 
   return (
     <form onSubmit={submitHandler}>
-      <Stack
-        direction={{ base: "column", sm: "row" }}
-        spacing={{ base: 1, md: 2 }}
-        alignItems="center"
-        display={"flex"}
-      >
-        <FormControl id="text" flex="1">
+      <FormControl w={"100%"}>
+        <InputGroup width={"100%"}>
           <Input
-            mr={10}
+            mr={1}
             bg={useColorModeValue("purple.100", "#4B0082")}
             color={useColorModeValue("gray.900", "white")}
             placeholder={
@@ -57,24 +52,20 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
               color: useColorModeValue("gray.900", "white"),
             }}
             focusBorderColor="pink.400"
-            borderRadius="md"
             required
             name="text"
             boxShadow={boxShadow}
           />
-        </FormControl>
-
-        <IconButton
-          aria-label="add todo"
-          icon={<AddIcon />}
-          type="submit"
-          colorScheme="pink"
-          borderRadius="md"
-          alignSelf={{ base: "center", md: "flex-start" }}
-          w={{ base: "100%", sm: "auto" }}
-          boxShadow={boxShadow}
-        />
-      </Stack>
+          <IconButton
+            aria-label="add todo"
+            icon={<AddIcon />}
+            type="submit"
+            colorScheme="pink"
+            borderRadius="full"
+            boxShadow={boxShadow}
+          />
+        </InputGroup>
+      </FormControl>
     </form>
   );
 };

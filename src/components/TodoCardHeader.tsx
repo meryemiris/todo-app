@@ -118,6 +118,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
           />
 
           <IconButton
+            borderRadius="full"
             size={"xs"}
             variant={"ghost"}
             aria-label="Save todo"
@@ -144,6 +145,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
           </Heading>
           <Tooltip label="Edit" openDelay={500}>
             <IconButton
+              borderRadius="full"
               color={textColor}
               size={"xs"}
               variant={"ghost"}
