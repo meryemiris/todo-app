@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Button, ListItem, HStack, List, Textarea } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+
 import TasksModel from "../models/task";
 import TodosModel from "../models/todo";
 import CustomCheckbox from "../utils/CustomCheckBox";
+
+import { Button, ListItem, HStack, List, Textarea } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 
 interface TasksProps {
   setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
@@ -17,11 +19,14 @@ const Tasks: React.FC<TasksProps> = ({
   todoId,
 }: TasksProps) => {
   const [tasks, setTasks] = useState<TasksModel[]>(initialTasks);
+
   const [newTaskText, setNewTaskText] = useState<string>("");
   const [isEditTask, setIsEditTask] = useState(false);
   const [isNewTask, setIsNewTask] = useState(false);
-  const [timers, setTimers] = useState<Record<string, number>>({});
+
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
+  const [timers, setTimers] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const storedCheckedItems = JSON.parse(
@@ -56,6 +61,7 @@ const Tasks: React.FC<TasksProps> = ({
       setTasks((prevTasks) => {
         const updatedTasks = [...prevTasks, newTask];
         localStorage.setItem(`tasks_${todoId}`, JSON.stringify(updatedTasks));
+
         return updatedTasks;
       });
 
@@ -87,10 +93,6 @@ const Tasks: React.FC<TasksProps> = ({
         if (taskIndex !== -1) {
           const newTasks = tasks.slice();
           const delayTime = 500;
-
-          if (timers[taskId]) {
-            clearTimeout(timers[taskId]);
-          }
 
           const timeoutId = setTimeout(() => {
             newTasks.splice(taskIndex, 1);
@@ -140,15 +142,30 @@ const Tasks: React.FC<TasksProps> = ({
     });
   };
 
-  const saveTaskHandler = (taskId: string) => {
-    setIsEditTask(false);
+  const saveTaskHandler = (taskId: string, newText: string) => {
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) =>
-        task.id === taskId ? { ...task, text: newTaskText } : task
+        task.id === taskId ? { ...task, text: newText } : task
       );
       localStorage.setItem(`tasks_${todoId}`, JSON.stringify(updatedTasks));
+      console.log(updatedTasks);
       return updatedTasks;
     });
+    setTodos((prevTodos) => {
+      const updatedTodos = prevTodos.map((todo) =>
+        todo.id === todoId
+          ? {
+              ...todo,
+              tasks: todo.tasks.map((task) =>
+                task.id === taskId ? { ...task, text: newText } : task
+              ),
+            }
+          : todo
+      );
+      return updatedTodos;
+    });
+    setIsNewTask(false);
+    setIsEditTask(false);
   };
 
   return (
@@ -173,7 +190,9 @@ const Tasks: React.FC<TasksProps> = ({
               onChange={(e) => editTaskHandler(task.id, e.target.value)}
             />
             {isEditTask && (
-              <Button onClick={() => saveTaskHandler(task.id)}>save</Button>
+              <Button onClick={() => saveTaskHandler(task.id, task.text)}>
+                save
+              </Button>
             )}
           </HStack>
         </ListItem>
