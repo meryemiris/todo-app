@@ -1,19 +1,15 @@
-import { useState, useEffect, useRef } from "react";
-
-import TasksModel from "../models/task";
-import TodosModel from "../models/todo";
-import CustomCheckbox from "../utils/CustomCheckBox";
-
+import React, { useState, useEffect, useRef } from "react";
 import {
-  Button,
-  ListItem,
-  HStack,
   List,
-  Textarea,
-  useColorModeValue,
   InputGroup,
+  Textarea,
+  Button,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import TasksModel from "../models/task";
+import TodosModel from "../models/todo";
+import TaskItem from "./TaskItem";
 
 interface TasksProps {
   setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
@@ -27,13 +23,10 @@ const Tasks: React.FC<TasksProps> = ({
   todoId,
 }: TasksProps) => {
   const [tasks, setTasks] = useState<TasksModel[]>(initialTasks);
-
   const [newTaskText, setNewTaskText] = useState<string>("");
   const [isEditTask, setIsEditTask] = useState(false);
   const [isNewTask, setIsNewTask] = useState(false);
-
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -165,53 +158,29 @@ const Tasks: React.FC<TasksProps> = ({
     setIsEditTask(false);
   };
 
-  const taskColor = useColorModeValue("yellow.50", "gray.600");
   const textColor = useColorModeValue("gray.900", "white");
-
-  console.log(textColor);
 
   return (
     <List width={"100%"}>
       {tasks.map((task) => (
-        <ListItem p={2} mt={2} bg={taskColor} borderRadius={5} key={task.id}>
-          <HStack align={"flex-start"}>
-            <CustomCheckbox
-              isChecked={checkedItems.includes(task.id)}
-              onChange={() => removeTaskHandler(task.id)}
-            />
-
-            <Textarea
-              color={textColor}
-              isRequired
-              pt={0}
-              rows={2}
-              cols={20}
-              overflow={isEditTask ? "hidden" : "unset"}
-              variant={isEditTask ? "flushed" : "unstyled"}
-              id={task.id}
-              name="text"
-              value={task.text}
-              onChange={(e) => editTaskHandler(task.id, e.target.value)}
-            />
-            {isEditTask && (
-              <Button
-                color={textColor}
-                onClick={() => saveTaskHandler(task.id, task.text)}
-              >
-                save
-              </Button>
-            )}
-          </HStack>
-        </ListItem>
+        <TaskItem
+          key={task.id}
+          task={task}
+          isChecked={checkedItems.includes(task.id)}
+          onRemove={removeTaskHandler}
+          onEdit={editTaskHandler}
+          onSave={saveTaskHandler}
+        />
       ))}
       {(isNewTask || !isEditTask) && (
         <InputGroup mt={5} alignItems={"flex-end"}>
           <Textarea
+            value={newTaskText}
             color={textColor}
+            name="newTaskText"
             ref={textAreaRef}
             overflow={"hidden"}
             variant={"flushed"}
-            value={newTaskText}
             placeholder={
               tasks.length > 0
                 ? "Add another task..."
@@ -221,13 +190,11 @@ const Tasks: React.FC<TasksProps> = ({
               textColor: textColor,
               fontSize: "sm",
             }}
-            name="newTaskText"
             rows={2}
             cols={20}
             onChange={(e) => setNewTaskText(e.target.value)}
           />
           <Button
-            aria-label="add new task"
             color={textColor}
             fontSize={"xs"}
             variant={"ghost"}
