@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text } from "@chakra-ui/react";
+import { Text, useColorModeValue } from "@chakra-ui/react";
 
 interface TimeAgoProps {
   timestamp: Date;
@@ -7,6 +7,7 @@ interface TimeAgoProps {
 
 const TimeAgo: React.FC<TimeAgoProps> = ({ timestamp }) => {
   const [timeDifference, setTimeDifference] = useState<string>("");
+  const textColor = useColorModeValue("gray.900", "gray.300");
 
   useEffect(() => {
     const now = new Date();
@@ -41,7 +42,7 @@ const TimeAgo: React.FC<TimeAgoProps> = ({ timestamp }) => {
   }, [timestamp]);
 
   return (
-    <Text color={"gray.600"} fontSize={"sm"}>
+    <Text color={textColor} fontSize={"sm"}>
       {timeDifference}
     </Text>
   );

@@ -51,7 +51,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
         <Tasks initialTasks={todo.tasks} todoId={todo.id} setTodos={setTodos} />
       </CardBody>
 
-      <CardFooter pb={2} pl={3} alignItems={"flex-end"}>
+      <CardFooter py={2} pl={3} alignItems={"flex-end"}>
         <TimeAgo timestamp={todo.timestamp} />
       </CardFooter>
     </Card>

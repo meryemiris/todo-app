@@ -1,4 +1,9 @@
-import { useCheckbox, chakra, Tooltip } from "@chakra-ui/react";
+import {
+  useCheckbox,
+  chakra,
+  Tooltip,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 interface CustomCheckboxProps {
   isChecked: boolean;
@@ -10,17 +15,19 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = (
 ) => {
   const { getInputProps } = useCheckbox(props);
 
+  const checkboxColor = useColorModeValue("gray.900", "gray.200");
+
   return (
     <Tooltip label="done" openDelay={500}>
       <chakra.label
+        mt={1}
         rounded="full"
         border="2px solid"
-        borderColor="gray.800"
+        borderColor={checkboxColor}
         cursor="pointer"
         px={1.5}
         py={1.5}
-        backgroundColor={props.isChecked ? "gray.800" : "transparent"} // Change the background color based on the checkbox state
-        color={props.isChecked ? "white" : "black"} // Change the text color based on the checkbox state
+        backgroundColor={props.isChecked ? checkboxColor : "transparent"}
       >
         <input {...getInputProps()} />
       </chakra.label>
