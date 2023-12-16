@@ -62,7 +62,7 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
     "The future belongs to those who believe in the beauty of their dreams. 🌙",
   ];
 
-  const iconColor = useColorModeValue("pink.500", "#4B0082");
+  const iconColor = useColorModeValue("#ee6c4d", "#ee6c4d");
 
   return (
     <>

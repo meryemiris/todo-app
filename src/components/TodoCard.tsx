@@ -19,8 +19,7 @@ interface TodoCardProps {
 }
 
 function GetCardStyles() {
-  const cardBgColor = useColorModeValue("yellow.100", "gray.800");
-  const cardBorderColor = useColorModeValue("green.100", "gray.600");
+  const cardBgColor = useColorModeValue("#f8edeb", "#343a40");
   const cardBoxShadow = useColorModeValue(
     "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
     "0 0 0 transparent"
@@ -28,7 +27,6 @@ function GetCardStyles() {
 
   return {
     bg: cardBgColor,
-    borderColor: cardBorderColor,
     boxShadow: cardBoxShadow,
   };
 }

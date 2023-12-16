@@ -169,6 +169,7 @@ const Tasks: React.FC<TasksProps> = ({
           isChecked={checkedItems.includes(task.id)}
           onRemove={removeTaskHandler}
           onEdit={editTaskHandler}
+          isEditing={isEditTask}
           onSave={saveTaskHandler}
         />
       ))}
@@ -194,6 +195,7 @@ const Tasks: React.FC<TasksProps> = ({
             cols={20}
             onChange={(e) => setNewTaskText(e.target.value)}
           />
+
           <Button
             borderRadius="full"
             color={textColor}

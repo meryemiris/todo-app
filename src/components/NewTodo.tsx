@@ -5,9 +5,10 @@ import {
   useColorModeValue,
   IconButton,
   InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
 import TodosModel from "../models/todo";
+import { AddIcon } from "@chakra-ui/icons";
 
 interface NewTodoProps {
   todoList: TodosModel[];
@@ -36,10 +37,10 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
 
   return (
     <form onSubmit={submitHandler}>
-      <FormControl>
-        <InputGroup minW={"300px"} ml={1}>
+      <FormControl minW={"100%"}>
+        <InputGroup ml={1}>
           <Input
-            bg={useColorModeValue("purple.100", "#4B0082")}
+            w={"100%"}
             color={useColorModeValue("gray.900", "white")}
             placeholder={
               todoList && todoList.length > 0
@@ -53,16 +54,19 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
             focusBorderColor="pink.400"
             required
             name="text"
+            variant={"outline"}
+            borderColor={useColorModeValue("purple.100", "#ee6c4d")}
             boxShadow={boxShadow}
-          />
-          <IconButton
-            aria-label="add todo"
-            icon={<AddIcon />}
-            type="submit"
-            colorScheme="pink"
             borderRadius="full"
-            boxShadow={boxShadow}
           />
+          <InputRightElement>
+            <IconButton
+              aria-label="add todo"
+              type="submit"
+              icon={<AddIcon />}
+              variant={"ghost"}
+            />
+          </InputRightElement>
         </InputGroup>
       </FormControl>
     </form>

@@ -23,11 +23,16 @@ interface TodoCardHeaderProps {
 
 function GetCardHeaderStyles() {
   const textColor = useColorModeValue("gray.900", "white");
-  const todoBgColor = useColorModeValue("purple.100", "#e07a5f");
-
+  const todoBgColor = useColorModeValue("#f9dcc4", "#ee6c4d");
+  const cardBoxShadow = useColorModeValue(
+    "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
+    "0 0 0 transparent"
+  );
   return {
+    p: 2,
     bg: todoBgColor,
     color: textColor,
+    boxShadow: cardBoxShadow,
   };
 }
 

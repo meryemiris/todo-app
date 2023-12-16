@@ -12,6 +12,7 @@ import { CheckIcon } from "@chakra-ui/icons";
 
 interface TaskItemProps {
   task: TasksModel;
+  isEditing: boolean;
   isChecked: boolean;
   onRemove: (taskId: string) => void;
   onEdit: (taskId: string, newText: string) => void;
@@ -24,8 +25,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
   onRemove,
   onEdit,
   onSave,
+  isEditing,
 }: TaskItemProps) => {
-  const taskColor = useColorModeValue("yellow.50", "gray.600");
+  const taskColor = useColorModeValue("#F8EDEB", "#212529");
   const taskBoxShadow = useColorModeValue(
     "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
     "0 0 0 transparent"
@@ -45,6 +47,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           isChecked={isChecked}
           onChange={() => onRemove(task.id)}
         />
+
         <Textarea
           value={task.text}
           color={textColor}
@@ -56,15 +59,16 @@ const TaskItem: React.FC<TaskItemProps> = ({
           onChange={(e) => onEdit(task.id, e.target.value)}
           isRequired
         />
-
-        <IconButton
-          borderRadius="full"
-          aria-label="save task"
-          icon={<CheckIcon />}
-          variant={"ghost"}
-          color={textColor}
-          onClick={() => onSave(task.id, task.text)}
-        />
+        {isEditing && (
+          <IconButton
+            borderRadius="full"
+            aria-label="save task"
+            icon={<CheckIcon />}
+            variant={"ghost"}
+            color={textColor}
+            onClick={() => onSave(task.id, task.text)}
+          />
+        )}
       </HStack>
     </ListItem>
   );

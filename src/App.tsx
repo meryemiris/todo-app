@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import TodosModel from "./models/todo";
-import { Box } from "@chakra-ui/react";
 
 import TodoControls from "./components/TodoControls";
 
@@ -38,14 +37,14 @@ function App() {
   };
 
   return (
-    <Box px={[4, 8]} py={4} minW={["100%", "90%"]}>
+    <>
       <TodoControls todoList={todos} onAdd={addTodoHandler} />
       <Todos
         todoList={todos}
         setTodos={setTodos}
         onRemove={removeTodoHandler}
       />
-    </Box>
+    </>
   );
 }
 
