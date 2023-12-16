@@ -1,6 +1,4 @@
-import TodoCardHeader from "./TodoCardHeader";
-import Tasks from "./Tasks";
-
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -8,6 +6,8 @@ import {
   CardFooter,
   useColorModeValue,
 } from "@chakra-ui/react";
+import TodoCardHeader from "./TodoCardHeader";
+import Tasks from "./Tasks";
 import TimeAgo from "./TimeAgo";
 import TodosModel from "../models/todo";
 
@@ -18,12 +18,7 @@ interface TodoCardProps {
   onRemove: (itemID: string) => void;
 }
 
-const TodoCard: React.FC<TodoCardProps> = ({
-  todo,
-  todoList,
-  setTodos,
-  onRemove,
-}: TodoCardProps) => {
+function GetCardStyles() {
   const cardBgColor = useColorModeValue("yellow.100", "gray.800");
   const cardBorderColor = useColorModeValue("green.100", "gray.600");
   const cardBoxShadow = useColorModeValue(
@@ -31,13 +26,23 @@ const TodoCard: React.FC<TodoCardProps> = ({
     "0 0 0 transparent"
   );
 
+  return {
+    bg: cardBgColor,
+    borderColor: cardBorderColor,
+    boxShadow: cardBoxShadow,
+  };
+}
+
+const TodoCard: React.FC<TodoCardProps> = ({
+  todo,
+  todoList,
+  setTodos,
+  onRemove,
+}: TodoCardProps) => {
+  const cardStyles = GetCardStyles();
+
   return (
-    <Card
-      key={todo.id}
-      bg={cardBgColor}
-      borderColor={cardBorderColor}
-      boxShadow={cardBoxShadow}
-    >
+    <Card key={todo.id} {...cardStyles}>
       <CardHeader p={0} py={2}>
         <TodoCardHeader
           todoList={todoList}

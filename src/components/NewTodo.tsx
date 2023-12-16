@@ -36,10 +36,9 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
 
   return (
     <form onSubmit={submitHandler}>
-      <FormControl w={"100%"}>
-        <InputGroup width={"100%"}>
+      <FormControl>
+        <InputGroup minW={"300px"} ml={1}>
           <Input
-            mr={1}
             bg={useColorModeValue("purple.100", "#4B0082")}
             color={useColorModeValue("gray.900", "white")}
             placeholder={

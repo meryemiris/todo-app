@@ -1,28 +1,29 @@
 import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import TodosModel from "./models/todo";
-import { Box, Heading, Stack } from "@chakra-ui/react";
-import NewTodo from "./components/NewTodo";
-import ToggleTheme from "./utils/ToggleTheme";
-import RandomTodo from "./components/RandomTodo";
+import { Box } from "@chakra-ui/react";
 
-function App() {
-  const storedData = localStorage.getItem("todoAppData");
+import TodoControls from "./components/TodoControls";
 
+const STORAGE_KEY = "todoAppData";
+
+function getInitialTodos() {
+  const storedData = localStorage.getItem(STORAGE_KEY);
   const parsedData = JSON.parse(storedData || "");
 
-  const initialTodos =
-    Array.isArray(parsedData.todos) && parsedData.todos.length > 0
-      ? parsedData.todos.map((todo: TodosModel) => ({
-          ...todo,
-          timestamp: new Date(todo.timestamp),
-        }))
-      : [];
+  return Array.isArray(parsedData.todos) && parsedData.todos.length > 0
+    ? parsedData.todos.map((todo: TodosModel) => ({
+        ...todo,
+        timestamp: new Date(todo.timestamp),
+      }))
+    : [];
+}
 
-  const [todos, setTodos] = useState<TodosModel[]>(initialTodos);
+function App() {
+  const [todos, setTodos] = useState<TodosModel[]>(getInitialTodos);
 
   useEffect(() => {
-    localStorage.setItem("todoAppData", JSON.stringify({ todos }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ todos }));
   }, [todos]);
 
   const addTodoHandler = (text: string) => {
@@ -37,29 +38,13 @@ function App() {
   };
 
   return (
-    <Box px={[4, 8]} py={4} minW={["100%", "80%"]}>
-      <Stack
-        direction={["column", "row"]}
-        align={["stretch", "center"]}
-        spacing={[4, 8]}
-        justifyContent={["center", "space-between"]}
-      >
-        <RandomTodo todoList={todos} />
-        <NewTodo onAdd={addTodoHandler} todoList={todos} />
-        <ToggleTheme />
-      </Stack>
-
-      {todos.length === 0 ? (
-        <Heading fontSize="md" mt={5} as="em" textAlign="center" flex="1">
-          One Task at a Time!
-        </Heading>
-      ) : (
-        <Todos
-          todoList={todos}
-          setTodos={setTodos}
-          onRemove={removeTodoHandler}
-        />
-      )}
+    <Box px={[4, 8]} py={4} minW={["100%", "90%"]}>
+      <TodoControls todoList={todos} onAdd={addTodoHandler} />
+      <Todos
+        todoList={todos}
+        setTodos={setTodos}
+        onRemove={removeTodoHandler}
+      />
     </Box>
   );
 }

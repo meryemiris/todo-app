@@ -16,7 +16,9 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
       backgroundImage={`url('${
         colorMode === "light" ? lightImage : darkImage
       }')`}
-      backgroundSize="fit"
+      backgroundSize={"cover"}
+      backgroundRepeat={"no-repeat"}
+      backgroundAttachment={"fixed"}
       backgroundPosition="center"
     >
       {children}

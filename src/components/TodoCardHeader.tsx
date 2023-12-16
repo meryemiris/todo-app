@@ -21,6 +21,16 @@ interface TodoCardHeaderProps {
   onRemove: (itemID: string) => void;
 }
 
+function GetCardHeaderStyles() {
+  const textColor = useColorModeValue("gray.900", "white");
+  const todoBgColor = useColorModeValue("purple.100", "#e07a5f");
+
+  return {
+    bg: todoBgColor,
+    color: textColor,
+  };
+}
+
 const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
   todo,
   todoList,
@@ -31,9 +41,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
   const [editingItem, setEditingItem] = useState<string>("");
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
 
-  const textColor = useColorModeValue("gray.900", "white");
-  const todoBgColor = useColorModeValue("purple.100", "#4B0082");
-  const todoBorderColor = useColorModeValue("purple.100", "#4B0082");
+  const cardHeaderStyles = GetCardHeaderStyles();
 
   useEffect(() => {
     const storedCheckedItems = JSON.parse(
@@ -101,10 +109,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
 
   return (
     <HStack
-      bg={todoBgColor}
-      color={textColor}
-      border={"2px"}
-      borderColor={todoBorderColor}
+      {...cardHeaderStyles}
       alignItems={"center"}
       justifyContent={"space-around"}
     >
@@ -122,7 +127,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
             size={"xs"}
             variant={"ghost"}
             aria-label="Save todo"
-            color={textColor}
+            // color={textColor}
             icon={<CheckIcon />}
             onClick={() => saveEditing(todo.id, todo.text)}
           />
@@ -143,16 +148,14 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
           >
             {todo.text.toUpperCase()}
           </Heading>
-          <Tooltip label="Edit" openDelay={500}>
+          <Tooltip label="Edit" openDelay={300}>
             <IconButton
-              borderRadius="full"
-              color={textColor}
-              size={"xs"}
-              variant={"ghost"}
               aria-label="Edit todo"
               icon={<EditIcon />}
-              onClick={(event) => {
-                event.preventDefault();
+              size={"xs"}
+              variant={"ghost"}
+              borderRadius="full"
+              onClick={() => {
                 startEditing(todo.id);
               }}
             />

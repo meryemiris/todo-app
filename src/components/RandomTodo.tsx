@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   IconButton,
   ListItem,
   Modal,
@@ -11,6 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  Tooltip,
   UnorderedList,
   useColorModeValue,
   useDisclosure,
@@ -20,6 +20,8 @@ import { RepeatIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import TodosModel from "../models/todo";
 import TasksModel from "../models/task";
+
+import { GiCardRandom } from "react-icons/gi";
 
 const MotionBox = motion(Box);
 
@@ -60,25 +62,26 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
     "The future belongs to those who believe in the beauty of their dreams. 🌙",
   ];
 
+  const iconColor = useColorModeValue("pink.500", "#4B0082");
+
   return (
     <>
-      <Button
-        minW={"250px"}
-        borderRadius="full"
-        onClick={() => {
-          handleRandomClick();
-          onOpen();
-        }}
-        pl={1}
-        colorScheme="pink"
-        alignSelf={{ base: "center", md: "flex-start" }}
-        w={{ base: "100%", sm: "auto" }}
-      >
-        <Box fontSize="xl" role="img" aria-label="dice">
-          🎲
-        </Box>
-        <Text fontSize={"xs"}>Random todo, decide for me!</Text>
-      </Button>
+      <Tooltip label={"Random todo, decide for me!"}>
+        <IconButton
+          h={"100%"}
+          icon={<GiCardRandom size={"3rem"} />}
+          aria-label="random todo"
+          variant="ghost"
+          _hover={{}}
+          borderRadius="full"
+          onClick={() => {
+            handleRandomClick();
+            onOpen();
+          }}
+          size={"xl"}
+          color={iconColor}
+        ></IconButton>
+      </Tooltip>
 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
