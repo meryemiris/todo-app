@@ -3,8 +3,8 @@ import {
   List,
   InputGroup,
   Textarea,
-  Button,
   useColorModeValue,
+  IconButton,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import TasksModel from "../models/task";
@@ -17,28 +17,13 @@ interface TasksProps {
   todoId: string;
 }
 
-const Tasks: React.FC<TasksProps> = ({
-  setTodos,
-  initialTasks,
-  todoId,
-}: TasksProps) => {
+const Tasks: React.FC<TasksProps> = ({ setTodos, initialTasks, todoId }) => {
   const [tasks, setTasks] = useState<TasksModel[]>(initialTasks);
   const [newTaskText, setNewTaskText] = useState<string>("");
-  const [isEditTask, setIsEditTask] = useState(false);
   const [isNewTask, setIsNewTask] = useState(false);
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
+  const [editingId, setEditingId] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    const storedCheckedItems = JSON.parse(
-      localStorage.getItem("checked") || "[]"
-    );
-    setCheckedItems(storedCheckedItems);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("checked", JSON.stringify(checkedItems));
-  }, [checkedItems]);
 
   useEffect(() => {
     const storedTasks = JSON.parse(
@@ -83,44 +68,22 @@ const Tasks: React.FC<TasksProps> = ({
   };
 
   const removeTaskHandler = (taskId: string) => {
-    setCheckedItems((prevChecked) => {
-      const isChecked = prevChecked.includes(taskId);
+    const newTasks = tasks.filter((task) => task.id !== taskId);
 
-      if (isChecked) {
-        return prevChecked.filter((id) => id !== taskId);
-      } else {
-        const taskIndex = tasks.findIndex((task) => task.id === taskId);
+    setTasks(newTasks);
+    localStorage.setItem(`tasks_${todoId}`, JSON.stringify(newTasks));
 
-        if (taskIndex !== -1) {
-          const newTasks = tasks.slice();
-
-          newTasks.splice(taskIndex, 1);
-          setTasks((prevTasks) => {
-            const updatedTasks = prevTasks.filter((task) => task.id !== taskId);
-            localStorage.setItem(
-              `tasks_${todoId}`,
-              JSON.stringify(updatedTasks)
-            );
-            return updatedTasks;
-          });
-          setIsEditTask(false);
-        }
-
-        return [...prevChecked, taskId];
-      }
-    });
     setTodos((prevTodos) => {
       const updatedTodos = prevTodos.map((todo) =>
-        todo.id === todoId
-          ? { ...todo, tasks: todo.tasks.filter((task) => task.id !== taskId) }
-          : todo
+        todo.id === todoId ? { ...todo, tasks: newTasks } : todo
       );
       return updatedTodos;
     });
+    setEditingId("");
   };
 
   const editTaskHandler = (taskId: string, newText: string) => {
-    setIsEditTask(true);
+    setEditingId(taskId);
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) =>
         task.id === taskId ? { ...task, text: newText } : task
@@ -155,7 +118,7 @@ const Tasks: React.FC<TasksProps> = ({
       return updatedTodos;
     });
     setIsNewTask(false);
-    setIsEditTask(false);
+    setEditingId("");
   };
 
   const textColor = useColorModeValue("gray.900", "white");
@@ -166,16 +129,17 @@ const Tasks: React.FC<TasksProps> = ({
         <TaskItem
           key={task.id}
           task={task}
-          isChecked={checkedItems.includes(task.id)}
           onRemove={removeTaskHandler}
           onEdit={editTaskHandler}
-          isEditing={isEditTask}
+          editingId={editingId}
           onSave={saveTaskHandler}
         />
       ))}
-      {(isNewTask || !isEditTask) && (
-        <InputGroup mt={5} alignItems={"flex-end"}>
+      {(isNewTask || editingId === "") && (
+        <InputGroup mt={5} alignItems={"center"}>
           <Textarea
+            alignContent={"flex-end"}
+            focusBorderColor="#ee6c4d"
             value={newTaskText}
             color={textColor}
             name="newTaskText"
@@ -185,30 +149,30 @@ const Tasks: React.FC<TasksProps> = ({
             placeholder={
               tasks.length > 0
                 ? "Add another task..."
-                : "No tasks yet, add a new one..."
+                : "No tasks yet, add one..."
             }
             _placeholder={{
               textColor: textColor,
-              fontSize: "sm",
+              fontSize: "xs",
             }}
             rows={2}
             cols={20}
             onChange={(e) => setNewTaskText(e.target.value)}
           />
 
-          <Button
+          <IconButton
+            aria-label="add new task"
+            size={"xs"}
             borderRadius="full"
-            color={textColor}
+            color={"#ee6c4d"}
             fontSize={"xs"}
             variant={"ghost"}
             onClick={() => {
               addTaskHandler();
               textAreaRef.current?.focus();
             }}
-            leftIcon={<AddIcon />}
-          >
-            add
-          </Button>
+            icon={<AddIcon />}
+          />
         </InputGroup>
       )}
     </List>

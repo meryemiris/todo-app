@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-
 import TodosModel from "../models/todo";
 
-import CustomCheckbox from "../utils/CustomCheckBox";
-
-import { CheckIcon, EditIcon } from "@chakra-ui/icons";
 import {
   HStack,
   Heading,
@@ -13,6 +9,10 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
+
+import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/ai";
 
 interface TodoCardHeaderProps {
   todo: TodosModel;
@@ -79,11 +79,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
   };
 
   return (
-    <HStack
-      {...cardHeaderStyles}
-      alignItems={"center"}
-      justifyContent={"space-around"}
-    >
+    <HStack {...cardHeaderStyles} justifyContent={"space-around"}>
       {editingItem ? (
         <HStack justifyContent={"space-between"}>
           <Input
@@ -95,34 +91,33 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
 
           <IconButton
             borderRadius="full"
-            size={"xs"}
             variant={"ghost"}
             aria-label="Save todo"
-            icon={<CheckIcon />}
+            icon={<AiOutlineCheck />}
             onClick={() => saveEditing(todo.id, todo.text)}
           />
         </HStack>
       ) : (
         <>
-          <CustomCheckbox
-            isChecked={checkedItems.includes(todo.id)}
-            onChange={() => deleteTodo(todo.id)}
+          <IconButton
+            aria-label="delete todo"
+            icon={<AiOutlineDelete />}
+            onClick={() => deleteTodo(todo.id)}
+            borderRadius="full"
+            variant={"ghost"}
           />
           <Heading
             fontSize={"sm"}
             maxW="200px"
+            fontWeight={500}
             overflowWrap="break-word"
-            textDecoration={
-              checkedItems.includes(todo.id) ? "line-through" : "none"
-            }
           >
             {todo.text.toUpperCase()}
           </Heading>
           <Tooltip label="Edit" openDelay={300}>
             <IconButton
               aria-label="Edit todo"
-              icon={<EditIcon />}
-              size={"xs"}
+              icon={<AiOutlineEdit />}
               variant={"ghost"}
               borderRadius="full"
               onClick={() => {

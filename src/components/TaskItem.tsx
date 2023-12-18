@@ -1,19 +1,17 @@
-import React from "react";
 import {
   ListItem,
-  HStack,
   Textarea,
   useColorModeValue,
   IconButton,
 } from "@chakra-ui/react";
-import CustomCheckbox from "../utils/CustomCheckBox";
 import TasksModel from "../models/task";
 import { CheckIcon } from "@chakra-ui/icons";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
 interface TaskItemProps {
   task: TasksModel;
-  isEditing: boolean;
-  isChecked: boolean;
+  editingId: string;
+
   onRemove: (taskId: string) => void;
   onEdit: (taskId: string, newText: string) => void;
   onSave: (taskId: string, newText: string) => void;
@@ -21,55 +19,61 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({
   task,
-  isChecked,
   onRemove,
   onEdit,
   onSave,
-  isEditing,
+  editingId,
 }: TaskItemProps) => {
-  const taskColor = useColorModeValue("#F8EDEB", "#212529");
+  const taskColor = useColorModeValue("#f8f9fa", "#212529");
   const taskBoxShadow = useColorModeValue(
     "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
     "0 0 0 transparent"
   );
   const textColor = useColorModeValue("gray.900", "white");
+  const isTaskEditing = editingId === task.id;
 
   return (
     <ListItem
+      display={"flex"}
+      flexDirection={"row"}
+      alignItems={"flex-start"}
       boxShadow={taskBoxShadow}
-      p={2}
-      mt={2}
       bg={taskColor}
       borderRadius={5}
+      mt={1}
     >
-      <HStack align={"flex-start"}>
-        <CustomCheckbox
-          isChecked={isChecked}
-          onChange={() => onRemove(task.id)}
+      {!isTaskEditing && (
+        <IconButton
+          color={"#ee6c4d"}
+          aria-label="delete task"
+          icon={<AiOutlineCheckCircle />}
+          onClick={() => onRemove(task.id)}
+          variant={"ghost"}
+          borderRadius={"full"}
         />
+      )}
 
-        <Textarea
-          value={task.text}
+      <Textarea
+        fontSize={"sm"}
+        value={task.text}
+        color={textColor}
+        rows={2}
+        cols={20}
+        variant="unstyled"
+        pl={1}
+        onChange={(e) => onEdit(task.id, e.target.value)}
+        isRequired
+      />
+      {isTaskEditing && (
+        <IconButton
+          borderRadius="full"
+          aria-label="save task"
+          icon={<CheckIcon />}
+          variant={"ghost"}
           color={textColor}
-          pt={0}
-          rows={2}
-          cols={20}
-          variant="unstyled"
-          overflow="hidden"
-          onChange={(e) => onEdit(task.id, e.target.value)}
-          isRequired
+          onClick={() => onSave(task.id, task.text)}
         />
-        {isEditing && (
-          <IconButton
-            borderRadius="full"
-            aria-label="save task"
-            icon={<CheckIcon />}
-            variant={"ghost"}
-            color={textColor}
-            onClick={() => onSave(task.id, task.text)}
-          />
-        )}
-      </HStack>
+      )}
     </ListItem>
   );
 };

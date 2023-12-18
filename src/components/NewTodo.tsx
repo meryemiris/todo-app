@@ -35,7 +35,7 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
   );
 
   const textColor = useColorModeValue("gray.900", "white");
-  const bgColor = useColorModeValue("#f8edeb", "#343a40");
+  const bgColor = useColorModeValue("#f8f9fa", "#343a40");
 
   return (
     <form onSubmit={submitHandler}>

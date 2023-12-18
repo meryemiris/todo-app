@@ -15,7 +15,7 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
       p={5}
       minH="100vh"
       bg={`url('${imagePath}') center/cover no-repeat fixed ${
-        colorMode === "light" ? "#F8EDEB" : "#212529"
+        colorMode === "light" ? "#f8f9fa" : "#212529"
       }`}
     >
       {children}
