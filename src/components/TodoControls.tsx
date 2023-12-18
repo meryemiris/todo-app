@@ -13,8 +13,6 @@ interface TodoControlsProps {
 const TodoControls: React.FC<TodoControlsProps> = ({ onAdd, todoList }) => {
   return (
     <HStack
-      mx={5}
-      minW={"300px"}
       direction={["column", "row"]}
       align={["stretch", "center"]}
       justifyContent={["center", "space-between"]}

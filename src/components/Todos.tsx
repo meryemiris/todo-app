@@ -37,7 +37,7 @@ const Todos: React.FC<TodosProps> = ({
       justifyContent={"center"}
       align="flex-start"
       flexWrap={"wrap"}
-      margin={5}
+      m={5}
       gap={4}
     >
       {renderTodoCards(todoList, setTodos, onRemove)}

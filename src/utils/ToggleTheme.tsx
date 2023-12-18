@@ -5,7 +5,7 @@ export default function ToggleTheme() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Flex justifyContent={"flex-end"} mr={5}>
+    <Flex justifyContent={"flex-end"}>
       <Tooltip
         label="Toggle Theme"
         placement="auto-start"

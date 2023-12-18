@@ -1,4 +1,4 @@
-import React from "react";
+import TodosModel from "../models/todo";
 import {
   Input,
   FormControl,
@@ -7,7 +7,6 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import TodosModel from "../models/todo";
 import { AddIcon } from "@chakra-ui/icons";
 
 interface NewTodoProps {
@@ -15,7 +14,7 @@ interface NewTodoProps {
   onAdd: (text: string, timestamp: Date) => void;
 }
 
-const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
+const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -35,13 +34,15 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
     "0 0 0 transparent"
   );
 
+  const textColor = useColorModeValue("gray.900", "white");
+  const bgColor = useColorModeValue("#f8edeb", "#343a40");
+
   return (
     <form onSubmit={submitHandler}>
-      <FormControl minW={"100%"}>
-        <InputGroup ml={1}>
+      <FormControl>
+        <InputGroup>
           <Input
-            w={"100%"}
-            color={useColorModeValue("gray.900", "white")}
+            color={textColor}
             placeholder={
               todoList && todoList.length > 0
                 ? "Enter your todo here..."
@@ -49,15 +50,15 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }: NewTodoProps) => {
             }
             _placeholder={{
               fontSize: "sm",
-              color: useColorModeValue("gray.900", "white"),
+              color: textColor,
             }}
             focusBorderColor="pink.400"
-            required
             name="text"
             variant={"outline"}
-            borderColor={useColorModeValue("purple.100", "#ee6c4d")}
+            bgColor={bgColor}
             boxShadow={boxShadow}
             borderRadius="full"
+            required
           />
           <InputRightElement>
             <IconButton
