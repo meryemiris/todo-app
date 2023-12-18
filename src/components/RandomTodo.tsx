@@ -1,3 +1,9 @@
+import TodosModel from "../models/todo";
+
+import { useState } from "react";
+import { RepeatIcon } from "@chakra-ui/icons";
+import { motion } from "framer-motion";
+
 import {
   Box,
   IconButton,
@@ -15,15 +21,31 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { RepeatIcon } from "@chakra-ui/icons";
-import { motion } from "framer-motion";
-import TodosModel from "../models/todo";
-import TasksModel from "../models/task";
 
 import { GiCardRandom } from "react-icons/gi";
 
 const MotionBox = motion(Box);
+
+const motivationalMessages = [
+  "You've got this! 💪",
+  "Stay focused and keep pushing forward. 🚀",
+  "Every accomplishment starts with the decision to try. ✨",
+  "Believe in yourself and all that you are. 🌟",
+  "Dream big, work hard, stay focused. ⭐️",
+  "The only way to achieve the impossible is to believe it is possible. 🌈",
+  "Success is not final, failure is not fatal: It is the courage to continue that counts. 🌌",
+  "Your attitude determines your direction. 🌠",
+  "Embrace the journey and don't forget to enjoy the view. 🏞️",
+  "You are capable of more than you know. 🌻",
+  "Keep going, you are making progress. 🏋️‍♂️",
+  "Hard work beats talent when talent doesn't work hard. 🔥",
+  "The future belongs to those who believe in the beauty of their dreams. 🌙",
+];
+
+const getRandomMotivationalMessage = () => {
+  const randomIndex = Math.floor(Math.random() * motivationalMessages.length);
+  return motivationalMessages[randomIndex];
+};
 
 interface RandomTodoProps {
   todoList: TodosModel[];
@@ -38,93 +60,75 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
     setRandomTodo(todoList[randomIndex]);
   };
 
-  const ModalBgColor = useColorModeValue("yellow.100", "gray.800");
-  const ModalBoxShadow = useColorModeValue(
+  const modalHeaderBgColor = useColorModeValue("#f9dcc4", "#ee6c4d");
+  const modalContentBgColor = useColorModeValue("#f8edeb", "#343a40");
+  const modalBoxShadow = useColorModeValue(
     "2px 2px 2px 2px rgba(0, 0, 0, 0.6)",
     "0 0 0 transparent"
   );
   const textColor = useColorModeValue("gray.900", "white");
-  const todoBgColor = useColorModeValue("purple.100", "#4B0082");
+  const motivationTextColor = useColorModeValue("gray.900", "gray.300");
+  const iconColor = "#ee6c4d";
 
-  const motivationalMessages = [
-    "You've got this! 💪",
-    "Stay focused and keep pushing forward. 🚀",
-    "Every accomplishment starts with the decision to try. ✨",
-    "Believe in yourself and all that you are. 🌟",
-    "Dream big, work hard, stay focused. ⭐️",
-    "The only way to achieve the impossible is to believe it is possible. 🌈",
-    "Success is not final, failure is not fatal: It is the courage to continue that counts. 🌌",
-    "Your attitude determines your direction. 🌠",
-    "Embrace the journey and don't forget to enjoy the view. 🏞️",
-    "You are capable of more than you know. 🌻",
-    "Keep going, you are making progress. 🏋️‍♂️",
-    "Hard work beats talent when talent doesn't work hard. 🔥",
-    "The future belongs to those who believe in the beauty of their dreams. 🌙",
-  ];
-
-  const iconColor = useColorModeValue("#ee6c4d", "#ee6c4d");
+  const renderTasks = (
+    <UnorderedList>
+      {randomTodo?.tasks.map(({ text }, index) => (
+        <ListItem key={index}>{text}</ListItem>
+      ))}
+    </UnorderedList>
+  );
 
   return (
     <>
-      <Tooltip label={"Random todo, decide for me!"}>
+      <Tooltip
+        openDelay={300}
+        placement="auto-end"
+        label={"Random todo, decide for me!"}
+      >
         <IconButton
-          h={"100%"}
-          icon={<GiCardRandom size={"3rem"} />}
           aria-label="random todo"
+          h={"100%"}
+          color={iconColor}
+          icon={<GiCardRandom size={"3rem"} />}
           variant="ghost"
-          _hover={{}}
           borderRadius="full"
           onClick={() => {
             handleRandomClick();
             onOpen();
           }}
           size={"xl"}
-          color={iconColor}
         ></IconButton>
       </Tooltip>
 
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay backdropBlur={"1px"} />
         <MotionBox
           as={ModalContent}
-          border={"solid 1px"}
-          boxShadow={ModalBoxShadow}
-          bg={ModalBgColor}
+          bg={modalContentBgColor}
+          color={textColor}
           initial={{ opacity: 0, translateY: 40 }}
           animate={{ opacity: 1, translateY: 0 }}
           exit={{ opacity: 0, translateY: 40 }}
         >
-          <ModalHeader bg={todoBgColor}>
+          <ModalHeader bg={modalHeaderBgColor} boxShadow={modalBoxShadow}>
             {randomTodo?.text.toUpperCase()}
           </ModalHeader>
-
           <ModalCloseButton borderRadius={"full"} />
-          <ModalBody>
-            <UnorderedList>
-              {randomTodo?.tasks.map((task: TasksModel, index) => (
-                <ListItem color={textColor} key={index}>
-                  {task.text}
-                </ListItem>
-              ))}
-            </UnorderedList>
-          </ModalBody>
+
+          <ModalBody>{renderTasks}</ModalBody>
 
           <ModalFooter pb={1} justifyContent={"space-between"}>
-            <Text fontSize={"xs"} color={textColor}>
-              {
-                motivationalMessages[
-                  Math.floor(Math.random() * motivationalMessages.length)
-                ]
-              }
+            <Text color={motivationTextColor} fontSize={"xs"}>
+              {getRandomMotivationalMessage()}
             </Text>
 
             <IconButton
-              borderRadius="full"
               aria-label="generate new random todo"
               icon={<RepeatIcon />}
-              size={"lg"}
               variant={"ghost"}
-              m={3}
+              borderRadius="full"
+              m={2}
+              color={iconColor}
               onClick={handleRandomClick}
             />
           </ModalFooter>
