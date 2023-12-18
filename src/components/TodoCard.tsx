@@ -16,6 +16,7 @@ interface TodoCardProps {
   todoList: TodosModel[];
   setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
   onRemove: (itemID: string) => void;
+  onEdit: (itemID: string, text: string) => void;
 }
 
 function GetCardStyles() {
@@ -36,6 +37,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
   todoList,
   setTodos,
   onRemove,
+  onEdit,
 }: TodoCardProps) => {
   const cardStyles = GetCardStyles();
 
@@ -44,8 +46,8 @@ const TodoCard: React.FC<TodoCardProps> = ({
       <CardHeader p={0} py={2}>
         <TodoCardHeader
           todoList={todoList}
-          setTodos={setTodos}
           onRemove={onRemove}
+          onEdit={onEdit}
           todo={todo}
         />
       </CardHeader>

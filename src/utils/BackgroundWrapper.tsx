@@ -1,13 +1,14 @@
 import { Box, useColorMode } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
+const imagePath = "/image.svg";
+
 interface BackgroundWrapperProps {
   children: ReactNode;
 }
 
 const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
   const { colorMode } = useColorMode();
-  const imagePath = "/image.svg";
 
   return (
     <Box

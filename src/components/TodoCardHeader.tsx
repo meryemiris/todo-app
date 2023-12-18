@@ -17,8 +17,8 @@ import {
 interface TodoCardHeaderProps {
   todo: TodosModel;
   todoList: TodosModel[];
-  setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
   onRemove: (itemID: string) => void;
+  onEdit: (itemID: string, newText: string) => void;
 }
 
 function GetCardHeaderStyles() {
@@ -39,13 +39,12 @@ function GetCardHeaderStyles() {
 const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
   todo,
   todoList,
-  setTodos,
+
   onRemove,
+  onEdit,
 }: TodoCardHeaderProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [editingItem, setEditingItem] = useState<string>("");
-  const [timeoutId, setTimeoutId] = useState<number | null>(null);
-
   const cardHeaderStyles = GetCardHeaderStyles();
 
   useEffect(() => {
@@ -59,56 +58,23 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
     localStorage.setItem("checked", JSON.stringify(checkedItems));
   }, [checkedItems]);
 
-  const toggleCheckbox = (itemId: string) => {
-    setCheckedItems((prevChecked) => {
-      const isChecked = prevChecked.includes(itemId);
+  const deleteTodo = (itemId: string) => {
+    const todoIndex = todoList.findIndex((todo) => todo.id === itemId);
 
-      if (isChecked) {
-        return prevChecked.filter((id) => id !== itemId);
-      } else {
-        const todoIndex = todoList.findIndex((todo) => todo.id === itemId);
+    if (todoIndex !== -1) {
+      const newTodos = todoList.slice();
+      newTodos.splice(todoIndex, 1);
 
-        if (todoIndex !== -1) {
-          const newTodos = todoList.slice();
-          const delayTime = 1000;
-
-          const newTimeoutId = setTimeout(() => {
-            newTodos.splice(todoIndex, 1);
-            setTodos(newTodos);
-            onRemove(itemId);
-            setEditingItem("");
-          }, delayTime);
-
-          if (timeoutId) {
-            clearTimeout(timeoutId);
-          }
-          setTimeoutId(newTimeoutId);
-        }
-
-        return [...prevChecked, itemId];
-      }
-    });
+      onRemove(itemId);
+      setEditingItem("");
+    }
   };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-        setTimeoutId(null);
-      }
-    };
-  }, [timeoutId]);
 
   const startEditing = (itemId: string): void => {
     setEditingItem(itemId);
   };
-
   const saveEditing = (itemId: string, newText: string): void => {
-    setTodos((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, text: newText } : item
-      )
-    );
+    onEdit(itemId, newText);
     setEditingItem("");
   };
 
@@ -132,7 +98,6 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
             size={"xs"}
             variant={"ghost"}
             aria-label="Save todo"
-            // color={textColor}
             icon={<CheckIcon />}
             onClick={() => saveEditing(todo.id, todo.text)}
           />
@@ -141,7 +106,7 @@ const TodoCardHeader: React.FC<TodoCardHeaderProps> = ({
         <>
           <CustomCheckbox
             isChecked={checkedItems.includes(todo.id)}
-            onChange={() => toggleCheckbox(todo.id)}
+            onChange={() => deleteTodo(todo.id)}
           />
           <Heading
             fontSize={"sm"}

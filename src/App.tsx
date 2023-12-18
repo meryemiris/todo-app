@@ -30,6 +30,14 @@ function App() {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
+  const editTodoHandler = (itemId: string, newText: string) => {
+    setTodos((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId ? { ...item, text: newText } : item
+      )
+    );
+  };
+
   const removeTodoHandler = (itemID: string) => {
     const newTodos = todos.filter((todo) => todo.id !== itemID);
     setTodos(newTodos);
@@ -43,6 +51,7 @@ function App() {
         todoList={todos}
         setTodos={setTodos}
         onRemove={removeTodoHandler}
+        onEdit={editTodoHandler}
       />
     </>
   );

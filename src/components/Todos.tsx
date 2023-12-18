@@ -8,12 +8,14 @@ interface TodosProps {
   todoList: TodosModel[];
   setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>;
   onRemove: (itemID: string) => void;
+  onEdit: (itemID: string, text: string) => void;
 }
 
 const renderTodoCards = (
   todoList: TodosModel[],
   setTodos: React.Dispatch<React.SetStateAction<TodosModel[]>>,
-  onRemove: (itemID: string) => void
+  onRemove: (itemID: string) => void,
+  onEdit: (itemID: string, text: string) => void
 ) => {
   return todoList.map((todo) => (
     <TodoCard
@@ -22,6 +24,7 @@ const renderTodoCards = (
       todoList={todoList}
       setTodos={setTodos}
       onRemove={onRemove}
+      onEdit={onEdit}
     />
   ));
 };
@@ -30,6 +33,7 @@ const Todos: React.FC<TodosProps> = ({
   todoList,
   setTodos,
   onRemove,
+  onEdit,
 }: TodosProps) => {
   return (
     <HStack
@@ -40,7 +44,7 @@ const Todos: React.FC<TodosProps> = ({
       m={5}
       gap={4}
     >
-      {renderTodoCards(todoList, setTodos, onRemove)}
+      {renderTodoCards(todoList, setTodos, onRemove, onEdit)}
     </HStack>
   );
 };
