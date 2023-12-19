@@ -1,5 +1,3 @@
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
 import { useState, useEffect } from "react";
 import Todos from "./components/Todos";
 import TodosModel from "./models/todo";
@@ -66,7 +64,6 @@ function App() {
         onRemove={removeTodoHandler}
         onEdit={editTodoHandler}
       />
-      <SpeedInsights />
     </>
   );
 }
