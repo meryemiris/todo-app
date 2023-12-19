@@ -8,14 +8,25 @@ const STORAGE_KEY = "todoAppData";
 
 function getInitialTodos() {
   const storedData = localStorage.getItem(STORAGE_KEY);
-  const parsedData = JSON.parse(storedData || "");
 
-  return Array.isArray(parsedData.todos) && parsedData.todos.length > 0
-    ? parsedData.todos.map((todo: TodosModel) => ({
-        ...todo,
-        timestamp: new Date(todo.timestamp),
-      }))
-    : [];
+  if (storedData) {
+    try {
+      const parsedData = JSON.parse(storedData);
+
+      return Array.isArray(parsedData.todos) && parsedData.todos.length > 0
+        ? parsedData.todos.map((todo: TodosModel) => ({
+            ...todo,
+            timestamp: new Date(todo.timestamp),
+          }))
+        : [];
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+
+      return [];
+    }
+  } else {
+    return [];
+  }
 }
 
 function App() {
