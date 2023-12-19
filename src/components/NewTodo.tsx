@@ -1,4 +1,5 @@
 import TodosModel from "../models/todo";
+
 import {
   Input,
   FormControl,
@@ -12,9 +13,14 @@ import { AddIcon } from "@chakra-ui/icons";
 interface NewTodoProps {
   todoList: TodosModel[];
   onAdd: (text: string, timestamp: Date) => void;
+  randomTodoRef: React.LegacyRef<HTMLInputElement>;
 }
 
-const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
+const NewTodo: React.FC<NewTodoProps> = ({
+  onAdd,
+  todoList,
+  randomTodoRef,
+}) => {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -42,7 +48,9 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
       <FormControl>
         <InputGroup>
           <Input
+            ref={randomTodoRef}
             color={textColor}
+            focusBorderColor={"#ee6c4d"}
             placeholder={
               todoList && todoList.length > 0
                 ? "Enter your todo here..."
@@ -52,7 +60,6 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
               fontSize: "sm",
               color: textColor,
             }}
-            focusBorderColor="pink.400"
             name="text"
             variant={"outline"}
             bgColor={bgColor}
@@ -66,6 +73,7 @@ const NewTodo: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
               type="submit"
               icon={<AddIcon />}
               variant={"ghost"}
+              borderRadius={"full"}
             />
           </InputRightElement>
         </InputGroup>

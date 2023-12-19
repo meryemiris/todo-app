@@ -3,7 +3,7 @@ import ToggleTheme from "../utils/ToggleTheme";
 import NewTodo from "./NewTodo";
 import RandomTodo from "./RandomTodo";
 import TodosModel from "../models/todo";
-import React from "react";
+import React, { useRef } from "react";
 
 interface TodoControlsProps {
   onAdd: (todo: string) => void;
@@ -11,6 +11,7 @@ interface TodoControlsProps {
 }
 
 const TodoControls: React.FC<TodoControlsProps> = ({ onAdd, todoList }) => {
+  const randomTodoRef = useRef(null);
   return (
     <HStack
       direction={["column", "row"]}
@@ -18,8 +19,12 @@ const TodoControls: React.FC<TodoControlsProps> = ({ onAdd, todoList }) => {
       justifyContent={["center", "space-between"]}
       w={"100%"}
     >
-      <RandomTodo todoList={todoList} />
-      <NewTodo onAdd={onAdd} todoList={todoList} />
+      <RandomTodo todoList={todoList} inputRef={randomTodoRef} />
+      <NewTodo
+        onAdd={onAdd}
+        todoList={todoList}
+        randomTodoRef={randomTodoRef}
+      />
       <ToggleTheme />
     </HStack>
   );

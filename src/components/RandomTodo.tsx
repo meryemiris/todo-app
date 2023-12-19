@@ -49,15 +49,22 @@ const getRandomMotivationalMessage = () => {
 
 interface RandomTodoProps {
   todoList: TodosModel[];
+  inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
+const RandomTodo: React.FC<RandomTodoProps> = ({ todoList, inputRef }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [randomTodo, setRandomTodo] = useState<TodosModel | null>(null);
 
   const handleRandomClick = () => {
-    const randomIndex = Math.floor(Math.random() * todoList.length);
-    setRandomTodo(todoList[randomIndex]);
+    if (todoList.length > 0) {
+      const randomIndex = Math.floor(Math.random() * todoList.length);
+      setRandomTodo(todoList[randomIndex]);
+      onOpen();
+    }
+    if (todoList.length === 0) {
+      inputRef.current?.focus();
+    }
   };
 
   const modalHeaderBgColor = useColorModeValue("#f9dcc4", "#ee6c4d");
@@ -94,7 +101,6 @@ const RandomTodo: React.FC<RandomTodoProps> = ({ todoList }) => {
           borderRadius="full"
           onClick={() => {
             handleRandomClick();
-            onOpen();
           }}
           size={"xl"}
         ></IconButton>
