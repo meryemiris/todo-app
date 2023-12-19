@@ -1,6 +1,4 @@
-# Todo App (TypeScript)
-
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+# Todo App
 
 ## Overview
 
